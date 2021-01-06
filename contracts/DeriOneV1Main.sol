@@ -62,10 +62,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         // what happens if i take 500000000000000000?
         // doesn't this function call another function that changes the state?
         // then i need to send a transaction
-        getTheCheapestETHPutOptionInHegicV888(
-            _minExpiry,
-            _minStrikeInUSD,
-            _optionSizeInWEI
+        getTheCheapestETHPutOptionInHegicV888(_minExpiry, _minStrikeInUSD);
         require(
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
