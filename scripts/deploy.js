@@ -1,4 +1,4 @@
-async function main() {
+async function deploy() {
   // We get the contract to deploy
   const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
 
@@ -25,7 +25,7 @@ async function main() {
   console.log("DeriOneV1Main deployed to:", deriOneV1Main.address);
 }
 
-main()
+deploy()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);
