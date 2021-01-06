@@ -244,8 +244,8 @@ contract DeriOneV1OpynV1 is Ownable {
     /// @param _optionSizeInWEI the size of an option to buy in WEI
     /// @dev write a function for power operations. it might overflow? the SafeMath library doesn't support this yet.
     /// @dev oTokenExchangeRate is scaled by 10**9 because it can be a floating number
-    function _hasEnoughOTokenLiquidityInOpynV1(uint256 _optionSizeInWEI)
-        private
+    function hasEnoughOTokenLiquidityInOpynV1(uint256 _optionSizeInWEI)
+        internal
         returns (bool)
     {
         address uniswapExchangeContractAddress =
@@ -289,10 +289,6 @@ contract DeriOneV1OpynV1 is Ownable {
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
     ) internal {
-        require(
-            _hasEnoughOTokenLiquidityInOpynV1(_optionSizeInWEI) == true,
-            "your size is too big for this oToken liquidity in the Opyn V1"
-        );
         _getWETHPutOptionsOTokenAddressList();
         _filterWETHPutOptionsOTokenAddresses(
             _minExpiry,
