@@ -66,6 +66,9 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             _minExpiry,
             _minStrikeInUSD,
             _optionSizeInWEI
+        require(
+            hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
+            "your size is too big for liquidity in the Hegic V888"
         );
         getTheCheapestETHPutOptionInOpynV1(
             _minExpiry,
@@ -73,6 +76,10 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             _minStrikeInUSD,
             _maxStrikeInUSD,
             _optionSizeInWEI
+        );
+        require(
+            hasEnoughOTokenLiquidityInOpynV1(_optionSizeInWEI) == true,
+            "your size is too big for this oToken liquidity in the Opyn V1"
         );
         if (
             theCheapestETHPutOptionInHegicV888.premiumInWEI <
