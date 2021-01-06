@@ -71,7 +71,7 @@ interface IOpynOTokenV1 {
 
     function exercise(
         uint256 oTokensToExercise,
-        address[] memory vaultsToExerciseFrom
+        address[] calldata vaultsToExerciseFrom
     ) external payable;
 
     function addERC20CollateralOption(
@@ -144,7 +144,7 @@ interface IOpynOTokenV1 {
 
     function redeemVaultBalance() external;
 
-    function setDetails(string memory _name, string memory _symbol) external;
+    function setDetails(string calldata _name, string calldata _symbol) external;
 
     function addETHCollateralOption(uint256 amtToCreate, address receiver)
         external
