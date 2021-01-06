@@ -80,8 +80,8 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     /// @param _optionSizeInWEI the size of an option to buy in WEI
-    function _hasEnoughETHLiquidityInHegicV888(uint256 _optionSizeInWEI)
-        private
+    function hasEnoughETHLiquidityInHegicV888(uint256 _optionSizeInWEI)
+        internal
         view
         returns (bool)
     {
@@ -113,17 +113,11 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @notice calculate the premium and get the cheapest ETH put option in Hegic v888
     /// @param _minExpiry minimum expiration date
     /// @param _minStrikeInUSD minimum strike price
-    /// @param _optionSizeInWEI option size in WEI
     /// @dev does _minExpiry and _minStrikeInUSD always give the cheapest premium? why? is this true?
     function getTheCheapestETHPutOptionInHegicV888(
         uint256 _minExpiry,
-        uint256 _minStrikeInUSD,
-        uint256 _optionSizeInWEI
+        uint256 _minStrikeInUSD
     ) internal {
-        require(
-            _hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
-            "your size is too big for liquidity in the Hegic V888"
-        );
         uint256 impliedVolatility = _getHegicV888ImpliedVolatility();
         uint256 ETHPrice = _getHegicV888ETHPrice();
         uint256 minimumPremiumToPayInWEI =
