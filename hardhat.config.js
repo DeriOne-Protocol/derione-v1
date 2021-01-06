@@ -25,8 +25,7 @@ module.exports = {
       }
     },
     mainnet: {
-      url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY,
-      accounts: [privateKey1, privateKey2, ...]
+      url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY
     }
   },
   solidity: "0.6.0",
