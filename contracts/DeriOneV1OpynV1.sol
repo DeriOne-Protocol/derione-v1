@@ -127,7 +127,7 @@ contract DeriOneV1OpynV1 is Ownable {
                 oTokenV1InstanceList[i].expiry() > block.timestamp
             ) {
                 WETHPutOptionOTokenV1InstanceList.push(oTokenV1InstanceList[i]);
-                unexpiredOTokenAddressList[i] = oTokenAddressList[i];
+                unexpiredOTokenAddressList.push(oTokenAddressList[i]);
             }
         }
     }
