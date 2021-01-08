@@ -28,6 +28,7 @@ contract DeriOneV1OpynV1 is Ownable {
 
     address[] private oTokenAddressList;
     address[] private unexpiredOTokenAddressList;
+    address[] private matchedWETHPutOptionOTokenAddressList;
 
     struct MatchedWETHPutOptionOTokenV1 {
         address oTokenAddress;
@@ -173,8 +174,9 @@ contract DeriOneV1OpynV1 is Ownable {
                 matchedWETHPutOptionOTokenV1InstanceList.push(
                     WETHPutOptionOTokenV1InstanceList[i]
                 );
-                matchedWETHPutOptionOTokenListV1[i]
-                    .oTokenAddress = unexpiredOTokenAddressList[i];
+                matchedWETHPutOptionOTokenAddressList.push(
+                    unexpiredOTokenAddressList[i]
+                );
             }
         }
     }
@@ -223,10 +225,9 @@ contract DeriOneV1OpynV1 is Ownable {
         for (uint256 i = 0; i < matchedWETHPutOptionOTokenListV1.length; i++) {
             uint256 strikePrice =
                 _calculateStrike(matchedWETHPutOptionOTokenV1InstanceList[i]);
-
             address uniswapExchangeContractAddress =
                 UniswapFactoryV1Instance.getExchange(
-                    matchedWETHPutOptionOTokenListV1[i].oTokenAddress
+                    matchedWETHPutOptionOTokenAddressList[i]
                 );
             _instantiateUniswapExchangeV1(uniswapExchangeContractAddress);
             uint256 oTokensToBuy =
@@ -235,7 +236,7 @@ contract DeriOneV1OpynV1 is Ownable {
                 );
 
             matchedWETHPutOptionOTokenListV1[i] = MatchedWETHPutOptionOTokenV1(
-                matchedWETHPutOptionOTokenListV1[i].oTokenAddress,
+                matchedWETHPutOptionOTokenAddressList[i],
                 matchedWETHPutOptionOTokenV1InstanceList[i].expiry(),
                 _getOpynV1Premium(
                     matchedWETHPutOptionOTokenV1InstanceList[i].expiry(),
@@ -321,7 +322,7 @@ contract DeriOneV1OpynV1 is Ownable {
                 matchedWETHPutOptionOTokenListV1[i].premiumInWEI
             ) {
                 theCheapestWETHPutOptionInOpynV1 = TheCheapestWETHPutOptionInOpynV1(
-                    matchedWETHPutOptionOTokenListV1[i].oTokenAddress,
+                    matchedWETHPutOptionOTokenAddressList[i],
                     matchedWETHPutOptionOTokenListV1[i].expiry,
                     minimumPremium,
                     matchedWETHPutOptionOTokenListV1[i].strikeInUSD
