@@ -1,5 +1,5 @@
 async function deploy() {
-  // We get the contract to deploy
+  // get the contract to deploy
   const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
 
   // const variables for the constructor
