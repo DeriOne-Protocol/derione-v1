@@ -219,7 +219,11 @@ contract DeriOneV1OpynV1 is Ownable {
     function _constructMatchedWETHPutOptionOTokenListV1(
         uint256 _optionSizeInWEI
     ) private {
-        for (uint256 i = 0; i < matchedWETHPutOptionOTokenListV1.length; i++) {
+        for (
+            uint256 i = 0;
+            i < matchedWETHPutOptionOTokenV1InstanceList.length;
+            i++
+        ) {
             uint256 strikePrice =
                 _calculateStrike(matchedWETHPutOptionOTokenV1InstanceList[i]);
             address uniswapExchangeContractAddress =
