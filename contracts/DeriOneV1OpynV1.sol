@@ -143,8 +143,8 @@ contract DeriOneV1OpynV1 is Ownable {
         if (exponent >= 0) {
             strike = value.mul(uint256(10)**uint256(exponent)).mul(10**7);
         } else {
-            strike = value.mul(uint256(1).div(10**uint256(0 - exponent))).mul(
-                10**7
+            strike = value.mul(
+                uint256(1).mul(10**7).div(10**uint256(0 - exponent))
             );
         }
         return strike;
