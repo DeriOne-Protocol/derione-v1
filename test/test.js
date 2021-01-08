@@ -1,4 +1,7 @@
-const { expect } = require("chai");
+const { solidity } = require("ethereum-waffle");
+const chai = require("chai");
+
+chai.use(solidity);
 
 describe("DeriOneV1Main contract", function () {
   let DeriOneV1Main;
@@ -36,36 +39,31 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Deployment", function () {
     it("Should set the right owner", async function () {
-      expect(await deriOneV1Main.owner()).to.equal(owner.address);
+      chai.expect(await deriOneV1Main.owner()).to.equal(owner.address);
     });
   });
 
   describe("Transactions", function () {
     it("should get the cheapest ETH option", async function () {
-      const theCheapestETHPutOption = await deriOneV1Main.getTheCheapestETHPutOption(
+      await deriOneV1Main.getTheCheapestETHPutOption(
         1609747642,
-        2009747642,
         200,
         1000,
         "5000000000000000000"
       );
-      expect(theCheapestETHPutOption).to.have.property("protocol");
-      expect(theCheapestETHPutOption).to.have.property("oTokenAddress");
-      expect(theCheapestETHPutOption).to.have.property("paymentTokenAddress");
-      expect(theCheapestETHPutOption).to.have.property("expiry");
-      expect(theCheapestETHPutOption).to.have.property("optionSizeInWEI");
-      expect(theCheapestETHPutOption).to.have.property("premiumInWEI");
-      expect(theCheapestETHPutOption).to.have.property("strikeInUSD");
+
+      chai
+        .expect("getTheCheapestETHPutOption")
+        .to.be.calledOnContractWith(deriOneV1Main);
 
       // it("Should fail if the option size is too big", async function () {
       //   const theCheapestETHPutOption = await deriOneV1Main.getTheCheapestETHPutOption(
       //     1609747642,
-      //     2009747642,
       //     200,
       //     1000,
       //     "50000000000000000000000000"
       //   );
-      //   expect();
+      //   chai.expect();
       // });
     });
   });
