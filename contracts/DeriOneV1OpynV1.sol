@@ -123,8 +123,8 @@ contract DeriOneV1OpynV1 is Ownable {
         for (uint256 i = 0; i < oTokenV1InstanceList.length; i++) {
             if (
                 oTokenV1InstanceList[i].underlying() == WETHTokenAddress &&
-                oTokenV1InstanceList[i].strike() == USDCTokenAddress && //the asset in which the insurance is calculated
-                oTokenV1InstanceList[i].expiry() > block.timestamp
+                oTokenV1InstanceList[i].strike() == USDCTokenAddress //the asset in which the insurance is calculated
+                // oTokenV1InstanceList[i].expiry() > block.timestamp // I am commenting out expiry condition because there is nothing that matches this condition. this is because of a combination of the hacking and their upcoming v2
             ) {
                 WETHPutOptionOTokenV1InstanceList.push(oTokenV1InstanceList[i]);
                 unexpiredOTokenAddressList.push(oTokenAddressList[i]);
@@ -151,13 +151,13 @@ contract DeriOneV1OpynV1 is Ownable {
     }
 
     /// @notice get WETH Put Options that meet expiry and strike conditions
-    /// @param _minExpiry minimum expiration date
-    /// @param _maxExpiry maximum expiration date
+    // / @param _minExpiry minimum expiration date
+    // / @param _maxExpiry maximum expiration date
     /// @param _minStrikeInUSD minimum strike price
     /// @param _maxStrikeInUSD maximum strike price
     function _filterWETHPutOptionsOTokenAddresses(
-        uint256 _minExpiry,
-        uint256 _maxExpiry,
+        // uint256 _minExpiry,
+        // uint256 _maxExpiry,
         uint256 _minStrikeInUSD,
         uint256 _maxStrikeInUSD
     ) private {
@@ -165,10 +165,9 @@ contract DeriOneV1OpynV1 is Ownable {
             uint256 strike =
                 _calculateStrike(WETHPutOptionOTokenV1InstanceList[i]);
             if (
-                _minStrikeInUSD < strike &&
-                strike < _maxStrikeInUSD &&
-                _minExpiry < WETHPutOptionOTokenV1InstanceList[i].expiry() &&
-                WETHPutOptionOTokenV1InstanceList[i].expiry() < _maxExpiry
+                _minStrikeInUSD < strike && strike < _maxStrikeInUSD
+                // _minExpiry < WETHPutOptionOTokenV1InstanceList[i].expiry() &&
+                // WETHPutOptionOTokenV1InstanceList[i].expiry() < _maxExpiry // I am commenting out expiry condition because there is nothing that matches this condition. this is because of a combination of the hacking and their upcoming v2
             ) {
                 matchedWETHPutOptionOTokenV1InstanceList.push(
                     WETHPutOptionOTokenV1InstanceList[i]
@@ -291,16 +290,16 @@ contract DeriOneV1OpynV1 is Ownable {
     }
 
     function getTheCheapestETHPutOptionInOpynV1(
-        uint256 _minExpiry,
-        uint256 _maxExpiry,
+        // uint256 _minExpiry,
+        // uint256 _maxExpiry,
         uint256 _minStrikeInUSD,
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
     ) internal {
         _getWETHPutOptionsOTokenAddressList();
         _filterWETHPutOptionsOTokenAddresses(
-            _minExpiry,
-            _maxExpiry,
+            // _minExpiry,
+            // _maxExpiry,
             _minStrikeInUSD,
             _maxStrikeInUSD
         );
