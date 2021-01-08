@@ -55,7 +55,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     /// @dev we could take fixed values for expiry and strike.
     function getTheCheapestETHPutOption(
         uint256 _minExpiry,
-        uint256 _maxExpiry,
+        // uint256 _maxExpiry,
         uint256 _minStrikeInUSD,
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
@@ -69,8 +69,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             "your size is too big for liquidity in the Hegic V888"
         );
         getTheCheapestETHPutOptionInOpynV1(
-            _minExpiry,
-            _maxExpiry,
+            // _minExpiry,
+            // _maxExpiry,
             _minStrikeInUSD,
             _maxStrikeInUSD,
             _optionSizeInWEI
@@ -116,7 +116,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
 
     function buyTheCheapestETHPutOption(
         uint256 _minExpiry,
-        uint256 _maxExpiry,
+        // uint256 _maxExpiry,
         uint256 _minStrikeInUSD,
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI,
@@ -124,7 +124,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     ) public {
         getTheCheapestETHPutOption(
             _minExpiry,
-            _maxExpiry,
+            // _maxExpiry,
             _minStrikeInUSD,
             _maxStrikeInUSD,
             _optionSizeInWEI
