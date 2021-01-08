@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.6.0;
+pragma experimental ABIEncoderV2;
 
 import "./DeriOneV1HegicV888.sol";
 import "./DeriOneV1OpynV1.sol";
@@ -58,7 +59,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         uint256 _minStrikeInUSD,
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
-    ) public {
+    ) public returns (TheCheapestETHPutOption memory) {
         // what happens if i take 500000000000000000?
         // doesn't this function call another function that changes the state?
         // then i need to send a transaction
@@ -92,6 +93,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
                 theCheapestETHPutOptionInHegicV888.strikeInUSD
             );
             emit TheCheapestETHPutOptionGot("hegic v888");
+            return theCheapestETHPutOption;
         } else if (
             theCheapestETHPutOptionInHegicV888.premiumInWEI >
             theCheapestWETHPutOptionInOpynV1.premiumInWEI
@@ -106,6 +108,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
                 theCheapestWETHPutOptionInOpynV1.strikeInUSD
             );
             emit TheCheapestETHPutOptionGot("opyn v1");
+            return theCheapestETHPutOption;
         } else {
             emit TheCheapestETHPutOptionGot("no matches");
         }
