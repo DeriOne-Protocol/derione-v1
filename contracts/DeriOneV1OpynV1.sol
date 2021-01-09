@@ -229,22 +229,27 @@ contract DeriOneV1OpynV1 is Ownable {
                 UniswapFactoryV1Instance.getExchange(
                     matchedWETHPutOptionOTokenAddressList[i]
                 );
-            _instantiateUniswapExchangeV1(uniswapExchangeContractAddress);
-            uint256 oTokensToBuy =
-                UniswapExchangeV1Instance.getEthToTokenInputPrice(
-                    _optionSizeInWEI
-                );
+            if (uniswapExchangeContractAddress != address(0)) {
+                _instantiateUniswapExchangeV1(uniswapExchangeContractAddress);
+                uint256 oTokensToBuy =
+                    UniswapExchangeV1Instance.getEthToTokenInputPrice(
+                        _optionSizeInWEI
+                    );
 
-            matchedWETHPutOptionOTokenListV1[i] = MatchedWETHPutOptionOTokenV1(
-                matchedWETHPutOptionOTokenAddressList[i],
-                matchedWETHPutOptionOTokenV1InstanceList[i].expiry(),
-                _getOpynV1Premium(
-                    matchedWETHPutOptionOTokenV1InstanceList[i].expiry(),
-                    strikePrice,
-                    oTokensToBuy
-                ),
-                strikePrice
-            );
+                matchedWETHPutOptionOTokenListV1.push(
+                    MatchedWETHPutOptionOTokenV1(
+                        matchedWETHPutOptionOTokenAddressList[i],
+                        matchedWETHPutOptionOTokenV1InstanceList[i].expiry(),
+                        _getOpynV1Premium(
+                            matchedWETHPutOptionOTokenV1InstanceList[i],
+                            matchedWETHPutOptionOTokenAddressList[i],
+                            strikePrice,
+                            oTokensToBuy
+                        ),
+                        strikePrice
+                    )
+                );
+            }
         }
     }
 
