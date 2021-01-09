@@ -154,4 +154,3 @@ contract DeriOneV1HegicV888 is Ownable {
 // the hegic has some require
 // https://github.com/hegic/contracts-v888/blob/ecdc7816c1deef8d2e3cf2629c68807ffdef2cc5/contracts/Options/HegicETHOptions.sol#L121
 // why do i hve to pass string to avoid overflow?
-// where does the revert error come from?

@@ -48,9 +48,12 @@ contract DeriOneV1OpynV1 is Ownable {
 
     // a matched oToken list with a buyer's expiry and strike price conditions
     MatchedWETHPutOptionOTokenV1[] matchedWETHPutOptionOTokenListV1;
+    // could be mapping(address => MatchedWETHPutOptionOTokenV1) matchedWETHPutOptionOTokenListV1;
 
     // the cheaptest WETH put option in the Opyn V1
     TheCheapestWETHPutOptionInOpynV1 theCheapestWETHPutOptionInOpynV1;
+
+    // could be mapping(address => TheCheapestWETHPutOptionInOpynV1) theCheapestWETHPutOptionInOpynV1;
 
     constructor(
         address _opynExchangeV1Address,
@@ -350,3 +353,5 @@ contract DeriOneV1OpynV1 is Ownable {
         );
     }
 }
+
+// this contract consumes too much gas just to get the cheapest option

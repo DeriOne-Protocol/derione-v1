@@ -8,7 +8,7 @@ import "./DeriOneV1OpynV1.sol";
 
 /// @author tai
 /// @title A contract for getting the cheapest options price
-/// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn and Hegic
+/// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn V1 and Hegic V888
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
 contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
@@ -53,6 +53,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     /// @dev what is decimal place of usd value?
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
+    /// @dev this function changes the state. you need to change the state just to get the cheapest option.
+    /// @dev make functions that need to change the state that can be called by owner or everybody so that the cheapest options can be obtained with a view function
     function getTheCheapestETHPutOption(
         uint256 _minExpiry,
         // uint256 _maxExpiry,
@@ -60,9 +62,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
     ) public returns (TheCheapestETHPutOption memory) {
-        // what happens if i take 500000000000000000?
-        // doesn't this function call another function that changes the state?
-        // then i need to send a transaction
         getTheCheapestETHPutOptionInHegicV888(_minExpiry, _minStrikeInUSD);
         require(
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
@@ -149,8 +148,3 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         }
     }
 }
-
-// * input validation — is what I'm sending what the contract expects?
-// * access control — am I signing this transaction from the correct account? do I have the permissions to do this at all?
-// * math — does all of the math work out?
-// * access control — seriously, make sure your contract has the correct token allowance
