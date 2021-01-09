@@ -182,38 +182,35 @@ contract DeriOneV1OpynV1 is Ownable {
         }
     }
 
-    /// @param _expiry expiration date
+    /// @param _matchedWETHPutOptionOTokenV1Instance matched WETHPutOption OTokenV1 Instance
+    /// @param _matchedWETHPutOptionOTokenAddress matched WETHPutOption OToken Address
     /// @param _strike strike price
     /// @param _oTokensToBuy the amount of oToken to buy
+    /// @dev I need to think of a possibility where there is more than one oToken that matches the condition
     function _getOpynV1Premium(
-        uint256 _expiry,
+        IOpynOTokenV1 _matchedWETHPutOptionOTokenV1Instance,
+        address _matchedWETHPutOptionOTokenAddress,
         uint256 _strike,
         uint256 _oTokensToBuy
     ) private view returns (uint256) {
         address oTokenAddress;
-        for (
-            uint256 i = 0;
-            i < matchedWETHPutOptionOTokenV1InstanceList.length;
-            i++
-        ) {
-            uint256 strikePrice =
-                _calculateStrike(matchedWETHPutOptionOTokenV1InstanceList[i]);
+        uint256 strikePrice =
+            _calculateStrike(_matchedWETHPutOptionOTokenV1Instance);
 
-            if (
-                matchedWETHPutOptionOTokenV1InstanceList[i].expiry() ==
-                _expiry &&
-                strikePrice == _strike
-            ) {
-                oTokenAddress = matchedWETHPutOptionOTokenListV1[i]
-                    .oTokenAddress;
-            }
+        if (strikePrice == _strike) {
+            oTokenAddress = _matchedWETHPutOptionOTokenAddress;
         }
-        uint256 premiumToPayInWEI =
-            OpynExchangeV1Instance.premiumToPay(
+
+        uint256 premiumToPayInWEI;
+        if (oTokenAddress != address(0)) {
+            premiumToPayInWEI = OpynExchangeV1Instance.premiumToPay(
                 oTokenAddress,
                 address(0), // pay with ETH
                 _oTokensToBuy
             );
+        } else {
+            premiumToPayInWEI = 2**256 - 1;
+        }
         return premiumToPayInWEI;
     }
 
