@@ -311,9 +311,13 @@ contract DeriOneV1OpynV1 is Ownable {
         _constructMatchedWETHPutOptionOTokenListV1(_optionSizeInWEI);
         uint256 minimumPremium =
             matchedWETHPutOptionOTokenListV1[0].premiumInWEI;
-        for (uint256 i = 0; i < matchedWETHPutOptionOTokenListV1.length; i++) {
+        for (
+            uint256 i = 0;
+            i < matchedWETHPutOptionOTokenListV1.length - 1;
+            i++
+        ) {
             if (
-                matchedWETHPutOptionOTokenListV1[i].premiumInWEI >
+                minimumPremium >
                 matchedWETHPutOptionOTokenListV1[i + 1].premiumInWEI
             ) {
                 minimumPremium = matchedWETHPutOptionOTokenListV1[i + 1]
