@@ -5,13 +5,15 @@ const chai = require("chai");
 chai.use(solidity);
 
 describe("DeriOneV1Main contract", function () {
+  let owner;
   let DeriOneV1Main;
   let deriOneV1Main;
-  let owner;
 
   beforeEach(async function () {
-    DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
+    // the owner is the account that makes deployment
     [owner] = await ethers.getSigners();
+
+    DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
 
     // const variables for the constructor
     const ETHPriceOracleAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
@@ -55,16 +57,6 @@ describe("DeriOneV1Main contract", function () {
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
-
-      // it("Should fail if the option size is too big", async function () {
-      //   const theCheapestETHPutOption = await deriOneV1Main.getTheCheapestETHPutOption(
-      //     1609747642,
-      //     200,
-      //     1000,
-      //     "50000000000000000000000000"
-      //   );
-      //   chai.expect();
-      // });
     });
   });
 });
