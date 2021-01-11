@@ -7,13 +7,10 @@ describe("DeriOneV1Main contract", function () {
   let DeriOneV1Main;
   let deriOneV1Main;
   let owner;
-  let addr1;
-  let addr2;
-  let addrs;
 
   beforeEach(async function () {
     DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
-    [owner, addr1, addr2, ...addrs] = await ethers.getSigners();
+    [owner] = await ethers.getSigners();
 
     // const variables for the constructor
     const ETHPriceOracleAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
