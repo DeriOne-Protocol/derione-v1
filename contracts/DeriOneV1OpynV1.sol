@@ -284,7 +284,7 @@ contract DeriOneV1OpynV1 is Ownable {
                 uint256(1).mul(10**9).div(10**uint256(0 - exponent))
             );
         }
-        uint256 optionSizeInOToken = _optionSizeInWEI.mul(oTokenExchangeRate);
+        uint256 optionSizeInOToken = _optionSizeInWEI.div(oTokenExchangeRate);
 
         oTokenLiquidity.mul(10**9);
 
