@@ -1,3 +1,4 @@
+const { ethers } = require("hardhat");
 const { solidity } = require("ethereum-waffle");
 const chai = require("chai");
 
