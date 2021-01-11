@@ -50,6 +50,9 @@ describe("DeriOneV1Main contract", function () {
         "5000000000000000000"
       );
 
+      const theCheapestETHPutOption = await deriOneV1Main.theCheapestETHPutOption();
+      console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption);
+
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
 
