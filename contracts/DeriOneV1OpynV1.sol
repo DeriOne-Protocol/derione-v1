@@ -271,6 +271,7 @@ contract DeriOneV1OpynV1 is Ownable {
                 uniswapExchangeContractAddress
             );
 
+        // The amount of underlying that 1 oToken protects.
         uint256 oTokenExchangeRate;
         (uint256 value, int32 exponent) =
             theCheapestOTokenV1Instance.oTokenExchangeRate();
