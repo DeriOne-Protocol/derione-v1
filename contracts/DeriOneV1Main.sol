@@ -24,7 +24,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     }
 
     // the cheapest ETH put option across options protocols
-    TheCheapestETHPutOption theCheapestETHPutOption;
+    TheCheapestETHPutOption private _theCheapestETHPutOption;
 
     event TheCheapestETHPutOptionGot(string protocolName);
     event ETHPutOptionBought(string protocolName);
