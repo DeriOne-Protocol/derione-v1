@@ -86,7 +86,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             theCheapestETHPutOptionInHegicV888.premiumInWEI <
             theCheapestWETHPutOptionInOpynV1.premiumInWEI
         ) {
-            theCheapestETHPutOption = TheCheapestETHPutOption(
+            _theCheapestETHPutOption = TheCheapestETHPutOption(
                 Protocol.HegicV888,
                 address(0),
                 address(0),
@@ -96,12 +96,12 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
                 theCheapestETHPutOptionInHegicV888.strikeInUSD
             );
             emit TheCheapestETHPutOptionGot("hegic v888");
-            return theCheapestETHPutOption;
+            return _theCheapestETHPutOption;
         } else if (
             theCheapestETHPutOptionInHegicV888.premiumInWEI >
             theCheapestWETHPutOptionInOpynV1.premiumInWEI
         ) {
-            theCheapestETHPutOption = TheCheapestETHPutOption(
+            _theCheapestETHPutOption = TheCheapestETHPutOption(
                 Protocol.OpynV1,
                 theCheapestWETHPutOptionInOpynV1.oTokenAddress,
                 address(0),
@@ -111,7 +111,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
                 theCheapestWETHPutOptionInOpynV1.strikeInUSD
             );
             emit TheCheapestETHPutOptionGot("opyn v1");
-            return theCheapestETHPutOption;
+            return _theCheapestETHPutOption;
         } else {
             emit TheCheapestETHPutOptionGot("no matches");
         }
@@ -132,19 +132,19 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             _maxStrikeInUSD,
             _optionSizeInWEI
         );
-        if (theCheapestETHPutOption.protocol == Protocol.HegicV888) {
+        if (_theCheapestETHPutOption.protocol == Protocol.HegicV888) {
             buyETHPutOptionInHegicV888(
-                theCheapestETHPutOption.expiry,
-                theCheapestETHPutOption.optionSizeInWEI,
-                theCheapestETHPutOption.strikeInUSD
+                _theCheapestETHPutOption.expiry,
+                _theCheapestETHPutOption.optionSizeInWEI,
+                _theCheapestETHPutOption.strikeInUSD
             );
             emit ETHPutOptionBought("Hegic v888");
-        } else if (theCheapestETHPutOption.protocol == Protocol.OpynV1) {
+        } else if (_theCheapestETHPutOption.protocol == Protocol.OpynV1) {
             buyETHPutOptionInOpynV1(
                 _receiver,
-                theCheapestETHPutOption.oTokenAddress,
-                theCheapestETHPutOption.paymentTokenAddress,
-                theCheapestETHPutOption.optionSizeInWEI
+                _theCheapestETHPutOption.oTokenAddress,
+                _theCheapestETHPutOption.paymentTokenAddress,
+                _theCheapestETHPutOption.optionSizeInWEI
             );
             emit ETHPutOptionBought("opyn v1");
         } else {
