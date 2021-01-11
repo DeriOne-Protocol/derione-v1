@@ -52,9 +52,8 @@ describe("DeriOneV1Main contract", function () {
         "5000000000000000000"
       );
 
-      chai
-        .expect("getTheCheapestETHPutOption")
-        .to.be.calledOnContractWith(deriOneV1Main);
+      chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+        .properAddress;
 
       // it("Should fail if the option size is too big", async function () {
       //   const theCheapestETHPutOption = await deriOneV1Main.getTheCheapestETHPutOption(
