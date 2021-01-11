@@ -50,6 +50,10 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         )
     {}
 
+    function theCheapestETHPutOption() public view returns (TheCheapestETHPutOption memory) {
+        return _theCheapestETHPutOption;
+    }
+
     /// @dev what is decimal place of usd value?
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
