@@ -4,7 +4,6 @@ pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
-import "./interfaces/IETHPriceOracle.sol";
 import "./interfaces/IHegicETHOptionV888.sol";
 import "./interfaces/IHegicETHPoolV888.sol";
 import "./libraries/Math.sol";
@@ -12,7 +11,6 @@ import "./libraries/Math.sol";
 contract DeriOneV1HegicV888 is Ownable {
     using SafeMath for uint256;
 
-    IETHPriceOracle private ETHPriceOracleInstance;
     IHegicETHOptionV888 private HegicETHOptionV888Instance;
     IHegicETHPoolV888 private HegicETHPoolV888Instance;
 
@@ -31,21 +29,11 @@ contract DeriOneV1HegicV888 is Ownable {
     TheCheapestETHPutOptionInHegicV888 theCheapestETHPutOptionInHegicV888;
 
     constructor(
-        address _ETHPriceOracleAddress,
         address _hegicETHOptionV888Address,
         address _hegicETHPoolV888Address
     ) public {
-        instantiateETHPriceOracle(_ETHPriceOracleAddress);
         instantiateHegicETHOptionV888(_hegicETHOptionV888Address);
         instantiateHegicETHPoolV888(_hegicETHPoolV888Address);
-    }
-
-    /// @param _ETHPriceOracleAddress ETHPriceOracleAddress
-    function instantiateETHPriceOracle(address _ETHPriceOracleAddress)
-        public
-        onlyOwner
-    {
-        ETHPriceOracleInstance = IETHPriceOracle(_ETHPriceOracleAddress);
     }
 
     /// @param _hegicETHOptionV888Address HegicETHOptionV888Address

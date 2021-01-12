@@ -30,7 +30,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     event ETHPutOptionBought(string protocolName);
 
     constructor(
-        address _ETHPriceOracleAddress,
         address _hegicETHOptionV888Address,
         address _hegicETHPoolV888Address,
         address _opynExchangeV1Address,
@@ -39,7 +38,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     )
         public
         DeriOneV1HegicV888(
-            _ETHPriceOracleAddress,
             _hegicETHOptionV888Address,
             _hegicETHPoolV888Address
         )
