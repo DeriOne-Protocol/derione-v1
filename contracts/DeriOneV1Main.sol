@@ -50,7 +50,11 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         )
     {}
 
-    function theCheapestETHPutOption() public view returns (TheCheapestETHPutOption memory) {
+    function theCheapestETHPutOption()
+        public
+        view
+        returns (TheCheapestETHPutOption memory)
+    {
         return _theCheapestETHPutOption;
     }
 
