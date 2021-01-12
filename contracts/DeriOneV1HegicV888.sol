@@ -54,19 +54,6 @@ contract DeriOneV1HegicV888 is Ownable {
         HegicETHPoolV888Instance = IHegicETHPoolV888(_hegicETHPoolV888Address);
     }
 
-    function _getHegicV888ImpliedVolatility() private view returns (uint256) {
-        uint256 impliedVolatilityRate =
-            HegicETHOptionV888Instance.impliedVolRate();
-        return impliedVolatilityRate;
-    }
-
-    /// @notice get the underlying asset price, ETH
-    function _getHegicV888ETHPrice() private view returns (uint256) {
-        (, int256 latestPrice, , , ) = ETHPriceOracleInstance.latestRoundData();
-        uint256 ETHPrice = uint256(latestPrice);
-        return ETHPrice;
-    }
-
     /// @param _optionSizeInWEI the size of an option to buy in WEI
     function hasEnoughETHLiquidityInHegicV888(uint256 _optionSizeInWEI)
         internal
