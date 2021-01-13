@@ -7,14 +7,17 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY,
+        url:
+          "https://eth-mainnet.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY,
+        // url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY,
         blockNumber: 11639546 // use the same block number to make subsequent runs faster with cache
       },
       gas: 95000000,
       blockGasLimit: 95000000
     },
     mainnet: {
-      url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY
+      url: "https://eth-mainnet.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY
+      // url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY
     }
   },
   solidity: "0.6.0",
