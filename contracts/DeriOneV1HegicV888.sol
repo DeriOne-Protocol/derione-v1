@@ -91,6 +91,7 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @dev does _minExpiry and _minStrikeInUSD always give the cheapest premium?
     function getTheCheapestETHPutOptionInHegicV888(
         uint256 _minExpiry,
+        uint256 _optionSizeInWEI,
         uint256 _minStrikeInUSD
     ) internal {
         uint256 impliedVolatility = _getHegicV888ImpliedVolatility();

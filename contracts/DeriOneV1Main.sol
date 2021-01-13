@@ -70,11 +70,15 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
     ) public returns (TheCheapestETHPutOption memory) {
-        getTheCheapestETHPutOptionInHegicV888(_minExpiry, _minStrikeInUSD);
         // expiry is in seconds from now for hegic. for opyn, what is it?
         // require expiry. check if it is agter the latest block time
         // expiry needs to be secodns from now in hegic and timestamp in opyn v1
         // but we don't use the expiry for the opyn anymore
+        getTheCheapestETHPutOptionInHegicV888(
+            _minExpiry,
+            _optionSizeInWEI,
+            _minStrikeInUSD
+        );
         require(
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
