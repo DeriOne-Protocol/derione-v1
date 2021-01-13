@@ -167,6 +167,7 @@ contract DeriOneV1OpynV1 is Ownable {
         for (uint256 i = 0; i < WETHPutOptionOTokenV1InstanceList.length; i++) {
             uint256 strike =
                 _calculateStrike(WETHPutOptionOTokenV1InstanceList[i]);
+            strike = strike.mul(10**8);
             if (
                 _minStrikeInUSD < strike && strike < _maxStrikeInUSD
                 // _minExpiry < WETHPutOptionOTokenV1InstanceList[i].expiry() &&
