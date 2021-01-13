@@ -37,10 +37,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         address _uniswapFactoryV1Address
     )
         public
-        DeriOneV1HegicV888(
-            _hegicETHOptionV888Address,
-            _hegicETHPoolV888Address
-        )
+        DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicETHPoolV888Address)
         DeriOneV1OpynV1(
             _opynExchangeV1Address,
             _opynOptionsFactoryV1Address,
@@ -56,11 +53,16 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         return _theCheapestETHPutOption;
     }
 
-    /// @dev what is decimal place of usd value?
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
+
+
     /// @dev this function changes the state. you need to change the state just to get the cheapest option.
     /// @dev make functions that need to change the state that can be called by owner or everybody so that the cheapest options can be obtained with a view function
+    /// @param _minExpiry minimum expiration date in seconds from now
+    /// @param _minStrikeInUSD minimum strike price in USD with 8 decimals
+    /// @param _maxStrikeInUSD maximum strike price in USD with 8 decimals
+    /// @param _optionSizeInWEI option size in WEI
     function getTheCheapestETHPutOption(
         uint256 _minExpiry,
         // uint256 _maxExpiry,
@@ -69,6 +71,10 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         uint256 _optionSizeInWEI
     ) public returns (TheCheapestETHPutOption memory) {
         getTheCheapestETHPutOptionInHegicV888(_minExpiry, _minStrikeInUSD);
+        // expiry is in seconds from now for hegic. for opyn, what is it?
+        // require expiry. check if it is agter the latest block time
+        // expiry needs to be secodns from now in hegic and timestamp in opyn v1
+        // but we don't use the expiry for the opyn anymore
         require(
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
             "your size is too big for liquidity in the Hegic V888"

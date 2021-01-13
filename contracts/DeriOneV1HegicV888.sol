@@ -60,7 +60,7 @@ contract DeriOneV1HegicV888 is Ownable {
         returns (bool)
     {
         // `(Total ETH in contract) * 0.8 - the amount utilized for options`
-        // we might or might not beed the *0.8 part
+        // we might or might not need the *0.8 part
         uint256 availableBalance =
             HegicETHPoolV888Instance.totalBalance().mul(8).div(10);
         uint256 amountUtilized =
@@ -85,9 +85,10 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     /// @notice calculate the premium and get the cheapest ETH put option in Hegic v888
-    /// @param _minExpiry minimum expiration date
+    /// @param _minExpiry minimum expiration date in seconds from now
+    /// @param _optionSizeInWEI option size in WEI
     /// @param _minStrikeInUSD minimum strike price
-    /// @dev does _minExpiry and _minStrikeInUSD always give the cheapest premium? why? is this true?
+    /// @dev does _minExpiry and _minStrikeInUSD always give the cheapest premium?
     function getTheCheapestETHPutOptionInHegicV888(
         uint256 _minExpiry,
         uint256 _minStrikeInUSD
@@ -106,7 +107,7 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     /// @notice creates a new option in Hegic V888
-    /// @param _expiry option period in seconds (1 days <= period <= 4 weeks)
+    /// @param _expiry option period in seconds (1 day <= period <= 4 weeks)
     /// @param _optionSizeInWEI option amount
     /// @param _strikeInUSD strike price of the option
     function buyETHPutOptionInHegicV888(
@@ -123,8 +124,8 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 }
 
-// where should we yse require more?
+// where should we use require more?
 // you need to use require for strike price and expiry
 // the hegic has some require
 // https://github.com/hegic/contracts-v888/blob/ecdc7816c1deef8d2e3cf2629c68807ffdef2cc5/contracts/Options/HegicETHOptions.sol#L121
-// why do i hve to pass string to avoid overflow?
+// why do i have to pass string to avoid overflow?
