@@ -1,5 +1,6 @@
 require("@nomiclabs/hardhat-waffle");
 require("dotenv").config();
+require("@nomiclabs/hardhat-etherscan");
 
 module.exports = {
   defaultNetwork: "hardhat",
@@ -25,5 +26,8 @@ module.exports = {
   },
   mocha: {
     timeout: 2000000
+  },
+  etherscan: {
+    apiKey: "YOUR_ETHERSCAN_API_KEY"
   }
 };
