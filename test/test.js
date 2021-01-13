@@ -45,7 +45,7 @@ describe("DeriOneV1Main contract", function () {
     it("should get the cheapest ETH option", async function () {
       await deriOneV1Main.getTheCheapestETHPutOption(
         86400, // 24 hours from now in seconds
-        200,
+        500,
         1000,
         "5000000000000000000"
       );
