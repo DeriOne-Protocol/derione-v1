@@ -3,7 +3,6 @@ async function deploy() {
   const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
 
   // const variables for the constructor
-  const ETHPriceOracleAddress = "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419";
   const hegicETHOptionV888Address =
     "0xEfC0eEAdC1132A12c9487d800112693bf49EcfA2";
   const hegicETHPoolV888Address = "0x878f15ffc8b894a1ba7647c7176e4c01f74e140b";
@@ -14,7 +13,6 @@ async function deploy() {
 
   // deploy the DeriOneV1Main contract with constructor arguments
   const deriOneV1Main = await DeriOneV1Main.deploy(
-    ETHPriceOracleAddress,
     hegicETHOptionV888Address,
     hegicETHPoolV888Address,
     opynExchangeV1Address,
