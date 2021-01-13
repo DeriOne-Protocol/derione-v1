@@ -18,6 +18,8 @@ contract DeriOneV1HegicV888 is Ownable {
     IHegicETHOptionV888.OptionType constant callOptionType =
         IHegicETHOptionV888.OptionType.Call;
 
+    enum OptionType {Invalid, Put, Call}
+
     struct TheCheapestETHPutOptionInHegicV888 {
         uint256 expiry;
         uint256 premiumInWEI;
@@ -99,6 +101,8 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 minimumPremiumToPayInWEI =
             Math.sqrt(_minExpiry).mul(impliedVolatility).mul(
                 _minStrikeInUSD.div(ETHPrice)
+        OptionType optionType;
+        optionType = OptionType.Put;
             );
         theCheapestETHPutOptionInHegicV888 = TheCheapestETHPutOptionInHegicV888(
             _minExpiry,
