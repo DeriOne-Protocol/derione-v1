@@ -90,8 +90,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         ) {
             _theCheapestETHPutOption = TheCheapestETHPutOption(
                 Protocol.HegicV888,
-                address(0),
-                address(0),
+                address(0), // NA
+                address(0), // NA
                 theCheapestETHPutOptionInHegicV888.expiry,
                 _optionSizeInWEI,
                 theCheapestETHPutOptionInHegicV888.premiumInWEI,
@@ -106,7 +106,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             _theCheapestETHPutOption = TheCheapestETHPutOption(
                 Protocol.OpynV1,
                 theCheapestWETHPutOptionInOpynV1.oTokenAddress,
-                address(0),
+                address(0), // ETH
                 theCheapestWETHPutOptionInOpynV1.expiry,
                 _optionSizeInWEI,
                 theCheapestWETHPutOptionInOpynV1.premiumInWEI,
