@@ -7,7 +7,7 @@ module.exports = {
     hardhat: {
       forking: {
         url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY,
-        blockNumber: 11639542 // use the same block number to make subsequent runs faster with cache
+        blockNumber: 11639546 // use the same block number to make subsequent runs faster with cache
       },
       gas: 95000000,
       blockGasLimit: 95000000
