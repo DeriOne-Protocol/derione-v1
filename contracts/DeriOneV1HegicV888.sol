@@ -96,14 +96,16 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _optionSizeInWEI,
         uint256 _minStrikeInUSD
     ) internal {
-        uint256 impliedVolatility = _getHegicV888ImpliedVolatility();
-        uint256 ETHPrice = _getHegicV888ETHPrice();
-        uint256 minimumPremiumToPayInWEI =
-            Math.sqrt(_minExpiry).mul(impliedVolatility).mul(
-                _minStrikeInUSD.div(ETHPrice)
         OptionType optionType;
         optionType = OptionType.Put;
+        (uint256 minimumPremiumToPayInWEI, , , ) =
+            HegicETHOptionV888Instance.fees(
+                _minExpiry,
+                _optionSizeInWEI,
+                _minStrikeInUSD,
+                uint8(optionType)
             );
+
         theCheapestETHPutOptionInHegicV888 = TheCheapestETHPutOptionInHegicV888(
             _minExpiry,
             minimumPremiumToPayInWEI,
