@@ -93,7 +93,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
                 address(0),
                 address(0),
                 theCheapestETHPutOptionInHegicV888.expiry,
-                0,
+                _optionSizeInWEI,
                 theCheapestETHPutOptionInHegicV888.premiumInWEI,
                 theCheapestETHPutOptionInHegicV888.strikeInUSD
             );
@@ -108,7 +108,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
                 theCheapestWETHPutOptionInOpynV1.oTokenAddress,
                 address(0),
                 theCheapestWETHPutOptionInOpynV1.expiry,
-                0,
+                _optionSizeInWEI,
                 theCheapestWETHPutOptionInOpynV1.premiumInWEI,
                 theCheapestWETHPutOptionInOpynV1.strikeInUSD
             );
