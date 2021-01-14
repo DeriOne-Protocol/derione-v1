@@ -13,11 +13,6 @@ contract DeriOneV1HegicV888 is Ownable {
     IHegicETHOptionV888 private HegicETHOptionV888Instance;
     IHegicETHPoolV888 private HegicETHPoolV888Instance;
 
-    IHegicETHOptionV888.OptionType constant putOptionType =
-        IHegicETHOptionV888.OptionType.Put;
-    IHegicETHOptionV888.OptionType constant callOptionType =
-        IHegicETHOptionV888.OptionType.Call;
-
     enum OptionType {Invalid, Put, Call}
 
     struct TheCheapestETHPutOptionInHegicV888 {
