@@ -264,6 +264,10 @@ contract DeriOneV1OpynV1 is Ownable {
             UniswapFactoryV1Instance.getExchange(
                 theCheapestWETHPutOptionInOpynV1.oTokenAddress
             );
+        // return true for now if there is no exchange in uniswap
+        if (uniswapExchangeContractAddress == address(0)) {
+            return true;
+        }
         IOpynOTokenV1 theCheapestOTokenV1Instance =
             IOpynOTokenV1(theCheapestWETHPutOptionInOpynV1.oTokenAddress);
         uint256 oTokenLiquidity =
