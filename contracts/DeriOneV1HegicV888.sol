@@ -13,7 +13,7 @@ contract DeriOneV1HegicV888 is Ownable {
     IHegicETHOptionV888 private HegicETHOptionV888Instance;
     IHegicETHPoolV888 private HegicETHPoolV888Instance;
 
-    enum OptionType {Invalid, Put, Call}
+    IHegicETHOptionV888.OptionType optionType;
 
     struct TheCheapestETHPutOptionInHegicV888 {
         uint256 expiry;
@@ -91,8 +91,7 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _optionSizeInWEI,
         uint256 _minStrikeInUSD
     ) internal {
-        OptionType optionType;
-        optionType = OptionType.Put;
+        optionType = IHegicETHOptionV888.OptionType.Put;
         (uint256 minimumPremiumToPayInWEI, , , ) =
             HegicETHOptionV888Instance.fees(
                 _minExpiry,
@@ -117,11 +116,12 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _optionSizeInWEI,
         uint256 _strikeInUSD
     ) internal {
+        optionType = IHegicETHOptionV888.OptionType.Put;
         HegicETHOptionV888Instance.create(
             _expiry,
             _optionSizeInWEI,
             _strikeInUSD,
-            putOptionType
+            optionType
         );
     }
 }
