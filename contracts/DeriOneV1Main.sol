@@ -56,7 +56,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
 
-
     /// @dev this function changes the state. you need to change the state just to get the cheapest option.
     /// @dev make functions that need to change the state that can be called by owner or everybody so that the cheapest options can be obtained with a view function
     /// @param _minExpiry minimum expiration date in seconds from now
@@ -96,7 +95,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         );
         if (
             theCheapestETHPutOptionInHegicV888.premiumInWEI <
-            theCheapestWETHPutOptionInOpynV1.premiumInWEI
+            theCheapestWETHPutOptionInOpynV1.premiumInWEI ||
+            matchedWETHPutOptionOTokenListV1.length == 0
         ) {
             _theCheapestETHPutOption = TheCheapestETHPutOption(
                 Protocol.HegicV888,
@@ -111,7 +111,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             return _theCheapestETHPutOption;
         } else if (
             theCheapestETHPutOptionInHegicV888.premiumInWEI >
-            theCheapestWETHPutOptionInOpynV1.premiumInWEI
+            theCheapestWETHPutOptionInOpynV1.premiumInWEI &&
+            matchedWETHPutOptionOTokenListV1.length > 0
         ) {
             _theCheapestETHPutOption = TheCheapestETHPutOption(
                 Protocol.OpynV1,

@@ -236,7 +236,6 @@ contract DeriOneV1OpynV1 is Ownable {
                     UniswapExchangeV1Instance.getEthToTokenInputPrice(
                         _optionSizeInWEI
                     );
-
                 matchedWETHPutOptionOTokenListV1.push(
                     MatchedWETHPutOptionOTokenV1(
                         matchedWETHPutOptionOTokenAddressList[i],
@@ -311,33 +310,39 @@ contract DeriOneV1OpynV1 is Ownable {
             _maxStrikeInUSD
         );
         _constructMatchedWETHPutOptionOTokenListV1(_optionSizeInWEI);
-        uint256 minimumPremium =
-            matchedWETHPutOptionOTokenListV1[0].premiumInWEI;
-        for (
-            uint256 i = 0;
-            i < matchedWETHPutOptionOTokenListV1.length - 1;
-            i++
-        ) {
-            if (
-                minimumPremium >
-                matchedWETHPutOptionOTokenListV1[i + 1].premiumInWEI
+        if (matchedWETHPutOptionOTokenListV1.length > 0) {
+            uint256 minimumPremium =
+                matchedWETHPutOptionOTokenListV1[0].premiumInWEI;
+            for (
+                uint256 i = 0;
+                i < matchedWETHPutOptionOTokenListV1.length - 1;
+                i++
             ) {
-                minimumPremium = matchedWETHPutOptionOTokenListV1[i + 1]
-                    .premiumInWEI;
+                if (
+                    minimumPremium >
+                    matchedWETHPutOptionOTokenListV1[i + 1].premiumInWEI
+                ) {
+                    minimumPremium = matchedWETHPutOptionOTokenListV1[i + 1]
+                        .premiumInWEI;
+                }
             }
-        }
 
-        for (uint256 i = 0; i < matchedWETHPutOptionOTokenListV1.length; i++) {
-            if (
-                minimumPremium ==
-                matchedWETHPutOptionOTokenListV1[i].premiumInWEI
+            for (
+                uint256 i = 0;
+                i < matchedWETHPutOptionOTokenListV1.length;
+                i++
             ) {
-                theCheapestWETHPutOptionInOpynV1 = TheCheapestWETHPutOptionInOpynV1(
-                    matchedWETHPutOptionOTokenAddressList[i],
-                    matchedWETHPutOptionOTokenListV1[i].expiry,
-                    minimumPremium,
-                    matchedWETHPutOptionOTokenListV1[i].strikeInUSD
-                );
+                if (
+                    minimumPremium ==
+                    matchedWETHPutOptionOTokenListV1[i].premiumInWEI
+                ) {
+                    theCheapestWETHPutOptionInOpynV1 = TheCheapestWETHPutOptionInOpynV1(
+                        matchedWETHPutOptionOTokenAddressList[i],
+                        matchedWETHPutOptionOTokenListV1[i].expiry,
+                        minimumPremium,
+                        matchedWETHPutOptionOTokenListV1[i].strikeInUSD
+                    );
+                }
             }
         }
     }
