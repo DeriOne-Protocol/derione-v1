@@ -1,7 +1,6 @@
 const { ethers } = require("hardhat");
 const { solidity } = require("ethereum-waffle");
 const chai = require("chai");
-
 chai.use(solidity);
 
 describe("DeriOneV1Main contract", function () {
@@ -43,15 +42,22 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Transactions", function () {
     it("should get the cheapest ETH option", async function () {
-      await deriOneV1Main.getTheCheapestETHPutOption(
+      const theCheapestETHPutOption = await deriOneV1Main.callStatic.getTheCheapestETHPutOption(
         24 * 3600, // 24 hours from now in seconds
-        50000000000, // USD price decimals are 8 in hegic
-        100000000000, // USD price decimals are 8 in hegic
+        80000000000, // USD price decimals are 8 in hegic
+        90000000000, // USD price decimals are 8 in hegic
         "5000000000000000000"
       );
-
-      const theCheapestETHPutOption = await deriOneV1Main.theCheapestETHPutOption();
       console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption);
+
+      await deriOneV1Main.getTheCheapestETHPutOption(
+        24 * 3600, // 24 hours from now in seconds
+        80000000000, // USD price decimals are 8 in hegic
+        90000000000, // USD price decimals are 8 in hegic
+        "5000000000000000000"
+      );
+      const theCheapestETHPutOptionTx = await deriOneV1Main.theCheapestETHPutOption();
+      console.log("theCheapestETHPutOptionTx ==>", theCheapestETHPutOptionTx);
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
