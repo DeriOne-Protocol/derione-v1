@@ -11,6 +11,7 @@ import "./DeriOneV1OpynV1.sol";
 /// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn V1 and Hegic V888
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
+/// @dev optimize gas consumption
 contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     enum Protocol {HegicV888, OpynV1}
     struct TheCheapestETHPutOption {
@@ -54,9 +55,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
 
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
-
-    /// @dev this function changes the state. you need to change the state just to get the cheapest option.
-    /// @dev make functions that need to change the state that can be called by owner or everybody so that the cheapest options can be obtained with a view function
+    /// @dev make this function into a view function somehow in the next version
     /// @param _minExpiry minimum expiration date in seconds from now
     /// @param _minStrikeInUSD minimum strike price in USD with 8 decimals
     /// @param _maxStrikeInUSD maximum strike price in USD with 8 decimals
@@ -68,10 +67,9 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
     ) public returns (TheCheapestETHPutOption memory) {
-        // expiry is in seconds from now for hegic. for opyn, what is it?
         // require expiry. check if it is agter the latest block time
-        // expiry needs to be secodns from now in hegic and timestamp in opyn v1
-        // but we don't use the expiry for the opyn anymore
+        // expiry needs to be seconds from now in hegic and timestamp in opyn v1
+        // but we don't use the expiry for the opyn for now. so it's seconds now
         getTheCheapestETHPutOptionInHegicV888(
             _minExpiry,
             _optionSizeInWEI,

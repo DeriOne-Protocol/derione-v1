@@ -72,7 +72,6 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 maxOptionSize = availableBalance.sub(amountUtilized);
 
         // what happens when the value of a uint256 is negative?
-        // how to use require and assert
         // is this equation right?
         if (maxOptionSize > _optionSizeInWEI) {
             return true;
@@ -108,8 +107,6 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 }
 
-// where should we use require more?
-// you need to use require for strike price and expiry
+// you need to use require for strike price and expiry and possibly in other places
 // the hegic has some require
 // https://github.com/hegic/contracts-v888/blob/ecdc7816c1deef8d2e3cf2629c68807ffdef2cc5/contracts/Options/HegicETHOptions.sol#L121
-// why do i have to pass string to avoid overflow?

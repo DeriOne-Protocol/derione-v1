@@ -52,7 +52,6 @@ contract DeriOneV1OpynV1 is Ownable {
 
     // the cheaptest WETH put option in the Opyn V1
     TheCheapestWETHPutOptionInOpynV1 theCheapestWETHPutOptionInOpynV1;
-
     // could be mapping(address => TheCheapestWETHPutOptionInOpynV1) theCheapestWETHPutOptionInOpynV1;
 
     constructor(
@@ -91,7 +90,7 @@ contract DeriOneV1OpynV1 is Ownable {
     }
 
     /// @param _opynOTokenV1AddressList OpynOTokenV1Address
-    /// @dev this needs to be called not only in a constructor because new contracts will be created
+    /// @dev this needs to be called not only in a constructor but in other places because new options contracts will be created later.
     function _instantiateOpynOTokenV1(address[] memory _opynOTokenV1AddressList)
         private
     {
@@ -254,7 +253,7 @@ contract DeriOneV1OpynV1 is Ownable {
     }
 
     /// @param _optionSizeInWEI the size of an option to buy in WEI
-    /// @dev write a function for power operations. it might overflow? the SafeMath library doesn't support this yet.
+    /// @dev write a function for power operations. it might overflow. the SafeMath library doesn't support this yet.
     /// @dev oTokenExchangeRate is scaled by 10**9 because it can be a floating number
     function hasEnoughOTokenLiquidityInOpynV1(uint256 _optionSizeInWEI)
         internal
@@ -351,5 +350,3 @@ contract DeriOneV1OpynV1 is Ownable {
         }
     }
 }
-
-// this contract consumes too much gas just to get the cheapest option
