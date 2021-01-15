@@ -16,8 +16,10 @@ module.exports = {
       blockGasLimit: 95000000
     },
     mainnet: {
-      url: "https://eth-mainnet.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY
+      url:
+        "https://eth-mainnet.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY,
       // url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY
+      accounts: [`0x${process.env.DEPLOYMENT_ACCOUNT_KEY}`]
     }
   },
   solidity: "0.6.0",

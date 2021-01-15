@@ -1,7 +1,10 @@
 async function deploy() {
-  // get the contract to deploy
-  const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
+  get the contract to deploy
+  const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
   // const variables for the constructor
   const hegicETHOptionV888Address =
     "0xEfC0eEAdC1132A12c9487d800112693bf49EcfA2";
@@ -10,7 +13,6 @@ async function deploy() {
   const opynOptionsFactoryV1Address =
     "0xcc5d905b9c2c8c9329eb4e25dc086369d6c7777c";
   const uniswapFactoryV1Address = "0xc0a47dfe034b400b47bdad5fecda2621de6c4d95";
-
   // deploy the DeriOneV1Main contract with constructor arguments
   const deriOneV1Main = await DeriOneV1Main.deploy(
     hegicETHOptionV888Address,
