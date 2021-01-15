@@ -3,7 +3,7 @@ async function deploy() {
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  get the contract to deploy
+  // get the contract to deploy
   const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
   // const variables for the constructor
   const hegicETHOptionV888Address =
