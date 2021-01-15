@@ -27,7 +27,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
     TheCheapestETHPutOption private _theCheapestETHPutOption;
 
     event TheCheapestETHPutOptionGot(string protocolName);
-    event ETHPutOptionBought(string protocolName);
 
     constructor(
         address _hegicETHOptionV888Address,
@@ -127,41 +126,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             return _theCheapestETHPutOption;
         } else {
             emit TheCheapestETHPutOptionGot("no matches");
-        }
-    }
-
-    function buyTheCheapestETHPutOption(
-        uint256 _minExpiry,
-        // uint256 _maxExpiry,
-        uint256 _minStrikeInUSD,
-        uint256 _maxStrikeInUSD,
-        uint256 _optionSizeInWEI,
-        address _receiver
-    ) public {
-        getTheCheapestETHPutOption(
-            _minExpiry,
-            // _maxExpiry,
-            _minStrikeInUSD,
-            _maxStrikeInUSD,
-            _optionSizeInWEI
-        );
-        if (_theCheapestETHPutOption.protocol == Protocol.HegicV888) {
-            buyETHPutOptionInHegicV888(
-                _theCheapestETHPutOption.expiry,
-                _theCheapestETHPutOption.optionSizeInWEI,
-                _theCheapestETHPutOption.strikeInUSD
-            );
-            emit ETHPutOptionBought("Hegic v888");
-        } else if (_theCheapestETHPutOption.protocol == Protocol.OpynV1) {
-            buyETHPutOptionInOpynV1(
-                _receiver,
-                _theCheapestETHPutOption.oTokenAddress,
-                _theCheapestETHPutOption.paymentTokenAddress,
-                _theCheapestETHPutOption.optionSizeInWEI
-            );
-            emit ETHPutOptionBought("opyn v1");
-        } else {
-            emit ETHPutOptionBought("no match");
         }
     }
 }

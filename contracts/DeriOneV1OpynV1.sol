@@ -350,25 +350,6 @@ contract DeriOneV1OpynV1 is Ownable {
             }
         }
     }
-
-    /// @param _receiver the account that will receive the oTokens
-    /// @param _oTokenAddress the address of the oToken that is being bought
-    /// @param _paymentTokenAddress the address of the token you are paying for oTokens with
-    /// @param _oTokensToBuy the number of oTokens to buy
-    function buyETHPutOptionInOpynV1(
-        address _receiver,
-        address _oTokenAddress,
-        address _paymentTokenAddress,
-        uint256 _oTokensToBuy
-    ) internal {
-        // can i pass some values from storage variables?
-        OpynExchangeV1Instance.buyOTokens(
-            _receiver,
-            _oTokenAddress,
-            _paymentTokenAddress,
-            _oTokensToBuy
-        );
-    }
 }
 
 // this contract consumes too much gas just to get the cheapest option

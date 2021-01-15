@@ -106,24 +106,6 @@ contract DeriOneV1HegicV888 is Ownable {
             _minStrikeInUSD
         );
     }
-
-    /// @notice creates a new option in Hegic V888
-    /// @param _expiry option period in seconds (1 day <= period <= 4 weeks)
-    /// @param _optionSizeInWEI option amount
-    /// @param _strikeInUSD strike price of the option
-    function buyETHPutOptionInHegicV888(
-        uint256 _expiry,
-        uint256 _optionSizeInWEI,
-        uint256 _strikeInUSD
-    ) internal {
-        optionType = IHegicETHOptionV888.OptionType.Put;
-        HegicETHOptionV888Instance.create(
-            _expiry,
-            _optionSizeInWEI,
-            _strikeInUSD,
-            optionType
-        );
-    }
 }
 
 // where should we use require more?
