@@ -10,7 +10,7 @@ interface IHegicETHOptionV888 {
         uint256 amount,
         uint256 strike,
         OptionType optionType
-    ) external returns (uint256 optionID);
+    ) external payable returns (uint256 optionID);
 
     function exercise(uint256 optionID) external;
 
