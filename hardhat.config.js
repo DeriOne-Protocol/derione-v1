@@ -20,6 +20,7 @@ module.exports = {
       // url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY
       accounts: [`0x${process.env.DEPLOYMENT_ACCOUNT_KEY}`],
       gas: "auto", // gasLimit
+      gasPrice: 41000000000 // make sure you check the latest gas price market in https://www.ethgasstation.info/
     }
   },
   solidity: "0.6.0",
