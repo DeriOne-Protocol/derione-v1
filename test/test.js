@@ -2,6 +2,8 @@ const { ethers } = require("hardhat");
 const { solidity } = require("ethereum-waffle");
 const chai = require("chai");
 chai.use(solidity);
+const { waffle } = require("hardhat");
+const provider = waffle.provider;
 
 describe("DeriOneV1Main contract", function () {
   let owner;
@@ -32,6 +34,17 @@ describe("DeriOneV1Main contract", function () {
       opynOptionsFactoryV1Address,
       uniswapFactoryV1Address
     );
+    console.log("deployed");
+
+    const unsignedDeployTx = DeriOneV1Main.getDeployTransaction(
+      hegicETHOptionV888Address,
+      hegicETHPoolV888Address,
+      opynExchangeV1Address,
+      opynOptionsFactoryV1Address,
+      uniswapFactoryV1Address
+    );
+    let estimatedGasAmount = await provider.estimateGas(unsignedDeployTx);
+    console.log("estimatedGasAmount ==>", estimatedGasAmount.toString());
   });
 
   describe("Deployment", function () {
