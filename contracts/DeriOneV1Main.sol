@@ -4,7 +4,6 @@ pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
 import "./DeriOneV1HegicV888.sol";
-import "./DeriOneV1OpynV1.sol";
 
 /// @author tai
 /// @title A contract for getting the cheapest options price
@@ -12,8 +11,8 @@ import "./DeriOneV1OpynV1.sol";
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
 /// @dev optimize gas consumption
-contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
-    enum Protocol {HegicV888, OpynV1}
+contract DeriOneV1Main is DeriOneV1HegicV888 {
+    enum Protocol {HegicV888}
     struct TheCheapestETHPutOption {
         Protocol protocol;
         address oTokenAddress;
@@ -31,18 +30,10 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
 
     constructor(
         address _hegicETHOptionV888Address,
-        address _hegicETHPoolV888Address,
-        address _opynExchangeV1Address,
-        address _opynOptionsFactoryV1Address,
-        address _uniswapFactoryV1Address
+        address _hegicETHPoolV888Address
     )
         public
         DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicETHPoolV888Address)
-        DeriOneV1OpynV1(
-            _opynExchangeV1Address,
-            _opynOptionsFactoryV1Address,
-            _uniswapFactoryV1Address
-        )
     {}
 
     function theCheapestETHPutOption()
@@ -79,51 +70,16 @@ contract DeriOneV1Main is DeriOneV1HegicV888, DeriOneV1OpynV1 {
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
-        getTheCheapestETHPutOptionInOpynV1(
-            // _minExpiry,
-            // _maxExpiry,
-            _minStrikeInUSD,
-            _maxStrikeInUSD,
-            _optionSizeInWEI
+        _theCheapestETHPutOption = TheCheapestETHPutOption(
+            Protocol.HegicV888,
+            address(0), // NA
+            address(0), // NA
+            theCheapestETHPutOptionInHegicV888.expiry,
+            _optionSizeInWEI,
+            theCheapestETHPutOptionInHegicV888.premiumInWEI,
+            theCheapestETHPutOptionInHegicV888.strikeInUSD
         );
-        require(
-            hasEnoughOTokenLiquidityInOpynV1(_optionSizeInWEI) == true,
-            "your size is too big for this oToken liquidity in the Opyn V1"
-        );
-        if (
-            theCheapestETHPutOptionInHegicV888.premiumInWEI <
-            theCheapestWETHPutOptionInOpynV1.premiumInWEI ||
-            matchedWETHPutOptionOTokenListV1.length == 0
-        ) {
-            _theCheapestETHPutOption = TheCheapestETHPutOption(
-                Protocol.HegicV888,
-                address(0), // NA
-                address(0), // NA
-                theCheapestETHPutOptionInHegicV888.expiry,
-                _optionSizeInWEI,
-                theCheapestETHPutOptionInHegicV888.premiumInWEI,
-                theCheapestETHPutOptionInHegicV888.strikeInUSD
-            );
-            emit TheCheapestETHPutOptionGot("hegic v888");
-            return _theCheapestETHPutOption;
-        } else if (
-            theCheapestETHPutOptionInHegicV888.premiumInWEI >
-            theCheapestWETHPutOptionInOpynV1.premiumInWEI &&
-            matchedWETHPutOptionOTokenListV1.length > 0
-        ) {
-            _theCheapestETHPutOption = TheCheapestETHPutOption(
-                Protocol.OpynV1,
-                theCheapestWETHPutOptionInOpynV1.oTokenAddress,
-                address(0), // ETH
-                theCheapestWETHPutOptionInOpynV1.expiry,
-                _optionSizeInWEI,
-                theCheapestWETHPutOptionInOpynV1.premiumInWEI,
-                theCheapestWETHPutOptionInOpynV1.strikeInUSD
-            );
-            emit TheCheapestETHPutOptionGot("opyn v1");
-            return _theCheapestETHPutOption;
-        } else {
-            emit TheCheapestETHPutOptionGot("no matches");
-        }
+        emit TheCheapestETHPutOptionGot("hegic v888");
+        return _theCheapestETHPutOption;
     }
 }
