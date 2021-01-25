@@ -31,14 +31,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicETHPoolV888Address)
     {}
 
-    function theCheapestETHPutOption()
-        public
-        view
-        returns (TheCheapestETHPutOption memory)
-    {
-        return _theCheapestETHPutOption;
-    }
-
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
     /// @dev make this function into a view function somehow in the next version
