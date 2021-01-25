@@ -13,16 +13,11 @@ contract DeriOneV1HegicV888 is Ownable {
     IHegicETHOptionV888 private HegicETHOptionV888Instance;
     IHegicETHPoolV888 private HegicETHPoolV888Instance;
 
-    IHegicETHOptionV888.OptionType optionType;
-
     struct TheCheapestETHPutOptionInHegicV888 {
         uint256 expiry;
         uint256 premiumInWEI;
         uint256 strikeInUSD;
     }
-
-    // the cheapest ETH put option in the Hegic V888
-    TheCheapestETHPutOptionInHegicV888 theCheapestETHPutOptionInHegicV888;
 
     constructor(
         address _hegicETHOptionV888Address,
@@ -89,8 +84,9 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _minExpiry,
         uint256 _optionSizeInWEI,
         uint256 _minStrikeInUSD
-    ) internal {
-        optionType = IHegicETHOptionV888.OptionType.Put;
+    ) internal view returns (TheCheapestETHPutOptionInHegicV888 memory) {
+        IHegicETHOptionV888.OptionType optionType =
+            IHegicETHOptionV888.OptionType.Put;
         (uint256 minimumPremiumToPayInWEI, , , ) =
             HegicETHOptionV888Instance.fees(
                 _minExpiry,
@@ -99,11 +95,15 @@ contract DeriOneV1HegicV888 is Ownable {
                 uint8(optionType)
             );
 
-        theCheapestETHPutOptionInHegicV888 = TheCheapestETHPutOptionInHegicV888(
-            _minExpiry,
-            minimumPremiumToPayInWEI,
-            _minStrikeInUSD
-        );
+            TheCheapestETHPutOptionInHegicV888
+                memory theCheapestETHPutOptionInHegicV888
+         =
+            TheCheapestETHPutOptionInHegicV888(
+                _minExpiry,
+                minimumPremiumToPayInWEI,
+                _minStrikeInUSD
+            );
+        return theCheapestETHPutOptionInHegicV888;
     }
 }
 
