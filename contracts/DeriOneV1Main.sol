@@ -23,9 +23,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         uint256 strikeInUSD;
     }
 
-
-    event TheCheapestETHPutOptionGot(string protocolName);
-
     constructor(
         address _hegicETHOptionV888Address,
         address _hegicETHPoolV888Address
@@ -72,7 +69,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
-        emit TheCheapestETHPutOptionGot("hegic v888");
         // the cheapest ETH put option across options protocols
         TheCheapestETHPutOption memory theCheapestETHPutOption =
             TheCheapestETHPutOption(
