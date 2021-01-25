@@ -33,7 +33,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
 
     /// @dev we could make another function that gets some options instead of only one
     /// @dev we could take fixed values for expiry and strike.
-    /// @dev make this function into a view function somehow in the next version
     /// @param _minExpiry minimum expiration date in seconds from now
     /// @param _minStrikeInUSD minimum strike price in USD with 8 decimals
     /// @param _maxStrikeInUSD maximum strike price in USD with 8 decimals
