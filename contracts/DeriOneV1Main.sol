@@ -23,8 +23,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         uint256 strikeInUSD;
     }
 
-    // the cheapest ETH put option across options protocols
-    TheCheapestETHPutOption private _theCheapestETHPutOption;
 
     event TheCheapestETHPutOptionGot(string protocolName);
 
@@ -57,29 +55,35 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         uint256 _minStrikeInUSD,
         uint256 _maxStrikeInUSD,
         uint256 _optionSizeInWEI
-    ) public returns (TheCheapestETHPutOption memory) {
+    ) public view returns (TheCheapestETHPutOption memory) {
         // require expiry. check if it is agter the latest block time
         // expiry needs to be seconds from now in hegic and timestamp in opyn v1
         // but we don't use the expiry for the opyn for now. so it's seconds now
-        getTheCheapestETHPutOptionInHegicV888(
-            _minExpiry,
-            _optionSizeInWEI,
-            _minStrikeInUSD
-        );
+
+            TheCheapestETHPutOptionInHegicV888
+                memory theCheapestETHPutOptionInHegicV888
+         =
+            getTheCheapestETHPutOptionInHegicV888(
+                _minExpiry,
+                _optionSizeInWEI,
+                _minStrikeInUSD
+            );
         require(
             hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
-        _theCheapestETHPutOption = TheCheapestETHPutOption(
-            Protocol.HegicV888,
-            address(0), // NA
-            address(0), // NA
-            theCheapestETHPutOptionInHegicV888.expiry,
-            _optionSizeInWEI,
-            theCheapestETHPutOptionInHegicV888.premiumInWEI,
-            theCheapestETHPutOptionInHegicV888.strikeInUSD
-        );
         emit TheCheapestETHPutOptionGot("hegic v888");
-        return _theCheapestETHPutOption;
+        // the cheapest ETH put option across options protocols
+        TheCheapestETHPutOption memory theCheapestETHPutOption =
+            TheCheapestETHPutOption(
+                Protocol.HegicV888,
+                address(0), // NA
+                address(0), // NA
+                theCheapestETHPutOptionInHegicV888.expiry,
+                _optionSizeInWEI,
+                theCheapestETHPutOptionInHegicV888.premiumInWEI,
+                theCheapestETHPutOptionInHegicV888.strikeInUSD
+            );
+        return theCheapestETHPutOption;
     }
 }
