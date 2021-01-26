@@ -13,10 +13,10 @@ contract DeriOneV1HegicV888 is Ownable {
     IHegicETHOptionV888 private HegicETHOptionV888Instance;
     IHegicETHPoolV888 private HegicETHPoolV888Instance;
 
-    struct TheCheapestETHPutOptionInHegicV888 {
+    struct OptionHegicV888 {
         uint256 expiry;
-        uint256 premiumInWEI;
-        uint256 strikeInUSD;
+        uint256 strikeUSD;
+        uint256 premiumWEI;
     }
 
     constructor(
@@ -45,8 +45,8 @@ contract DeriOneV1HegicV888 is Ownable {
         HegicETHPoolV888Instance = IHegicETHPoolV888(_hegicETHPoolV888Address);
     }
 
-    /// @param _optionSizeInWEI the size of an option to buy in WEI
-    function hasEnoughETHLiquidityInHegicV888(uint256 _optionSizeInWEI)
+    /// @param _sizeWEI the size of an option to buy in WEI
+    function hasEnoughETHLiquidityHegicV888(uint256 _sizeWEI)
         internal
         view
         returns (bool)
@@ -64,46 +64,39 @@ contract DeriOneV1HegicV888 is Ownable {
             availableBalance > amountUtilized,
             "there is not enough available balance"
         );
-        uint256 maxOptionSize = availableBalance.sub(amountUtilized);
+        uint256 maxSize = availableBalance.sub(amountUtilized);
 
         // what happens when the value of a uint256 is negative?
         // is this equation right?
-        if (maxOptionSize > _optionSizeInWEI) {
+        if (maxSize > _sizeWEI) {
             return true;
-        } else if (maxOptionSize <= _optionSizeInWEI) {
+        } else if (maxSize <= _sizeWEI) {
             return false;
         }
     }
 
-    /// @notice calculate the premium and get the cheapest ETH put option in Hegic v888
-    /// @param _minExpiry minimum expiration date in seconds from now
-    /// @param _optionSizeInWEI option size in WEI
-    /// @param _minStrikeInUSD minimum strike price
-    /// @dev does _minExpiry and _minStrikeInUSD always give the cheapest premium?
-    function getTheCheapestETHPutOptionInHegicV888(
-        uint256 _minExpiry,
-        uint256 _optionSizeInWEI,
-        uint256 _minStrikeInUSD
-    ) internal view returns (TheCheapestETHPutOptionInHegicV888 memory) {
+    /// @notice calculate and return the ETH put option in Hegic v888
+    /// @param _expiry expiration date in seconds from now
+    /// @param _strikeUSD strike price in USD with 8 decimals
+    /// @param _sizeWEI option size in WEI
+    function getETHPutHegicV888(
+        uint256 _expiry,
+        uint256 _strikeUSD,
+        uint256 _sizeWEI
+    ) internal view returns (OptionHegicV888 memory) {
         IHegicETHOptionV888.OptionType optionType =
             IHegicETHOptionV888.OptionType.Put;
-        (uint256 minimumPremiumToPayInWEI, , , ) =
+        (uint256 minimumPremiumToPayWEI, , , ) =
             HegicETHOptionV888Instance.fees(
-                _minExpiry,
-                _optionSizeInWEI,
-                _minStrikeInUSD,
+                _expiry,
+                _sizeWEI,
+                _strikeUSD,
                 uint8(optionType)
             );
 
-            TheCheapestETHPutOptionInHegicV888
-                memory theCheapestETHPutOptionInHegicV888
-         =
-            TheCheapestETHPutOptionInHegicV888(
-                _minExpiry,
-                minimumPremiumToPayInWEI,
-                _minStrikeInUSD
-            );
-        return theCheapestETHPutOptionInHegicV888;
+        OptionHegicV888 memory ETHPutHegicV888 =
+            OptionHegicV888(_expiry, _strikeUSD, minimumPremiumToPayWEI);
+        return ETHPutHegicV888;
     }
 }
 
