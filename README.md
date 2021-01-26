@@ -18,6 +18,8 @@ As I list up below, there are more than ten options protocols as of today(Jan 21
 - [Premia](https://www.premia.finance/)
 - [PowerTrade](https://power.trade/)
 
+On top of these protocols, we could aggregate options from the secondary market as well.
+
 # What This Contract Does
 
 In this first version, I keep a function minimal. You can get the best ETH put option price from Hegic V888 and Opyn V1 by calling a single function.
