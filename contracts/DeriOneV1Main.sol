@@ -6,21 +6,20 @@ pragma experimental ABIEncoderV2;
 import "./DeriOneV1HegicV888.sol";
 
 /// @author tai
-/// @title A contract for getting the cheapest options price
 /// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn V1 and Hegic V888
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
 /// @dev optimize gas consumption
 contract DeriOneV1Main is DeriOneV1HegicV888 {
-    enum Protocol {HegicV888}
-    struct TheCheapestETHPutOption {
+    enum Protocol {HegicV888, Invalid}
+    struct Option {
         Protocol protocol;
         address oTokenAddress;
         address paymentTokenAddress;
         uint256 expiry;
-        uint256 optionSizeInWEI;
-        uint256 premiumInWEI;
-        uint256 strikeInUSD;
+        uint256 strikeUSD;
+        uint256 sizeWEI;
+        uint256 premiumWEI;
     }
 
     constructor(
