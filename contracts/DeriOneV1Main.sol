@@ -3,6 +3,7 @@
 pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
+import "./DeriOneV1CharmV02.sol";
 import "./DeriOneV1HegicV888.sol";
 import "./libraries/DataTypes.sol";
 
@@ -11,7 +12,7 @@ import "./libraries/DataTypes.sol";
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
 /// @dev optimize gas consumption
-contract DeriOneV1Main is DeriOneV1HegicV888 {
+contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     enum Protocol {HegicV888, Invalid}
     struct Option {
         Protocol protocol;
