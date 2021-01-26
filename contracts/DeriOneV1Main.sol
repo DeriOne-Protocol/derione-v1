@@ -28,44 +28,32 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicETHPoolV888Address)
     {}
 
-    /// @dev we could make another function that gets some options instead of only one
-    /// @dev we could take fixed values for expiry and strike.
-    /// @param _minExpiry minimum expiration date in seconds from now
-    /// @param _minStrikeInUSD minimum strike price in USD with 8 decimals
-    /// @param _maxStrikeInUSD maximum strike price in USD with 8 decimals
-    /// @param _optionSizeInWEI option size in WEI
-    function getTheCheapestETHPutOption(
-        uint256 _minExpiry,
-        // uint256 _maxExpiry,
-        uint256 _minStrikeInUSD,
-        uint256 _maxStrikeInUSD,
-        uint256 _optionSizeInWEI
-    ) public view returns (TheCheapestETHPutOption memory) {
-        // require expiry. check if it is agter the latest block time
-        // expiry needs to be seconds from now in hegic and timestamp in opyn v1
-        // but we don't use the expiry for the opyn for now. so it's seconds now
+    /// @notice get the cheapest ETH put option across protocols
+    /// @param _expiry expiration date in seconds from now
+    /// @param _strikeUSD strike price in USD with 8 decimals
+    /// @param _sizeWEI option size in WEI
+    function getTheCheapestETHPut(
+        uint256 _expiry,
+        uint256 _strikeUSD,
+        uint256 _sizeWEI
+    ) public view returns (Option memory) {
+        // require expiry. check if it is after the latest block time
 
-            TheCheapestETHPutOptionInHegicV888
-                memory theCheapestETHPutOptionInHegicV888
-         =
-            getTheCheapestETHPutOptionInHegicV888(
-                _minExpiry,
-                _optionSizeInWEI,
-                _minStrikeInUSD
-            );
+        Option memory ETHPutHegicV888 =
+            getETHPutHegicV888(_expiry, _strikeUSD, _sizeWEI);
         require(
-            hasEnoughETHLiquidityInHegicV888(_optionSizeInWEI) == true,
+            hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
         // the cheapest ETH put option across options protocols
-        TheCheapestETHPutOption memory theCheapestETHPutOption =
-            TheCheapestETHPutOption(
+        Option memory theCheapestETHPut =
+            Option(
                 Protocol.HegicV888,
-                theCheapestETHPutOptionInHegicV888.expiry,
-                _optionSizeInWEI,
-                theCheapestETHPutOptionInHegicV888.premiumInWEI,
-                theCheapestETHPutOptionInHegicV888.strikeInUSD
+                ETHPutHegicV888.expiry,
+                ETHPutHegicV888.strikeUSD,
+                _sizeWEI,
+                ETHPutHegicV888.premiumWEI
             );
-        return theCheapestETHPutOption;
+        return theCheapestETHPut;
     }
 }
