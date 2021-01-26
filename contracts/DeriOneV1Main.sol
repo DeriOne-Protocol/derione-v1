@@ -4,6 +4,7 @@ pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
 import "./DeriOneV1HegicV888.sol";
+import "./libraries/DataTypes.sol";
 
 /// @author tai
 /// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn V1 and Hegic V888
@@ -14,6 +15,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
     enum Protocol {HegicV888, Invalid}
     struct Option {
         Protocol protocol;
+        DataTypes.UnderlyingAsset underlyingAsset;
+        DataTypes.OptionType optionType;
         uint256 expiry;
         uint256 strikeUSD;
         uint256 sizeWEI;
@@ -49,6 +52,8 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         Option memory theCheapestETHPut =
             Option(
                 Protocol.HegicV888,
+                DataTypes.UnderlyingAsset.ETH,
+                DataTypes.OptionType.Put,
                 ETHPutHegicV888.expiry,
                 ETHPutHegicV888.strikeUSD,
                 _sizeWEI,

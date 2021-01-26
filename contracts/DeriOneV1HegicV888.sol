@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./interfaces/IHegicETHOptionV888.sol";
 import "./interfaces/IHegicETHPoolV888.sol";
+import "./libraries/DataTypes.sol";
 
 contract DeriOneV1HegicV888 is Ownable {
     using SafeMath for uint256;
@@ -14,6 +15,8 @@ contract DeriOneV1HegicV888 is Ownable {
     IHegicETHPoolV888 private HegicETHPoolV888Instance;
 
     struct OptionHegicV888 {
+        DataTypes.UnderlyingAsset underlyingAsset;
+        DataTypes.OptionType optionType;
         uint256 expiry;
         uint256 strikeUSD;
         uint256 premiumWEI;
