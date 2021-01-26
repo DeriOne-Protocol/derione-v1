@@ -39,7 +39,7 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
     ) public view returns (Option memory) {
         // require expiry. check if it is after the latest block time
 
-        Option memory ETHPutHegicV888 =
+        OptionHegicV888 memory ETHPutHegicV888 =
             getETHPutHegicV888(_expiry, _strikeUSD, _sizeWEI);
         require(
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
