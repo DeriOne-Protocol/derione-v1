@@ -44,13 +44,13 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get the cheapest ETH option", async function () {
-      const theCheapestETHPutOption = await deriOneV1Main.getTheCheapestETHPutOption(
+      const theCheapestETHPut = await deriOneV1Main.getTheCheapestETHPut(
         24 * 3600, // 24 hours from now in seconds
         80000000000, // USD price decimals are 8 in hegic
         90000000000, // USD price decimals are 8 in hegic
         "5000000000000000000"
       );
-      console.log("theCheapestETHPutOption ==>", theCheapestETHPutOption);
+      console.log("theCheapestETHPut ==>", theCheapestETHPut);
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
