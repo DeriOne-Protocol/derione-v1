@@ -14,8 +14,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
     enum Protocol {HegicV888, Invalid}
     struct Option {
         Protocol protocol;
-        address oTokenAddress;
-        address paymentTokenAddress;
         uint256 expiry;
         uint256 strikeUSD;
         uint256 sizeWEI;
@@ -63,8 +61,6 @@ contract DeriOneV1Main is DeriOneV1HegicV888 {
         TheCheapestETHPutOption memory theCheapestETHPutOption =
             TheCheapestETHPutOption(
                 Protocol.HegicV888,
-                address(0), // NA
-                address(0), // NA
                 theCheapestETHPutOptionInHegicV888.expiry,
                 _optionSizeInWEI,
                 theCheapestETHPutOptionInHegicV888.premiumInWEI,
