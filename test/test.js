@@ -46,7 +46,6 @@ describe("DeriOneV1Main contract", function () {
     it("should get the cheapest ETH option", async function () {
       const theCheapestETHPut = await deriOneV1Main.getTheCheapestETHPut(
         24 * 3600, // 24 hours from now in seconds
-        80000000000, // USD price decimals are 8 in hegic
         90000000000, // USD price decimals are 8 in hegic
         "5000000000000000000"
       );
