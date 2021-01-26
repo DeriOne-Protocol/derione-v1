@@ -4,6 +4,7 @@ pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/ICharmV02OptionFactory.sol";
+import "./interfaces/ICharmV02OptionMarket.sol";
 import "./libraries/DataTypes.sol";
 
 contract DeriOneV1CharmV02 is Ownable {
@@ -41,6 +42,22 @@ contract DeriOneV1CharmV02 is Ownable {
             CharmV02OptionMarketAddressList[i] = CharmV02OptionFactoryInstance
                 .markets(i);
         return CharmV02OptionMarketAddressList;
+    }
+
+    /// @param _charmV02OptionMarketAddressList CharmV02 OptionMarketAddressList
+    function _getCharmV02OptionMarketInstanceList(
+        address[] memory _charmV02OptionMarketAddressList
+    ) private pure returns (ICharmV02OptionMarket[] memory) {
+        ICharmV02OptionMarket[] memory charmV02OptionMarketInstanceList =
+            new ICharmV02OptionMarket[](
+                _charmV02OptionMarketAddressList.length
+            );
+        for (uint256 i = 0; i < _charmV02OptionMarketAddressList.length; i++) {
+            charmV02OptionMarketInstanceList[i] = ICharmV02OptionMarket(
+                _charmV02OptionMarketAddressList[i]
+            );
+        }
+        return charmV02OptionMarketInstanceList;
     }
 
 }
