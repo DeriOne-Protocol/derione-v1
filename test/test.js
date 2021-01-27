@@ -47,6 +47,19 @@ describe("DeriOneV1Main contract", function () {
   });
 
   describe("Calls", function () {
+    it("should get option market address list in charm", async function () {
+      const charmV02OptionMarketAddressList = await deriOneV1Main._getCharmV02OptionMarketAddressList();
+      console.log(
+        "charmV02OptionMarketAddressList ==>",
+        charmV02OptionMarketAddressList
+      );
+
+      chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+        .properAddress;
+    });
+  });
+
+  describe("Calls", function () {
     it("should get the cheapest ETH option", async function () {
       const theCheapestETHPut = await deriOneV1Main.getTheCheapestETHPut(
         24 * 3600, // 24 hours from now in seconds

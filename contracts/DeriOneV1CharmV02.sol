@@ -37,10 +37,11 @@ contract DeriOneV1CharmV02 is Ownable {
     {
         uint256 marketsCount = CharmV02OptionFactoryInstance.numMarkets();
         address[] memory optionMarketAddressList = new address[](marketsCount);
-        for (uint256 i = 0; i < marketsCount; i++)
+        for (uint256 i = 0; i < marketsCount; i++) {
             optionMarketAddressList[i] = CharmV02OptionFactoryInstance.markets(
                 i
             );
+        }
         return optionMarketAddressList;
     }
 
