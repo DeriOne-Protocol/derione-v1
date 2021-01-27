@@ -10,7 +10,7 @@ describe("DeriOneV1Main contract", function () {
   let DeriOneV1Main;
   let deriOneV1Main;
 
-  beforeEach(async function () {
+  before(async function () {
     // the owner is the account that makes deployment
     [owner] = await ethers.getSigners();
 
