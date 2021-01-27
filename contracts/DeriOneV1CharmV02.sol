@@ -3,11 +3,14 @@
 pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./interfaces/ICharmV02OptionFactory.sol";
 import "./interfaces/ICharmV02OptionMarket.sol";
 import "./libraries/DataTypes.sol";
 
 contract DeriOneV1CharmV02 is Ownable {
+    using SafeMath for uint256;
+
     ICharmV02OptionFactory private CharmV02OptionFactoryInstance;
 
     struct OptionCharmV02 {
@@ -59,6 +62,36 @@ contract DeriOneV1CharmV02 is Ownable {
             );
         }
         return optionMarketInstanceList;
+    }
+
+    function _getCharmV02ETHCallList(
+        ICharmV02OptionMarket[] memory optionMarketInstanceList
+    ) private view returns (ICharmV02OptionMarket[] memory) {
+        uint256 instanceCounter;
+        for (uint256 i = 0; i < optionMarketInstanceList.length; i++) {
+            if (
+                optionMarketInstanceList[i].baseToken() == address(0) &&
+                optionMarketInstanceList[i].isPut() == false
+            ) {
+                instanceCounter = instanceCounter.add(1);
+            }
+        }
+
+        ICharmV02OptionMarket[] memory optionMarketETHCallListInstanceList =
+            new ICharmV02OptionMarket[](instanceCounter);
+
+        for (uint256 i = 0; i < optionMarketInstanceList.length; i++) {
+            if (
+                optionMarketInstanceList[i].baseToken() == address(0) &&
+                optionMarketInstanceList[i].isPut() == false
+            ) {
+                optionMarketETHCallListInstanceList[i] = ICharmV02OptionMarket(
+                    CharmV02OptionFactoryInstance.markets(i)
+                );
+            }
+        }
+
+        return optionMarketETHCallListInstanceList;
     }
 
 }
