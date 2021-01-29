@@ -5,14 +5,14 @@ pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
-import "./interfaces/ICharmV02OptionFactory.sol";
-import "./interfaces/ICharmV02OptionMarket.sol";
+import "./interfaces/IOptionFactoryCharmV02.sol";
+import "./interfaces/IOptionMarketCharmV02.sol";
 import "./libraries/DataTypes.sol";
 
 contract DeriOneV1CharmV02 is Ownable {
     using SafeMath for uint256;
 
-    ICharmV02OptionFactory private CharmV02OptionFactoryInstance;
+    IOptionFactoryCharmV02 private OptionFactoryCharmV02;
 
     struct OptionCharmV02 {
         DataTypes.UnderlyingAsset underlyingAsset;
@@ -21,80 +21,86 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 strikeUSD;
         uint256 premiumWEI;
     }
-    constructor(address _charmV02OptionFactoryAddress) public {
-        instantiateCharmV02OptionFactory(_charmV02OptionFactoryAddress);
+
+    constructor(address _optionFactoryAddressCharmV02) public {
+        instantiateOptionFactoryCharmV02(_optionFactoryAddressCharmV02);
     }
 
-    /// @param _charmV02OptionFactoryAddress CharmV02 OptionFactoryAddress
-    function instantiateCharmV02OptionFactory(
-        address _charmV02OptionFactoryAddress
+    /// @param _optionFactoryAddressCharmV02 CharmV02 OptionFactoryAddress
+    function instantiateOptionFactoryCharmV02(
+        address _optionFactoryAddressCharmV02
     ) public onlyOwner {
-        CharmV02OptionFactoryInstance = ICharmV02OptionFactory(
-            _charmV02OptionFactoryAddress
+        OptionFactoryCharmV02 = IOptionFactoryCharmV02(
+            _optionFactoryAddressCharmV02
         );
     }
 
-    function _getCharmV02OptionMarketAddressList()
+    function _getOptionMarketAddressList()
         private
         view
         returns (address[] memory)
     {
-        uint256 marketsCount = CharmV02OptionFactoryInstance.numMarkets();
+        uint256 marketsCount = OptionFactoryCharmV02.numMarkets();
         address[] memory optionMarketAddressList = new address[](marketsCount);
         for (uint256 i = 0; i < marketsCount; i++) {
-            optionMarketAddressList[i] = CharmV02OptionFactoryInstance.markets(
-                i
-            );
+            optionMarketAddressList[i] = OptionFactoryCharmV02.markets(i);
         }
         return optionMarketAddressList;
     }
 
     /// @param _charmV02OptionMarketAddressList CharmV02 OptionMarketAddressList
-    function _getCharmV02OptionMarketInstanceList(
+    function _getOptionMarketList(
         address[] memory _charmV02OptionMarketAddressList
-    ) private pure returns (ICharmV02OptionMarket[] memory) {
-        ICharmV02OptionMarket[] memory optionMarketInstanceList =
-            new ICharmV02OptionMarket[](
+    ) private pure returns (IOptionMarketCharmV02[] memory) {
+        IOptionMarketCharmV02[] memory optionMarketList =
+            new IOptionMarketCharmV02[](
                 _charmV02OptionMarketAddressList.length
             );
         for (uint256 i = 0; i < _charmV02OptionMarketAddressList.length; i++) {
-            optionMarketInstanceList[i] = ICharmV02OptionMarket(
+            optionMarketList[i] = IOptionMarketCharmV02(
                 _charmV02OptionMarketAddressList[i]
             );
         }
-        return optionMarketInstanceList;
+        return optionMarketList;
     }
 
-    function _getCharmV02ETHCallList(
-        ICharmV02OptionMarket[] memory optionMarketInstanceList
-    ) private view returns (ICharmV02OptionMarket[] memory) {
-        uint256 instanceCounter;
-        for (uint256 i = 0; i < optionMarketInstanceList.length; i++) {
+    function _getETHCallMarketList(
+        IOptionMarketCharmV02[] memory optionMarketList
+    ) private view returns (IOptionMarketCharmV02[] memory) {
+        uint256 marketCounter;
+        for (uint256 i = 0; i < optionMarketList.length; i++) {
             if (
-                optionMarketInstanceList[i].baseToken() == address(0) &&
-                optionMarketInstanceList[i].isPut() == false
+                optionMarketList[i].baseToken() == address(0) &&
+                optionMarketList[i].isPut() == false
             ) {
-                instanceCounter = instanceCounter.add(1);
+                marketCounter = marketCounter.add(1);
             }
         }
 
-        ICharmV02OptionMarket[] memory optionMarketETHCallListInstanceList =
-            new ICharmV02OptionMarket[](instanceCounter);
+        IOptionMarketCharmV02[] memory optionMarketETHCallList =
+            new IOptionMarketCharmV02[](marketCounter);
 
-        for (uint256 i = 0; i < optionMarketInstanceList.length; i++) {
+        for (uint256 i = 0; i < optionMarketList.length; i++) {
             if (
-                optionMarketInstanceList[i].baseToken() == address(0) &&
-                optionMarketInstanceList[i].isPut() == false
+                optionMarketList[i].baseToken() == address(0) &&
+                optionMarketList[i].isPut() == false
             ) {
-                optionMarketETHCallListInstanceList[i] = ICharmV02OptionMarket(
-                    CharmV02OptionFactoryInstance.markets(i)
+                optionMarketETHCallList[i] = IOptionMarketCharmV02(
+                    OptionFactoryCharmV02.markets(i)
+                );
+            }
+        }
+
+        return optionMarketETHCallList;
+    }
     /// @dev seek for a way to reduce the nested for loop complexity
-    function _getETHCallOptionList(
-        // uint256 _sizeWEI
-        )
-        public
+    function _getETHCallOptionList()
+        private
         view
-        returns (OptionCharmV02[] memory)
+        returns (
+            // uint256 _sizeWEI
+            OptionCharmV02[] memory
+        )
     {
         address[] memory optionMarketAddressList =
             _getOptionMarketAddressList();
@@ -148,7 +154,7 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
-    ) public view returns (OptionCharmV02[] memory) {
+    ) internal view returns (OptionCharmV02[] memory) {
         OptionCharmV02[] memory ETHCallOptionList = _getETHCallOptionList();
         // _sizeWEI
 
