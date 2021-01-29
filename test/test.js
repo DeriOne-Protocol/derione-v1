@@ -48,7 +48,7 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get option market address list in charm", async function () {
-      const charmV02OptionMarketAddressList = await deriOneV1Main._getCharmV02OptionMarketAddressList();
+      const charmV02OptionMarketAddressList = await deriOneV1Main._getOptionMarketAddressList();
       console.log(
         "charmV02OptionMarketAddressList ==>",
         charmV02OptionMarketAddressList
@@ -60,15 +60,12 @@ describe("DeriOneV1Main contract", function () {
   });
 
   describe("Calls", function () {
-    it("should get option market instance list in charm", async function () {
-      const charmV02OptionMarketAddressList = await deriOneV1Main._getCharmV02OptionMarketAddressList();
-      const charmV02OptionMarketInstanceList = await deriOneV1Main._getCharmV02OptionMarketInstanceList(
+    it("should get option market list in charm", async function () {
+      const charmV02OptionMarketAddressList = await deriOneV1Main._getOptionMarketAddressList();
+      const charmV02OptionMarketList = await deriOneV1Main._getOptionMarketList(
         charmV02OptionMarketAddressList
       );
-      console.log(
-        "charmV02OptionMarketInstanceList ==>",
-        charmV02OptionMarketInstanceList
-      );
+      console.log("charmV02OptionMarketList ==>", charmV02OptionMarketList);
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
@@ -76,13 +73,24 @@ describe("DeriOneV1Main contract", function () {
   });
 
   describe("Calls", function () {
-    it("should get ETH Put option market instance list in charm", async function () {
-      const charmV02OptionMarketAddressList = await deriOneV1Main._getCharmV02OptionMarketAddressList();
-      const charmV02OptionMarketInstanceList = await deriOneV1Main._getCharmV02OptionMarketInstanceList(
+    it("should get ETH Call option market list in charm", async function () {
+      const charmV02OptionMarketAddressList = await deriOneV1Main._getOptionMarketAddressList();
+      const charmV02OptionMarketList = await deriOneV1Main._getOptionMarketList(
         charmV02OptionMarketAddressList
       );
-      const charmV02OptionMarketETHCallListInstanceList = await deriOneV1Main._getCharmV02ETHCallList(
-        charmV02OptionMarketInstanceList
+      const charmV02OptionMarketETHCallList = await deriOneV1Main._getETHCallMarketList(
+        charmV02OptionMarketList
+      );
+      console.log(
+        "charmV02OptionMarketETHCallList ==>",
+        charmV02OptionMarketETHCallList
+      );
+
+      chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+        .properAddress;
+    });
+  });
+
   describe("Calls", function () {
     it("should get ETH Call option list in charm", async function () {
       const charmV02ETHCallOptionList = await deriOneV1Main._getETHCallOptionList();
