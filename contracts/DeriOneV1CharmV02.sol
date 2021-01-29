@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 
+pragma experimental ABIEncoderV2;
 pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -87,11 +88,58 @@ contract DeriOneV1CharmV02 is Ownable {
             ) {
                 optionMarketETHCallListInstanceList[i] = ICharmV02OptionMarket(
                     CharmV02OptionFactoryInstance.markets(i)
+    /// @dev seek for a way to reduce the nested for loop complexity
+    function _getETHCallOptionList(
+        // uint256 _sizeWEI
+        )
+        public
+        view
+        returns (OptionCharmV02[] memory)
+    {
+        address[] memory optionMarketAddressList =
+            _getOptionMarketAddressList();
+        IOptionMarketCharmV02[] memory optionMarketList =
+            _getOptionMarketList(optionMarketAddressList);
+        IOptionMarketCharmV02[] memory optionMarketETHCallList =
+            _getETHCallMarketList(optionMarketList);
+
+        uint256 optionCount;
+
+        for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
+            uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
+            for (uint256 count = 0; count < strikeCount; count++) {
+                optionCount = optionCount.add(1);
+            }
+        }
+
+        OptionCharmV02[] memory ETHCallOptionList =
+            new OptionCharmV02[](optionCount);
+
+        for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
+            uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
+            for (uint256 count = 0; count < strikeCount; count++) {
+                uint256 expiry = optionMarketETHCallList[i].expiryTime();
+                uint256 strike = optionMarketETHCallList[i].strikePrices(count);
+                // uint256 premiumWEI = calculatePremium(_sizeWEI);
+
+                uint256 optionCounter;
+                if (i == 0) {
+                    optionCounter = count;
+                } else if (i > 0) {
+                    optionCounter = (i * strikeCount) + count;
+                }
+
+                ETHCallOptionList[optionCounter] = OptionCharmV02(
+                    DataTypes.UnderlyingAsset.ETH,
+                    DataTypes.OptionType.Call,
+                    expiry, // a unix timestamp
+                    strike,
+                    0
                 );
             }
         }
 
-        return optionMarketETHCallListInstanceList;
+        return ETHCallOptionList;
     }
 
 }

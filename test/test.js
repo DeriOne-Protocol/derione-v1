@@ -83,6 +83,16 @@ describe("DeriOneV1Main contract", function () {
       );
       const charmV02OptionMarketETHCallListInstanceList = await deriOneV1Main._getCharmV02ETHCallList(
         charmV02OptionMarketInstanceList
+  describe("Calls", function () {
+    it("should get ETH Call option list in charm", async function () {
+      const charmV02ETHCallOptionList = await deriOneV1Main._getETHCallOptionList();
+
+      console.log("charmV02ETHCallOptionList ==>", charmV02ETHCallOptionList);
+
+      chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+        .properAddress;
+    });
+  });
       );
       console.log(
         "charmV02OptionMarketETHCallListInstanceList ==>",
