@@ -22,6 +22,6 @@ On top of these protocols, we could aggregate options from the secondary market 
 
 # What This Contract Does
 
-In this first version, I keep a function minimal. You can get the best ETH put option price from Hegic V888 and Opyn V1 by calling a single function.
+In this version, you can get the best ETH call option price from Charm, Hegic V888 and Opyn V2. We will add more protocols, types and assets over time.
 
 _The logical extension of this aggregator would be expanding to other derivatives like swaps, futures and forwards._
