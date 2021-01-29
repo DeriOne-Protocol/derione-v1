@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-interface ICharmV02OptionMarket {
+interface IOptionMarketCharmV02 {
     function SCALE() external view returns (uint256);
 
     function SCALE_SCALE() external view returns (uint256);

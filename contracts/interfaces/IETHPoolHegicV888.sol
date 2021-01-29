@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-interface IHegicETHPoolV888 {
+interface IETHPoolHegicV888 {
     function INITIAL_RATE() external view returns (uint256);
 
     function _revertTransfersInLockUpPeriod(address)

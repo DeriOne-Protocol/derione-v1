@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-interface IHegicETHOptionV888 {
+interface IETHOptionHegicV888 {
     enum OptionType {Invalid, Put, Call}
 
     function create(

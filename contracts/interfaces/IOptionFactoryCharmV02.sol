@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-interface ICharmV02OptionFactory {
+interface IOptionFactoryCharmV02 {
     function createMarket(
         address _baseToken,
         address _quoteToken,
