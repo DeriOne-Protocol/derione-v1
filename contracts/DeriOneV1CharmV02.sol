@@ -142,4 +142,45 @@ contract DeriOneV1CharmV02 is Ownable {
         return ETHCallOptionList;
     }
 
+    function getMatchedOptionListCharmV02(
+        uint256 _minExpiry,
+        uint256 _maxExpiry,
+        uint256 _minStrikeUSD,
+        uint256 _maxStrikeUSD,
+        uint256 _sizeWEI
+    ) public view returns (OptionCharmV02[] memory) {
+        OptionCharmV02[] memory ETHCallOptionList = _getETHCallOptionList();
+        // _sizeWEI
+
+        uint256 matchedCount;
+
+        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+            if (
+                _minExpiry < ETHCallOptionList[i].expiry &&
+                ETHCallOptionList[i].expiry < _maxExpiry &&
+                _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
+                ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
+            ) {
+                matchedCount = matchedCount.add(1);
+            }
+        }
+
+        OptionCharmV02[] memory matchedETHCallOptionList =
+            new OptionCharmV02[](matchedCount);
+
+        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+            if (
+                _minExpiry < ETHCallOptionList[i].expiry &&
+                ETHCallOptionList[i].expiry < _maxExpiry &&
+                _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
+                ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
+            ) {
+                for (uint256 count = 0; count < matchedCount; count++) {
+                    matchedETHCallOptionList[count] = ETHCallOptionList[i];
+                }
+            }
+        }
+
+        return matchedETHCallOptionList;
+    }
 }

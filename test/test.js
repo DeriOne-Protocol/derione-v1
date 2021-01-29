@@ -93,10 +93,20 @@ describe("DeriOneV1Main contract", function () {
         .properAddress;
     });
   });
+
+  describe("Calls", function () {
+    it("should get ETH Call matched option list in charm", async function () {
+      const charmV02MatchedETHCallOptionList = await deriOneV1Main.getMatchedOptionListCharmV02(
+        1611907565, // 2021-01-29 08:06:05
+        1613029394, // 2021-02-11 07:43:14
+        "800000000000000000000", // what are decimals here?
+        "1200000000000000000000",
+        "5000000000000000000"
       );
+
       console.log(
-        "charmV02OptionMarketETHCallListInstanceList ==>",
-        charmV02OptionMarketETHCallListInstanceList
+        "charmV02MatchedETHCallOptionList ==>",
+        charmV02MatchedETHCallOptionList
       );
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
