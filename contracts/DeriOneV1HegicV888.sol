@@ -4,15 +4,15 @@ pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
-import "./interfaces/IHegicETHOptionV888.sol";
-import "./interfaces/IHegicETHPoolV888.sol";
+import "./interfaces/IETHOptionHegicV888.sol";
+import "./interfaces/IETHPoolHegicV888.sol";
 import "./libraries/DataTypes.sol";
 
 contract DeriOneV1HegicV888 is Ownable {
     using SafeMath for uint256;
 
-    IHegicETHOptionV888 private HegicV888ETHOptionInstance;
-    IHegicETHPoolV888 private HegicV888ETHPoolInstance;
+    IETHOptionHegicV888 private ETHOptionHegicV888;
+    IETHPoolHegicV888 private ETHPoolHegicV888;
 
     struct OptionHegicV888 {
         DataTypes.UnderlyingAsset underlyingAsset;
@@ -26,26 +26,24 @@ contract DeriOneV1HegicV888 is Ownable {
         address _hegicETHOptionV888Address,
         address _hegicV888ETHPoolAddress
     ) public {
-        instantiateHegicV888ETHOption(_hegicETHOptionV888Address);
-        instantiateHegicV888ETHPool(_hegicV888ETHPoolAddress);
+        instantiateETHOptionHegicV888(_hegicETHOptionV888Address);
+        instantiateETHPoolHegicV888(_hegicV888ETHPoolAddress);
     }
 
     /// @param _hegicETHOptionV888Address HegicETHOptionV888Address
-    function instantiateHegicV888ETHOption(address _hegicETHOptionV888Address)
+    function instantiateETHOptionHegicV888(address _hegicETHOptionV888Address)
         public
         onlyOwner
     {
-        HegicV888ETHOptionInstance = IHegicETHOptionV888(
-            _hegicETHOptionV888Address
-        );
+        ETHOptionHegicV888 = IETHOptionHegicV888(_hegicETHOptionV888Address);
     }
 
     /// @param _hegicV888ETHPoolAddress HegicETHPoolV888Address
-    function instantiateHegicV888ETHPool(address _hegicV888ETHPoolAddress)
+    function instantiateETHPoolHegicV888(address _hegicV888ETHPoolAddress)
         public
         onlyOwner
     {
-        HegicV888ETHPoolInstance = IHegicETHPoolV888(_hegicV888ETHPoolAddress);
+        ETHPoolHegicV888 = IETHPoolHegicV888(_hegicV888ETHPoolAddress);
     }
 
     /// @param _sizeWEI the size of an option to buy in WEI
@@ -57,10 +55,10 @@ contract DeriOneV1HegicV888 is Ownable {
         // `(Total ETH in contract) * 0.8 - the amount utilized for options`
         // we might or might not need the *0.8 part
         uint256 availableBalance =
-            HegicV888ETHPoolInstance.totalBalance().mul(8).div(10);
+            ETHPoolHegicV888.totalBalance().mul(8).div(10);
         uint256 amountUtilized =
-            HegicV888ETHPoolInstance.totalBalance().sub(
-                HegicV888ETHPoolInstance.availableBalance()
+            ETHPoolHegicV888.totalBalance().sub(
+                ETHPoolHegicV888.availableBalance()
             );
 
         require(
@@ -87,10 +85,10 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _strikeUSD,
         uint256 _sizeWEI
     ) internal view returns (OptionHegicV888 memory) {
-        IHegicETHOptionV888.OptionType optionType =
-            IHegicETHOptionV888.OptionType.Put;
+        IETHOptionHegicV888.OptionType optionType =
+            IETHOptionHegicV888.OptionType.Put;
         (uint256 minimumPremiumToPayWEI, , , ) =
-            HegicV888ETHOptionInstance.fees(
+            ETHOptionHegicV888.fees(
                 _expiry,
                 _sizeWEI,
                 _strikeUSD,
