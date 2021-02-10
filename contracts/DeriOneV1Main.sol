@@ -35,20 +35,22 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     {}
 
     /// @notice get the cheapest ETH put option across protocols
-    /// @param _expiry expiration date in seconds from now
+    /// @param _expiryInTimestamp expiration date in unix timestamp
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
     function getTheCheapestETHPut(
-        uint256 _expiry,
+        uint256 _expiryInTimestamp,
         uint256 _strikeUSD,
         DataTypes.OptionType _optionType,
         uint256 _sizeWEI
     ) public view returns (Option memory) {
         // require expiry. check if it is after the latest block time
 
-        OptionHegicV888 memory ETHPutHegicV888 =
-            getETHPutHegicV888(_expiry, _strikeUSD, _sizeWEI);
+        uint256 expiryInSeconds = _expiryInTimestamp.sub(block.timestamp);
+
+        DataTypes.Option memory ETHPutHegicV888 =
+            getETHOptionHegicV888(expiryInSeconds, _strikeUSD, _sizeWEI, _optionType);
         require(
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
@@ -58,8 +60,8 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
             Option(
                 Protocol.HegicV888,
                 DataTypes.UnderlyingAsset.ETH,
-                ETHPutHegicV888.expiry,
                 _optionType,
+                ETHPutHegicV888.expiryTimestamp,
                 ETHPutHegicV888.strikeUSD,
                 _sizeWEI,
                 ETHPutHegicV888.premiumWEI
