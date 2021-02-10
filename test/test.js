@@ -124,9 +124,10 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get the cheapest ETH option", async function () {
-      const theCheapestETHPut = await deriOneV1Main.getTheCheapestETHPut(
-        24 * 3600, // 24 hours from now in seconds
+      const theCheapestETHPut = await deriOneV1Main.getTheCheapestETHOption(
+        1614155977, // 2021-02-24 08:39:37
         90000000000, // USD price decimals are 8 in hegic
+        0,
         "5000000000000000000"
       );
       console.log("theCheapestETHPut ==>", theCheapestETHPut);
