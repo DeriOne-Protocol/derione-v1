@@ -4,7 +4,8 @@ pragma solidity ^0.6.0;
 
 library DataTypes {
     enum UnderlyingAsset {ETH, WBTC}
-    enum OptionType {Call, Put}
+    enum OptionType {Invalid, Put, Call}
+
     struct Option {
         DataTypes.UnderlyingAsset underlyingAsset;
         DataTypes.OptionType optionType;

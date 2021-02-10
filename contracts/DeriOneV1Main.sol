@@ -37,10 +37,12 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @notice get the cheapest ETH put option across protocols
     /// @param _expiry expiration date in seconds from now
     /// @param _strikeUSD strike price in USD with 8 decimals
+    /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
     function getTheCheapestETHPut(
         uint256 _expiry,
         uint256 _strikeUSD,
+        DataTypes.OptionType _optionType,
         uint256 _sizeWEI
     ) public view returns (Option memory) {
         // require expiry. check if it is after the latest block time
@@ -56,8 +58,8 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
             Option(
                 Protocol.HegicV888,
                 DataTypes.UnderlyingAsset.ETH,
-                DataTypes.OptionType.Put,
                 ETHPutHegicV888.expiry,
+                _optionType,
                 ETHPutHegicV888.strikeUSD,
                 _sizeWEI,
                 ETHPutHegicV888.premiumWEI

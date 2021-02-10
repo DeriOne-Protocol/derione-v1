@@ -75,24 +75,24 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @param _sizeWEI option size in WEI
     function getETHPutHegicV888(
         uint256 _expiry,
+    /// @param _optionType option type
         uint256 _strikeUSD,
         uint256 _sizeWEI
     ) internal view returns (OptionHegicV888 memory) {
-        IETHOptionHegicV888.OptionType optionType =
-            IETHOptionHegicV888.OptionType.Put;
+        DataTypes.OptionType _optionType
         (uint256 minimumPremiumToPayWEI, , , ) =
             ETHOptionHegicV888.fees(
                 _expiry,
                 _sizeWEI,
                 _strikeUSD,
-                uint8(optionType)
+                uint8(_optionType)
             );
 
         OptionHegicV888 memory ETHPut =
             OptionHegicV888(
                 DataTypes.UnderlyingAsset.ETH,
-                DataTypes.OptionType.Put,
                 _expiry,
+                _optionType,
                 _strikeUSD,
                 minimumPremiumToPayWEI
             );
