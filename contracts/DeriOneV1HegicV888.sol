@@ -14,13 +14,6 @@ contract DeriOneV1HegicV888 is Ownable {
     IETHOptionHegicV888 private ETHOptionHegicV888;
     IETHPoolHegicV888 private ETHPoolHegicV888;
 
-    struct OptionHegicV888 {
-        DataTypes.UnderlyingAsset underlyingAsset;
-        DataTypes.OptionType optionType;
-        uint256 expiry;
-        uint256 strikeUSD;
-        uint256 premiumWEI;
-    }
 
     constructor(
         address _hegicETHOptionV888Address,

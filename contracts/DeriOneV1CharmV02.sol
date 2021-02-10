@@ -14,13 +14,6 @@ contract DeriOneV1CharmV02 is Ownable {
 
     IOptionFactoryCharmV02 private OptionFactoryCharmV02;
 
-    struct OptionCharmV02 {
-        DataTypes.UnderlyingAsset underlyingAsset;
-        DataTypes.OptionType optionType;
-        uint256 expiry;
-        uint256 strikeUSD;
-        uint256 premiumWEI;
-    }
 
     constructor(address _optionFactoryAddressCharmV02) public {
         instantiateOptionFactoryCharmV02(_optionFactoryAddressCharmV02);
@@ -99,7 +92,7 @@ contract DeriOneV1CharmV02 is Ownable {
         view
         returns (
             // uint256 _sizeWEI
-            OptionCharmV02[] memory
+            DataTypes.Option[] memory
         )
     {
         address[] memory optionMarketAddressList =
@@ -118,8 +111,8 @@ contract DeriOneV1CharmV02 is Ownable {
             }
         }
 
-        OptionCharmV02[] memory ETHCallOptionList =
-            new OptionCharmV02[](optionCount);
+        DataTypes.Option[] memory ETHCallOptionList =
+            new DataTypes.Option[](optionCount);
 
         for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
             uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
@@ -135,7 +128,7 @@ contract DeriOneV1CharmV02 is Ownable {
                     optionCounter = (i * strikeCount) + count;
                 }
 
-                ETHCallOptionList[optionCounter] = OptionCharmV02(
+                ETHCallOptionList[optionCounter] = DataTypes.Option(
                     DataTypes.UnderlyingAsset.ETH,
                     DataTypes.OptionType.Call,
                     expiry, // a unix timestamp
@@ -171,8 +164,8 @@ contract DeriOneV1CharmV02 is Ownable {
             }
         }
 
-        OptionCharmV02[] memory matchedETHCallOptionList =
-            new OptionCharmV02[](matchedCount);
+        DataTypes.Option[] memory matchedETHCallOptionList =
+            new DataTypes.Option[](matchedCount);
 
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
