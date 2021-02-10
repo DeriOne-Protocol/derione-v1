@@ -3,6 +3,7 @@
 pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
 
+import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./DeriOneV1CharmV02.sol";
 import "./DeriOneV1HegicV888.sol";
 import "./libraries/DataTypes.sol";
@@ -13,6 +14,8 @@ import "./libraries/DataTypes.sol";
 /// @dev adjust visibility of variables. they should be all private by default i guess
 /// @dev optimize gas consumption
 contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
+    using SafeMath for uint256;
+
     enum Protocol {HegicV888, Invalid}
     struct Option {
         Protocol protocol;
