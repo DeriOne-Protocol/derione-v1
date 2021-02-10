@@ -155,8 +155,8 @@ contract DeriOneV1CharmV02 is Ownable {
 
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
-                _minExpiry < ETHCallOptionList[i].expiry &&
-                ETHCallOptionList[i].expiry < _maxExpiry &&
+                _minExpiry < ETHCallOptionList[i].expiryTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _maxExpiry &&
                 _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
                 ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
             ) {
@@ -169,8 +169,8 @@ contract DeriOneV1CharmV02 is Ownable {
 
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
-                _minExpiry < ETHCallOptionList[i].expiry &&
-                ETHCallOptionList[i].expiry < _maxExpiry &&
+                _minExpiry < ETHCallOptionList[i].expiryTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _maxExpiry &&
                 _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
                 ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
             ) {

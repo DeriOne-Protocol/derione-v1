@@ -69,7 +69,7 @@ contract DeriOneV1HegicV888 is Ownable {
         }
     }
 
-    /// @notice calculate and return the ETH put option in Hegic v888
+    /// @notice return the ETH option in Hegic v888
     /// @param _expirySecondsFromNow expiration date in seconds from now
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _sizeWEI option size in WEI

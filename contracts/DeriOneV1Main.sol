@@ -39,7 +39,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
-    function getTheCheapestETHPut(
+    function getTheCheapestETHOption(
         uint256 _expiryInTimestamp,
         uint256 _strikeUSD,
         DataTypes.OptionType _optionType,
