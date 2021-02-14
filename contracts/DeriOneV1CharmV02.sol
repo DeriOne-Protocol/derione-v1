@@ -142,8 +142,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function getMatchedOptionListCharmV02(
-        uint256 _minExpiry,
-        uint256 _maxExpiry,
+        uint256 _expiryInTimestamp,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
@@ -155,8 +154,8 @@ contract DeriOneV1CharmV02 is Ownable {
 
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
-                _minExpiry < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _maxExpiry &&
+                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _expiryInTimestamp &&
                 _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
                 ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
             ) {
@@ -169,8 +168,8 @@ contract DeriOneV1CharmV02 is Ownable {
 
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
-                _minExpiry < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _maxExpiry &&
+                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _expiryInTimestamp &&
                 _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
                 ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
             ) {
