@@ -12,7 +12,6 @@ import "./libraries/DataTypes.sol";
 /// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn V1 and Hegic V888
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
-/// @dev optimize gas consumption
 contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     using SafeMath for uint256;
 
@@ -42,7 +41,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
-    function getCheapestETHOption(
+    function getETHOptionListWithFixedValues(
         uint256 _expiryInTimestamp,
         uint256 _strikeUSD,
         DataTypes.OptionType _optionType,
@@ -52,23 +51,24 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
 
         uint256 expiryInSeconds = _expiryInTimestamp.sub(block.timestamp);
 
-        DataTypes.Option memory ETHPutHegicV888 =
-            getETHOptionHegicV888(expiryInSeconds, _strikeUSD, _sizeWEI, _optionType);
+        DataTypes.Option memory ETHOptionHegicV888 =
+            getETHOptionHegicV888(expiryInSeconds, _strikeUSD, _optionType, _sizeWEI);
         require(
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
         // the cheapest ETH put option across options protocols
-        Option memory cheapestETHPut =
+        Option memory cheapestETHOption =
             Option(
                 Protocol.HegicV888,
                 DataTypes.UnderlyingAsset.ETH,
                 _optionType,
-                ETHPutHegicV888.expiryTimestamp,
-                ETHPutHegicV888.strikeUSD,
+                ETHOptionHegicV888.expiryTimestamp,
+                ETHOptionHegicV888.strikeUSD,
                 _sizeWEI,
                 ETHPutHegicV888.premiumWEI
+        return cheapestETHOption;
             );
-        return cheapestETHPut;
+        return cheapestETHOption;
     }
 }

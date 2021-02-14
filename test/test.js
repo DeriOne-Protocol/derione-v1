@@ -124,7 +124,7 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get the cheapest ETH option", async function () {
-      const cheapestETHPut = await deriOneV1Main.getCheapestETHOption(
+      const cheapestETHPut = await deriOneV1Main.getETHOptionListWithFixedValues(
         1614155977, // 2021-02-24 08:39:37
         90000000000, // USD price decimals are 8 in hegic
         0,

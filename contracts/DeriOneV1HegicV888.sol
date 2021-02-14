@@ -73,13 +73,13 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @notice return the ETH option in Hegic v888
     /// @param _expirySecondsFromNow expiration date in seconds from now
     /// @param _strikeUSD strike price in USD with 8 decimals
-    /// @param _sizeWEI option size in WEI
     /// @param _optionType option type
+    /// @param _sizeWEI option size in WEI
     function getETHOptionHegicV888(
         uint256 _expirySecondsFromNow,
         uint256 _strikeUSD,
-        uint256 _sizeWEI,
-        DataTypes.OptionType _optionType
+        DataTypes.OptionType _optionType,
+        uint256 _sizeWEI
     ) internal view returns (DataTypes.Option memory) {
         (uint256 minimumPremiumToPayWEI, , , ) =
             ETHOptionHegicV888.fees(
@@ -91,7 +91,7 @@ contract DeriOneV1HegicV888 is Ownable {
         
         uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
 
-        DataTypes.Option memory ETHPut =
+        DataTypes.Option memory ETHOption =
             DataTypes.Option(
                 DataTypes.UnderlyingAsset.ETH,
                 _optionType,
@@ -99,7 +99,8 @@ contract DeriOneV1HegicV888 is Ownable {
                 _strikeUSD,
                 minimumPremiumToPayWEI
             );
-        return ETHPut;
+        return ETHOption;
+    }
     }
 }
 
