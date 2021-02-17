@@ -15,16 +15,6 @@ import "./libraries/DataTypes.sol";
 contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     using SafeMath for uint256;
 
-    struct Option {
-        Protocol protocol;
-        DataTypes.UnderlyingAsset underlyingAsset;
-        DataTypes.OptionType optionType;
-        uint256 expiry;
-        uint256 strikeUSD;
-        uint256 sizeWEI;
-        uint256 premiumWEI;
-    }
-
     constructor(
         address _charmV02OptionFactoryAddress,
         address _hegicETHOptionV888Address,
