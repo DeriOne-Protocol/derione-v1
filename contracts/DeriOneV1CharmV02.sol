@@ -114,20 +114,17 @@ contract DeriOneV1CharmV02 is Ownable {
         }
     }
     /// @dev seek for a way to reduce the nested for loop complexity
-    function _getETHCallOptionList()
+    function _getETHOptionList(DataTypes.OptionType _optionType, uint256 _sizeWEI)
         private
         view
-        returns (
-            // uint256 _sizeWEI
-            DataTypes.Option[] memory
-        )
+        returns (DataTypes.Option[] memory)
     {
         address[] memory optionMarketAddressList =
             _getOptionMarketAddressList();
         IOptionMarketCharmV02[] memory optionMarketList =
             _getOptionMarketList(optionMarketAddressList);
         IOptionMarketCharmV02[] memory optionMarketETHCallList =
-            _getETHCallMarketList(optionMarketList);
+            _getETHMarketList(_optionType, optionMarketList);
 
         uint256 optionCount;
 
