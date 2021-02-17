@@ -15,7 +15,6 @@ import "./libraries/DataTypes.sol";
 contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     using SafeMath for uint256;
 
-    enum Protocol {HegicV888, Invalid}
     struct Option {
         Protocol protocol;
         DataTypes.UnderlyingAsset underlyingAsset;
