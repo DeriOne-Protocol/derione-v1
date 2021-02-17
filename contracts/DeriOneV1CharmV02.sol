@@ -14,7 +14,6 @@ contract DeriOneV1CharmV02 is Ownable {
 
     IOptionFactoryCharmV02 private OptionFactoryCharmV02;
 
-
     constructor(address _optionFactoryAddressCharmV02) public {
         instantiateOptionFactoryCharmV02(_optionFactoryAddressCharmV02);
     }
@@ -57,34 +56,62 @@ contract DeriOneV1CharmV02 is Ownable {
         return optionMarketList;
     }
 
-    function _getETHCallMarketList(
+    function _getETHMarketList(
+        DataTypes.OptionType _optionType,
         IOptionMarketCharmV02[] memory optionMarketList
     ) private view returns (IOptionMarketCharmV02[] memory) {
         uint256 marketCounter;
-        for (uint256 i = 0; i < optionMarketList.length; i++) {
-            if (
-                optionMarketList[i].baseToken() == address(0) &&
-                optionMarketList[i].isPut() == false
-            ) {
-                marketCounter = marketCounter.add(1);
+        if(_optionType == DataTypes.OptionType.Call) {
+            for (uint256 i = 0; i < optionMarketList.length; i++) {
+                if (
+                    optionMarketList[i].baseToken() == address(0) &&
+                    optionMarketList[i].isPut() == false
+                ) {
+                    marketCounter = marketCounter.add(1);
+                }
             }
-        }
 
-        IOptionMarketCharmV02[] memory optionMarketETHCallList =
-            new IOptionMarketCharmV02[](marketCounter);
+            IOptionMarketCharmV02[] memory optionMarketETHCallList =
+                new IOptionMarketCharmV02[](marketCounter);
 
-        for (uint256 i = 0; i < optionMarketList.length; i++) {
-            if (
-                optionMarketList[i].baseToken() == address(0) &&
-                optionMarketList[i].isPut() == false
-            ) {
-                optionMarketETHCallList[i] = IOptionMarketCharmV02(
-                    OptionFactoryCharmV02.markets(i)
-                );
+            for (uint256 i = 0; i < optionMarketList.length; i++) {
+                if (
+                    optionMarketList[i].baseToken() == address(0) &&
+                    optionMarketList[i].isPut() == false
+                ) {
+                    optionMarketETHCallList[i] = IOptionMarketCharmV02(
+                        OptionFactoryCharmV02.markets(i)
+                    );
+                }
             }
-        }
 
-        return optionMarketETHCallList;
+            return optionMarketETHCallList;
+        } else if (_optionType == DataTypes.OptionType.Put) {
+            for (uint256 i = 0; i < optionMarketList.length; i++) {
+                if (
+                    optionMarketList[i].baseToken() == address(0) &&
+                    optionMarketList[i].isPut() == true
+                ) {
+                    marketCounter = marketCounter.add(1);
+                }
+            }
+
+            IOptionMarketCharmV02[] memory optionMarketETHPutList =
+                new IOptionMarketCharmV02[](marketCounter);
+
+            for (uint256 i = 0; i < optionMarketList.length; i++) {
+                if (
+                    optionMarketList[i].baseToken() == address(0) &&
+                    optionMarketList[i].isPut() == true
+                ) {
+                    optionMarketETHPutList[i] = IOptionMarketCharmV02(
+                        OptionFactoryCharmV02.markets(i)
+                    );
+                }
+            }
+
+            return optionMarketETHPutList;
+        }
     }
     /// @dev seek for a way to reduce the nested for loop complexity
     function _getETHCallOptionList()
