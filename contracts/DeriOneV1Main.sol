@@ -46,18 +46,24 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
-        // the cheapest ETH put option across options protocols
-        Option memory cheapestETHOption =
-            Option(
-                Protocol.HegicV888,
-                DataTypes.UnderlyingAsset.ETH,
-                _optionType,
-                ETHOptionHegicV888.expiryTimestamp,
-                ETHOptionHegicV888.strikeUSD,
-                _sizeWEI,
-                ETHPutHegicV888.premiumWEI
-        return cheapestETHOption;
-            );
-        return cheapestETHOption;
+
+        DataTypes.Option memory ETHOptionCharmV02 =
+            getETHOptionFromExactValuesCharmV02(_expiryTimestamp, _strikeUSD, _optionType, _sizeWEI);
+        require(
+            hasEnoughETHLiquidityCharmV02(_sizeWEI) == true,
+            "your size is too big for liquidity in the Charm V02"
+        );
+
+        DataTypes.Option[] memory ETHOptionList;
+        if(ETHOptionCharmV02.protocol == DataTypes.Protocol.Invalid) {
+            ETHOptionList = new DataTypes.Option[](1);
+            ETHOptionList[0] = ETHOptionHegicV888;
+        } else {
+            ETHOptionList = new DataTypes.Option[](2);
+            ETHOptionList[0] = ETHOptionHegicV888;
+            ETHOptionList[1] = ETHOptionCharmV02;
+        }
+
+        return ETHOptionList;
     }
 }
