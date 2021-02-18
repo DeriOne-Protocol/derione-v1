@@ -47,15 +47,20 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
             "your size is too big for liquidity in the Hegic V888"
         );
 
-        DataTypes.Option memory ETHOptionCharmV02 =
-            getETHOptionFromExactValuesCharmV02(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
+        uint256 matchedOptionCountCharmV02 = getMatchedCountFromExactValues(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
+
+        DataTypes.Option memory ETHOptionCharmV02;
+        if(matchedOptionCountCharmV02 > 0) {
+            ETHOptionCharmV02 =
+                getETHOptionFromExactValuesCharmV02(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
+        }
         require(
             hasEnoughETHLiquidityCharmV02(_sizeWEI) == true,
             "your size is too big for liquidity in the Charm V02"
         );
 
         DataTypes.Option[] memory ETHOptionList;
-        if(ETHOptionCharmV02.protocol == DataTypes.Protocol.Invalid) {
+        if(matchedOptionCountCharmV02 == 0) {
             ETHOptionList = new DataTypes.Option[](1);
             ETHOptionList[0] = ETHOptionHegicV888;
         } else {
