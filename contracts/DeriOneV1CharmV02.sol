@@ -221,13 +221,13 @@ contract DeriOneV1CharmV02 is Ownable {
         return matchedETHOption;
     }
 
-    function _getMatchedCountFromRangeValues(
+    function getMatchedCountFromRangeValues(
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
-    ) private view returns(uint256) {
+    ) internal view returns(uint256) {
         DataTypes.Option[] memory ETHCallOptionList = _getETHOptionList(_optionType, _sizeWEI);
         // _sizeWEI
 
