@@ -167,8 +167,6 @@ contract DeriOneV1CharmV02 is Ownable {
         return ETHCallOptionList;
     }
 
-    function getMatchedOptionListCharmV02(
-        uint256 _expiryInTimestamp,
     function getETHOptionFromExactValuesCharmV02(
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
@@ -220,6 +218,10 @@ contract DeriOneV1CharmV02 is Ownable {
 
         return matchedETHCallOption;
     }
+
+    function getETHOptionListFromRangeValuesCharmV02(
+        DataTypes.OptionType _optionType,
+        uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
