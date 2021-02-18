@@ -169,6 +169,57 @@ contract DeriOneV1CharmV02 is Ownable {
 
     function getMatchedOptionListCharmV02(
         uint256 _expiryInTimestamp,
+    function getETHOptionFromExactValuesCharmV02(
+        uint256 _expiryTimestamp,
+        uint256 _strikeUSD,
+        DataTypes.OptionType _optionType,
+        uint256 _sizeWEI
+    ) internal view returns (DataTypes.Option memory) {
+        DataTypes.Option[] memory ETHCallOptionList = _getETHOptionList(_optionType, _sizeWEI);
+        uint256 matchedCount;
+
+        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+            if (
+                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
+                _strikeUSD == ETHCallOptionList[i].strikeUSD
+            ) {
+                matchedCount = matchedCount.add(1);
+            }
+        }
+
+        if(matchedCount == 0) {
+            DataTypes.Option memory matchedETHCallOption = DataTypes.Option(
+                DataTypes.Protocol.Invalid,
+                DataTypes.UnderlyingAsset.ETH,
+                DataTypes.OptionType.Invalid,
+                0,
+                0,
+                0,
+                0
+            );
+            return matchedETHCallOption;
+        }
+
+        DataTypes.Option[] memory matchedETHCallOptionList =
+            new DataTypes.Option[](matchedCount);
+
+        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+            if (
+                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
+                _strikeUSD == ETHCallOptionList[i].strikeUSD
+            ) {
+                for (uint256 count = 0; count < matchedCount; count++) {
+                    matchedETHCallOptionList[count] = ETHCallOptionList[i];
+                }
+            }
+        }
+
+        DataTypes.Option memory matchedETHCallOption = matchedETHCallOptionList[0];
+
+        return matchedETHCallOption;
+    }
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
