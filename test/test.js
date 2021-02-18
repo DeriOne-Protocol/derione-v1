@@ -78,8 +78,8 @@ describe("DeriOneV1Main contract", function () {
       const charmV02OptionMarketList = await deriOneV1Main._getOptionMarketList(
         charmV02OptionMarketAddressList
       );
-      const charmV02OptionMarketETHCallList = await deriOneV1Main._getETHCallMarketList(
-        charmV02OptionMarketList
+      const charmV02OptionMarketETHCallList = await deriOneV1Main._getETHMarketList(
+        2, charmV02OptionMarketList
       );
       console.log(
         "charmV02OptionMarketETHCallList ==>",
@@ -93,7 +93,7 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get ETH Call option list in charm", async function () {
-      const charmV02ETHCallOptionList = await deriOneV1Main._getETHCallOptionList();
+      const charmV02ETHCallOptionList = await deriOneV1Main._getETHOptionList(2, "5000000000000000000");
 
       console.log("charmV02ETHCallOptionList ==>", charmV02ETHCallOptionList);
 
@@ -104,8 +104,8 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get ETH Call matched option list in charm", async function () {
-      const charmV02MatchedETHCallOptionList = await deriOneV1Main.getMatchedOptionListCharmV02(
-        1611907565, // 2021-01-29 08:06:05
+      const charmV02MatchedETHCallOptionList = await deriOneV1Main.getETHOptionListFromRangeValuesCharmV02(
+        2,
         1613029394, // 2021-02-11 07:43:14
         "800000000000000000000", // what are decimals here?
         "1200000000000000000000",
@@ -127,7 +127,7 @@ describe("DeriOneV1Main contract", function () {
       const ETHOptionList = await deriOneV1Main.getETHOptionListFromExactValues(
         1614155977, // 2021-02-24 08:39:37
         90000000000, // USD price decimals are 8 in hegic
-        0,
+        2,
         "5000000000000000000"
       );
       console.log("ETHOptionList ==>", ETHOptionList);
