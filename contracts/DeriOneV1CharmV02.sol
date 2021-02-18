@@ -197,29 +197,28 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _strikeUSD,
         uint256 _sizeWEI
     ) internal view returns (DataTypes.Option memory) {
-        DataTypes.Option[] memory ETHCallOptionList = _getETHOptionList(_optionType, _sizeWEI);
-        // _sizeWEI
+        DataTypes.Option[] memory ETHOptionList = _getETHOptionList(_optionType, _sizeWEI);
 
         uint256 matchedCount = getMatchedCountFromExactValues(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
 
-        DataTypes.Option[] memory matchedETHCallOptionList =
+        DataTypes.Option[] memory matchedETHOptionList =
             new DataTypes.Option[](matchedCount);
 
-        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+        for (uint256 i = 0; i < ETHOptionList.length; i++) {
             if (
-                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
-                _strikeUSD == ETHCallOptionList[i].strikeUSD
+                block.timestamp < ETHOptionList[i].expiryTimestamp &&
+                ETHOptionList[i].expiryTimestamp < _expiryTimestamp &&
+                _strikeUSD == ETHOptionList[i].strikeUSD
             ) {
                 for (uint256 count = 0; count < matchedCount; count++) {
-                    matchedETHCallOptionList[count] = ETHCallOptionList[i];
+                    matchedETHOptionList[count] = ETHOptionList[i];
                 }
             }
         }
 
-        DataTypes.Option memory matchedETHCallOption = matchedETHCallOptionList[0];
+        DataTypes.Option memory matchedETHOption = matchedETHOptionList[0];
 
-        return matchedETHCallOption;
+        return matchedETHOption;
     }
 
     function _getMatchedCountFromRangeValues(
