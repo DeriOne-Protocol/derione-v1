@@ -35,7 +35,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         uint256 _strikeUSD,
         DataTypes.OptionType _optionType,
         uint256 _sizeWEI
-    ) public view returns (Option memory) {
+    ) public view returns (DataTypes.Option[] memory) {
         require((_expiryTimestamp > block.timestamp), "expiration date has to be some time in the future");
 
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);

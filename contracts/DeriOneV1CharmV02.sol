@@ -153,10 +153,12 @@ contract DeriOneV1CharmV02 is Ownable {
                 }
 
                 ETHCallOptionList[optionCounter] = DataTypes.Option(
+                    DataTypes.Protocol.CharmV02,
                     DataTypes.UnderlyingAsset.ETH,
                     DataTypes.OptionType.Call,
                     expiryTimestamp,
                     strikeUSD,
+                    _sizeWEI,
                     0
                 );
             }

@@ -15,7 +15,6 @@ contract DeriOneV1HegicV888 is Ownable {
     IETHOptionHegicV888 private ETHOptionHegicV888;
     IETHPoolHegicV888 private ETHPoolHegicV888;
 
-
     constructor(
         address _hegicETHOptionV888Address,
         address _hegicV888ETHPoolAddress
@@ -93,10 +92,12 @@ contract DeriOneV1HegicV888 is Ownable {
 
         DataTypes.Option memory ETHOption =
             DataTypes.Option(
+                DataTypes.Protocol.HegicV888,
                 DataTypes.UnderlyingAsset.ETH,
                 _optionType,
                 expiryTimestamp,
                 _strikeUSD,
+                _sizeWEI,
                 minimumPremiumToPayWEI
             );
         return ETHOption;
