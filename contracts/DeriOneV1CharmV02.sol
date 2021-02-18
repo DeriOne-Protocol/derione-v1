@@ -141,8 +141,9 @@ contract DeriOneV1CharmV02 is Ownable {
         for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
             uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
             for (uint256 count = 0; count < strikeCount; count++) {
-                uint256 strike = optionMarketETHCallList[i].strikePrices(count);
                 uint256 expiryTimestamp = optionMarketETHCallList[i].expiryTime();
+                uint256 strikeUSD = optionMarketETHCallList[i].strikePrices(count);
+                strikeUSD = strikeUSD.div(10**10); //convert 18 decimals to 8 decimals
                 // uint256 premiumWEI = calculatePremium(_sizeWEI);
 
                 uint256 optionCounter;
