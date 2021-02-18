@@ -25,8 +25,8 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicV888ETHPoolAddress)
     {}
 
-    /// @notice get the cheapest ETH put option across protocols
-    /// @param _expiryInTimestamp expiration date in unix timestamp
+
+    /// @param _expiryTimestamp expiration date in unix timestamp
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
