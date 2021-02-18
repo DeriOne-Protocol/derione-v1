@@ -141,8 +141,8 @@ contract DeriOneV1CharmV02 is Ownable {
         for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
             uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
             for (uint256 count = 0; count < strikeCount; count++) {
-                uint256 expiry = optionMarketETHCallList[i].expiryTime();
                 uint256 strike = optionMarketETHCallList[i].strikePrices(count);
+                uint256 expiryTimestamp = optionMarketETHCallList[i].expiryTime();
                 // uint256 premiumWEI = calculatePremium(_sizeWEI);
 
                 uint256 optionCounter;
@@ -155,8 +155,8 @@ contract DeriOneV1CharmV02 is Ownable {
                 ETHCallOptionList[optionCounter] = DataTypes.Option(
                     DataTypes.UnderlyingAsset.ETH,
                     DataTypes.OptionType.Call,
-                    expiry, // a unix timestamp
-                    strike,
+                    expiryTimestamp,
+                    strikeUSD,
                     0
                 );
             }
@@ -179,7 +179,7 @@ contract DeriOneV1CharmV02 is Ownable {
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
                 block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _expiryInTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
                 _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
                 ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
             ) {
@@ -193,7 +193,7 @@ contract DeriOneV1CharmV02 is Ownable {
         for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
             if (
                 block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _expiryInTimestamp &&
+                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
                 _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
                 ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
             ) {

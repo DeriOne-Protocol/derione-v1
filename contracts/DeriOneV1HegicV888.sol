@@ -75,7 +75,7 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
-    function getETHOptionHegicV888(
+    function getETHOptionFromExactValuesHegicV888(
         uint256 _expirySecondsFromNow,
         uint256 _strikeUSD,
         DataTypes.OptionType _optionType,

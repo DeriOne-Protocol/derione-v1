@@ -30,18 +30,18 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
-    function getETHOptionListWithFixedValues(
-        uint256 _expiryInTimestamp,
+    function getETHOptionListFromExactValues(
+        uint256 _expiryTimestamp,
         uint256 _strikeUSD,
         DataTypes.OptionType _optionType,
         uint256 _sizeWEI
     ) public view returns (Option memory) {
         require((_expiryTimestamp > block.timestamp), "expiration date has to be some time in the future");
 
-        uint256 expiryInSeconds = _expiryInTimestamp.sub(block.timestamp);
+        uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
 
         DataTypes.Option memory ETHOptionHegicV888 =
-            getETHOptionHegicV888(expiryInSeconds, _strikeUSD, _optionType, _sizeWEI);
+            getETHOptionFromExactValuesHegicV888(expirySecondsFromNow, _strikeUSD, _optionType, _sizeWEI);
         require(
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
