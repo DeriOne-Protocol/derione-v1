@@ -125,9 +125,9 @@ describe("DeriOneV1Main contract", function () {
   describe("Calls", function () {
     it("should get the cheapest ETH option", async function () {
       const ETHOptionList = await deriOneV1Main.getETHOptionListFromExactValues(
+        2,
         1614155977, // 2021-02-24 08:39:37
         90000000000, // USD price decimals are 8 in hegic
-        2,
         "5000000000000000000"
       );
       console.log("ETHOptionList ==>", ETHOptionList);

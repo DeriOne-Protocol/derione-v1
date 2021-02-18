@@ -75,9 +75,9 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
     function getETHOptionFromExactValuesHegicV888(
+        DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _strikeUSD,
-        DataTypes.OptionType _optionType,
         uint256 _sizeWEI
     ) internal view returns (DataTypes.Option memory) {
         (uint256 minimumPremiumToPayWEI, , , ) =

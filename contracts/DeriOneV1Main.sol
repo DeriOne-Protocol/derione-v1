@@ -31,9 +31,9 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _optionType option type
     /// @param _sizeWEI option size in WEI
     function getETHOptionListFromExactValues(
+        DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
-        DataTypes.OptionType _optionType,
         uint256 _sizeWEI
     ) public view returns (DataTypes.Option[] memory) {
         require((_expiryTimestamp > block.timestamp), "expiration date has to be some time in the future");
@@ -41,14 +41,14 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
 
         DataTypes.Option memory ETHOptionHegicV888 =
-            getETHOptionFromExactValuesHegicV888(expirySecondsFromNow, _strikeUSD, _optionType, _sizeWEI);
+            getETHOptionFromExactValuesHegicV888(_optionType, expirySecondsFromNow, _strikeUSD, _sizeWEI);
         require(
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
 
         DataTypes.Option memory ETHOptionCharmV02 =
-            getETHOptionFromExactValuesCharmV02(_expiryTimestamp, _strikeUSD, _optionType, _sizeWEI);
+            getETHOptionFromExactValuesCharmV02(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
         require(
             hasEnoughETHLiquidityCharmV02(_sizeWEI) == true,
             "your size is too big for liquidity in the Charm V02"
