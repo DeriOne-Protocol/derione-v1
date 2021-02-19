@@ -23,18 +23,21 @@ describe("DeriOneV1Main contract", function () {
       "0xEfC0eEAdC1132A12c9487d800112693bf49EcfA2";
     const hegicETHPoolV888Address =
       "0x878f15ffc8b894a1ba7647c7176e4c01f74e140b";
+    const strikesRange = 100;
 
     deriOneV1Main = await DeriOneV1Main.deploy(
       charmV02OptionFactoryAddress,
       hegicETHOptionV888Address,
-      hegicETHPoolV888Address
+      hegicETHPoolV888Address,
+      strikesRange
     );
     console.log("deployed");
 
     const unsignedDeployTx = DeriOneV1Main.getDeployTransaction(
       charmV02OptionFactoryAddress,
       hegicETHOptionV888Address,
-      hegicETHPoolV888Address
+      hegicETHPoolV888Address,
+      strikesRange
     );
     let estimatedGasAmount = await provider.estimateGas(unsignedDeployTx);
     console.log("estimatedGasAmount ==>", estimatedGasAmount.toString());
