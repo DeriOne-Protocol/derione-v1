@@ -82,7 +82,8 @@ describe("DeriOneV1Main contract", function () {
         charmV02OptionMarketAddressList
       );
       const charmV02OptionMarketETHCallList = await deriOneV1Main._getETHMarketList(
-        2, charmV02OptionMarketList
+        2,
+        charmV02OptionMarketList
       );
       console.log(
         "charmV02OptionMarketETHCallList ==>",
@@ -96,7 +97,10 @@ describe("DeriOneV1Main contract", function () {
 
   describe("Calls", function () {
     it("should get ETH Call option list in charm", async function () {
-      const charmV02ETHCallOptionList = await deriOneV1Main._getETHOptionList(2, "5000000000000000000");
+      const charmV02ETHCallOptionList = await deriOneV1Main._getETHOptionList(
+        2,
+        "5000000000000000000"
+      );
 
       console.log("charmV02ETHCallOptionList ==>", charmV02ETHCallOptionList);
 

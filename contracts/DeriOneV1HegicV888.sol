@@ -15,7 +15,13 @@ contract DeriOneV1HegicV888 is Ownable {
     IETHOptionHegicV888 private ETHOptionHegicV888;
     IETHPoolHegicV888 private ETHPoolHegicV888;
 
-    uint256[] public expiriesStandard = [1 days, 1 weeks, 2 weeks, 3 weeks, 4 weeks];
+    uint256[] public expiriesStandard = [
+        1 days,
+        1 weeks,
+        2 weeks,
+        3 weeks,
+        4 weeks
+    ];
     uint256[] public strikesStandard;
 
     constructor(
@@ -44,10 +50,7 @@ contract DeriOneV1HegicV888 is Ownable {
         ETHPoolHegicV888 = IETHPoolHegicV888(_hegicV888ETHPoolAddress);
     }
 
-    function updateStrikesStandard(uint256 _strikesRange)
-        public
-        onlyOwner
-    {
+    function updateStrikesStandard(uint256 _strikesRange) public onlyOwner {
         for (uint256 i = 0; i < _strikesRange; i++) {
             strikesStandard[i] = i.mul(25);
         }
@@ -101,7 +104,7 @@ contract DeriOneV1HegicV888 is Ownable {
                 _strikeUSD,
                 uint8(_optionType)
             );
-        
+
         uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
 
         DataTypes.Option memory ETHOption =
@@ -117,11 +120,26 @@ contract DeriOneV1HegicV888 is Ownable {
         return ETHOption;
     }
 
-    function _constructOptionStandardList() private view returns (DataTypes.Option[] memory) {
-        DataTypes.Option[] memory optionStandardList = new DataTypes.Option[](expiriesStandard.length.mul(strikesStandard.length));
-        
-        for(uint256 expiryCount = 0; expiryCount < expiriesStandard.length + 1; expiryCount++) {
-            for(uint256 strikeCount = 0; strikeCount < strikesStandard.length + 1; strikeCount++) {
+    function _constructOptionStandardList()
+        private
+        view
+        returns (DataTypes.Option[] memory)
+    {
+        DataTypes.Option[] memory optionStandardList =
+            new DataTypes.Option[](
+                expiriesStandard.length.mul(strikesStandard.length)
+            );
+
+        for (
+            uint256 expiryCount = 0;
+            expiryCount < expiriesStandard.length + 1;
+            expiryCount++
+        ) {
+            for (
+                uint256 strikeCount = 0;
+                strikeCount < strikesStandard.length + 1;
+                strikeCount++
+            ) {
                 uint256 optionCounter;
                 if (expiryCount == 0) {
                     optionCounter = strikeCount;
@@ -139,7 +157,7 @@ contract DeriOneV1HegicV888 is Ownable {
                     0
                 );
             }
-        }        
+        }
         return optionStandardList;
     }
 
@@ -154,8 +172,8 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
 
         uint256 matchedOptionCount;
-        for(uint256 i = 0; i < _optionStandardList.length; i++) {
-            if(
+        for (uint256 i = 0; i < _optionStandardList.length; i++) {
+            if (
                 block.timestamp < _optionStandardList[i].expiryTimestamp &&
                 _optionStandardList[i].expiryTimestamp < expiryTimestamp &&
                 _minStrikeUSD < _optionStandardList[i].strikeUSD &&
@@ -168,8 +186,8 @@ contract DeriOneV1HegicV888 is Ownable {
         DataTypes.Option[] memory matchedOptionList =
             new DataTypes.Option[](matchedOptionCount);
 
-        for(uint256 i = 0; i < _optionStandardList.length; i++) {
-            if(
+        for (uint256 i = 0; i < _optionStandardList.length; i++) {
+            if (
                 block.timestamp < _optionStandardList[i].expiryTimestamp &&
                 _optionStandardList[i].expiryTimestamp < expiryTimestamp &&
                 _minStrikeUSD < _optionStandardList[i].strikeUSD &&
@@ -203,11 +221,21 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
     ) internal view returns (DataTypes.Option[] memory) {
-        DataTypes.Option[] memory optionStandardList = _constructOptionStandardList();
-        DataTypes.Option[] memory matchedOptionList = _getMatchedOptionList(_optionType, _expirySecondsFromNow, _minStrikeUSD, _maxStrikeUSD, _sizeWEI, optionStandardList);
+        DataTypes.Option[] memory optionStandardList =
+            _constructOptionStandardList();
+        DataTypes.Option[] memory matchedOptionList =
+            _getMatchedOptionList(
+                _optionType,
+                _expirySecondsFromNow,
+                _minStrikeUSD,
+                _maxStrikeUSD,
+                _sizeWEI,
+                optionStandardList
+            );
 
-        for(uint256 i = 0; i < matchedOptionList.length; i++) {
-            uint256 expirySecondsFromNow = matchedOptionList[i].expiryTimestamp.sub(block.timestamp);
+        for (uint256 i = 0; i < matchedOptionList.length; i++) {
+            uint256 expirySecondsFromNow =
+                matchedOptionList[i].expiryTimestamp.sub(block.timestamp);
 
             (uint256 minimumPremiumToPayWEI, , , ) =
                 ETHOptionHegicV888.fees(
@@ -225,7 +253,7 @@ contract DeriOneV1HegicV888 is Ownable {
                 matchedOptionList[i].strikeUSD,
                 _sizeWEI,
                 minimumPremiumToPayWEI
-            );            
+            );
         }
 
         return matchedOptionList;

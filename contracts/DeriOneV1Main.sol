@@ -23,7 +23,11 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     )
         public
         DeriOneV1CharmV02(_charmV02OptionFactoryAddress)
-        DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicV888ETHPoolAddress, _strikesRange)
+        DeriOneV1HegicV888(
+            _hegicETHOptionV888Address,
+            _hegicV888ETHPoolAddress,
+            _strikesRange
+        )
     {}
 
 
@@ -37,23 +41,41 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         uint256 _strikeUSD,
         uint256 _sizeWEI
     ) public view returns (DataTypes.Option[] memory) {
-        require((_expiryTimestamp > block.timestamp), "expiration date has to be some time in the future");
+        require(
+            (_expiryTimestamp > block.timestamp),
+            "expiration date has to be some time in the future"
+        );
 
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
 
         DataTypes.Option memory ETHOptionHegicV888 =
-            getETHOptionFromExactValuesHegicV888(_optionType, expirySecondsFromNow, _strikeUSD, _sizeWEI);
+            getETHOptionFromExactValuesHegicV888(
+                _optionType,
+                expirySecondsFromNow,
+                _strikeUSD,
+                _sizeWEI
+            );
         require(
             hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
 
-        uint256 matchedOptionCountCharmV02 = getMatchedCountFromExactValues(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
+        uint256 matchedOptionCountCharmV02 =
+            getMatchedCountFromExactValues(
+                _optionType,
+                _expiryTimestamp,
+                _strikeUSD,
+                _sizeWEI
+            );
 
         DataTypes.Option memory ETHOptionCharmV02;
-        if(matchedOptionCountCharmV02 > 0) {
-            ETHOptionCharmV02 =
-                getETHOptionFromExactValuesCharmV02(_optionType, _expiryTimestamp, _strikeUSD, _sizeWEI);
+        if (matchedOptionCountCharmV02 > 0) {
+            ETHOptionCharmV02 = getETHOptionFromExactValuesCharmV02(
+                _optionType,
+                _expiryTimestamp,
+                _strikeUSD,
+                _sizeWEI
+            );
         }
         require(
             hasEnoughETHLiquidityCharmV02(_sizeWEI) == true,
@@ -61,7 +83,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         );
 
         DataTypes.Option[] memory ETHOptionList;
-        if(matchedOptionCountCharmV02 == 0) {
+        if (matchedOptionCountCharmV02 == 0) {
             ETHOptionList = new DataTypes.Option[](1);
             ETHOptionList[0] = ETHOptionHegicV888;
         } else {
