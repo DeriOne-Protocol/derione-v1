@@ -142,6 +142,54 @@ contract DeriOneV1HegicV888 is Ownable {
         }        
         return optionStandardList;
     }
+
+    function _getMatchedOptionList(
+        DataTypes.OptionType _optionType,
+        uint256 _expirySecondsFromNow,
+        uint256 _minStrikeUSD,
+        uint256 _maxStrikeUSD,
+        uint256 _sizeWEI,
+        DataTypes.Option[] memory _optionStandardList
+    ) private view returns (DataTypes.Option[] memory) {
+        uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
+
+        uint256 matchedOptionCount;
+        for(uint256 i = 0; i < _optionStandardList.length; i++) {
+            if(
+                block.timestamp < _optionStandardList[i].expiryTimestamp &&
+                _optionStandardList[i].expiryTimestamp < expiryTimestamp &&
+                _minStrikeUSD < _optionStandardList[i].strikeUSD &&
+                _optionStandardList[i].strikeUSD < _maxStrikeUSD
+            ) {
+                matchedOptionCount = matchedOptionCount.add(1);
+            }
+        }
+
+        DataTypes.Option[] memory matchedOptionList =
+            new DataTypes.Option[](matchedOptionCount);
+
+        for(uint256 i = 0; i < _optionStandardList.length; i++) {
+            if(
+                block.timestamp < _optionStandardList[i].expiryTimestamp &&
+                _optionStandardList[i].expiryTimestamp < expiryTimestamp &&
+                _minStrikeUSD < _optionStandardList[i].strikeUSD &&
+                _optionStandardList[i].strikeUSD < _maxStrikeUSD
+            ) {
+                uint256 matchedCount = 0;
+                matchedOptionList[matchedCount] = DataTypes.Option(
+                    DataTypes.Protocol.HegicV888,
+                    DataTypes.UnderlyingAsset.ETH,
+                    _optionType,
+                    _optionStandardList[i].expiryTimestamp,
+                    _optionStandardList[i].strikeUSD,
+                    _sizeWEI,
+                    0
+                );
+                matchedCount.add(1);
+            }
+        }
+        return matchedOptionList;
+    }
     }
 }
 
