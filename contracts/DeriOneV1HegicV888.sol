@@ -190,6 +190,45 @@ contract DeriOneV1HegicV888 is Ownable {
         }
         return matchedOptionList;
     }
+
+    /// @param _optionType option type
+    /// @param _expirySecondsFromNow maximum expiration date in seconds from now
+    /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
+    /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
+    /// @param _sizeWEI option size in WEI
+    function getETHOptionListFromRangeValuesHegicV888(
+        DataTypes.OptionType _optionType,
+        uint256 _expirySecondsFromNow,
+        uint256 _minStrikeUSD,
+        uint256 _maxStrikeUSD,
+        uint256 _sizeWEI
+    ) internal view returns (DataTypes.Option[] memory) {
+        DataTypes.Option[] memory optionStandardList = _constructOptionStandardList();
+        DataTypes.Option[] memory matchedOptionList = _getMatchedOptionList(_optionType, _expirySecondsFromNow, _minStrikeUSD, _maxStrikeUSD, _sizeWEI, optionStandardList);
+
+        for(uint256 i = 0; i < matchedOptionList.length; i++) {
+            uint256 expirySecondsFromNow = matchedOptionList[i].expiryTimestamp.sub(block.timestamp);
+
+            (uint256 minimumPremiumToPayWEI, , , ) =
+                ETHOptionHegicV888.fees(
+                    expirySecondsFromNow,
+                    _sizeWEI,
+                    matchedOptionList[i].strikeUSD,
+                    uint8(_optionType)
+                );
+
+            matchedOptionList[i] = DataTypes.Option(
+                DataTypes.Protocol.HegicV888,
+                DataTypes.UnderlyingAsset.ETH,
+                _optionType,
+                matchedOptionList[i].expiryTimestamp,
+                matchedOptionList[i].strikeUSD,
+                _sizeWEI,
+                minimumPremiumToPayWEI
+            );            
+        }
+
+        return matchedOptionList;
     }
 }
 
