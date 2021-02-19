@@ -15,12 +15,17 @@ contract DeriOneV1HegicV888 is Ownable {
     IETHOptionHegicV888 private ETHOptionHegicV888;
     IETHPoolHegicV888 private ETHPoolHegicV888;
 
+    uint256[] public expiriesStandard = [1 days, 1 weeks, 2 weeks, 3 weeks, 4 weeks];
+    uint256[] public strikesStandard;
+
     constructor(
         address _hegicETHOptionV888Address,
-        address _hegicV888ETHPoolAddress
+        address _hegicV888ETHPoolAddress,
+        uint256 _strikesRange
     ) public {
         instantiateETHOptionHegicV888(_hegicETHOptionV888Address);
         instantiateETHPoolHegicV888(_hegicV888ETHPoolAddress);
+        updateStrikesStandard(_strikesRange);
     }
 
     /// @param _hegicETHOptionV888Address HegicETHOptionV888Address
@@ -37,6 +42,15 @@ contract DeriOneV1HegicV888 is Ownable {
         onlyOwner
     {
         ETHPoolHegicV888 = IETHPoolHegicV888(_hegicV888ETHPoolAddress);
+    }
+
+    function updateStrikesStandard(uint256 _strikesRange)
+        public
+        onlyOwner
+    {
+        for (uint256 i = 0; i < _strikesRange; i++) {
+            strikesStandard[i] = i.mul(25);
+        }
     }
 
     /// @param _sizeWEI the size of an option to buy in WEI
