@@ -176,7 +176,6 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _sizeWEI
     ) internal view returns(uint256) {
         DataTypes.Option[] memory ETHCallOptionList = _getETHOptionList(_optionType, _sizeWEI);
-        // _sizeWEI
 
         uint256 matchedCount;
 
@@ -192,6 +191,7 @@ contract DeriOneV1CharmV02 is Ownable {
 
         return matchedCount;
     }
+
     function getETHOptionFromExactValuesCharmV02(
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
@@ -230,7 +230,6 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _sizeWEI
     ) internal view returns(uint256) {
         DataTypes.Option[] memory ETHCallOptionList = _getETHOptionList(_optionType, _sizeWEI);
-        // _sizeWEI
 
         uint256 matchedCount;
 
@@ -256,7 +255,6 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _sizeWEI
     ) internal view returns (DataTypes.Option[] memory) {
         DataTypes.Option[] memory ETHCallOptionList = _getETHOptionList(_optionType, _sizeWEI);
-        // _sizeWEI
 
         uint256 matchedCount = getMatchedCountFromRangeValues(_optionType, _expiryTimestamp, _minStrikeUSD, _maxStrikeUSD, _sizeWEI);
 

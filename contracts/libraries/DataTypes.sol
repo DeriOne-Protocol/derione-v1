@@ -12,7 +12,7 @@ library DataTypes {
         DataTypes.UnderlyingAsset underlyingAsset;
         DataTypes.OptionType optionType;
         uint256 expiryTimestamp;
-        uint256 strikeUSD;
+        uint256 strikeUSD; // 8 decimals
         uint256 sizeWEI;
         uint256 premiumWEI;
     }

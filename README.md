@@ -18,7 +18,7 @@ As I list up below, there are more than ten options protocols as of today(Jan 21
 - [Premia](https://www.premia.finance/)
 - [PowerTrade](https://power.trade/)
 
-On top of these protocols, we could aggregate options from the secondary market as well.
+On top of these protocols, we could aggregate options from the secondary market like H2M as well.
 
 # What This Contract Does
 
