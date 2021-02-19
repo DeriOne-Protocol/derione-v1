@@ -18,11 +18,12 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     constructor(
         address _charmV02OptionFactoryAddress,
         address _hegicETHOptionV888Address,
-        address _hegicV888ETHPoolAddress
+        address _hegicV888ETHPoolAddress,
+        uint256 _strikesRange
     )
         public
         DeriOneV1CharmV02(_charmV02OptionFactoryAddress)
-        DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicV888ETHPoolAddress)
+        DeriOneV1HegicV888(_hegicETHOptionV888Address, _hegicV888ETHPoolAddress, _strikesRange)
     {}
 
 
