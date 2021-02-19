@@ -116,6 +116,32 @@ contract DeriOneV1HegicV888 is Ownable {
             );
         return ETHOption;
     }
+
+    function _constructOptionStandardList() private view returns (DataTypes.Option[] memory) {
+        DataTypes.Option[] memory optionStandardList = new DataTypes.Option[](expiriesStandard.length.mul(strikesStandard.length));
+        
+        for(uint256 expiryCount = 0; expiryCount < expiriesStandard.length + 1; expiryCount++) {
+            for(uint256 strikeCount = 0; strikeCount < strikesStandard.length + 1; strikeCount++) {
+                uint256 optionCounter;
+                if (expiryCount == 0) {
+                    optionCounter = strikeCount;
+                } else if (expiryCount > 0) {
+                    optionCounter = (expiryCount * strikeCount) + strikeCount;
+                }
+
+                optionStandardList[optionCounter] = DataTypes.Option(
+                    DataTypes.Protocol.HegicV888,
+                    DataTypes.UnderlyingAsset.ETH,
+                    DataTypes.OptionType.Invalid,
+                    expiriesStandard[expiryCount],
+                    strikesStandard[strikeCount],
+                    0,
+                    0
+                );
+            }
+        }        
+        return optionStandardList;
+    }
     }
 }
 
