@@ -94,4 +94,60 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
 
         return ETHOptionList;
     }
+
+    /// @param _optionType option type
+    /// @param _expiryTimestamp maximum expiration date in seconds from now
+    /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
+    /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
+    /// @param _sizeWEI option size in WEI
+    /// @dev expiration range is from now to expiry
+    function getETHOptionListFromRangeValues(
+        DataTypes.OptionType _optionType,
+        uint256 _expiryTimestamp,
+        uint256 _minStrikeUSD,
+        uint256 _maxStrikeUSD,
+        uint256 _sizeWEI
+    ) public view returns (DataTypes.Option[] memory) {
+        uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
+        DataTypes.Option[] memory ETHHegicV888OptionList =
+            getETHOptionListFromRangeValuesHegicV888(
+                _optionType,
+                expirySecondsFromNow,
+                _minStrikeUSD,
+                _maxStrikeUSD,
+                _sizeWEI
+            );
+        require(
+            hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
+            "your size is too big for liquidity in the Hegic V888"
+        );
+
+        DataTypes.Option[] memory ETHCharmV02OptionList =
+            getETHOptionListFromRangeValuesCharmV02(
+                _optionType,
+                _expiryTimestamp,
+                _minStrikeUSD,
+                _maxStrikeUSD,
+                _sizeWEI
+            );
+
+        DataTypes.Option[] memory ETHOptionList =
+            new DataTypes.Option[](
+                ETHHegicV888OptionList.length + ETHCharmV02OptionList.length
+            );
+
+        for (uint256 i = 0; i < ETHHegicV888OptionList.length; i++) {
+            ETHOptionList[i] = ETHHegicV888OptionList[i];
+        }
+        for (
+            uint256 i = ETHHegicV888OptionList.length;
+            i < ETHOptionList.length;
+            i++
+        ) {
+            ETHOptionList[i] = ETHCharmV02OptionList[
+                i - ETHHegicV888OptionList.length
+            ];
+        }
+        return ETHOptionList;
+    }
 }
