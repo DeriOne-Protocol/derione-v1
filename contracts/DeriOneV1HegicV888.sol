@@ -189,6 +189,7 @@ contract DeriOneV1HegicV888 is Ownable {
         DataTypes.Option[] memory matchedOptionList =
             new DataTypes.Option[](matchedOptionCount);
 
+        uint256 matchedCount = 0;
         for (uint256 i = 0; i < _optionStandardList.length; i++) {
             if (
                 block.timestamp < _optionStandardList[i].expiryTimestamp &&
@@ -196,7 +197,6 @@ contract DeriOneV1HegicV888 is Ownable {
                 _minStrikeUSD < _optionStandardList[i].strikeUSD &&
                 _optionStandardList[i].strikeUSD < _maxStrikeUSD
             ) {
-                uint256 matchedCount = 0;
                 matchedOptionList[matchedCount] = DataTypes.Option(
                     DataTypes.Protocol.HegicV888,
                     DataTypes.UnderlyingAsset.ETH,
@@ -206,7 +206,7 @@ contract DeriOneV1HegicV888 is Ownable {
                     _sizeWEI,
                     0
                 );
-                matchedCount.add(1);
+                matchedCount = matchedCount.add(1);
             }
         }
         return matchedOptionList;
