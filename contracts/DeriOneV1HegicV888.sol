@@ -133,19 +133,21 @@ contract DeriOneV1HegicV888 is Ownable {
 
         for (
             uint256 expiryCount = 0;
-            expiryCount < expiriesStandard.length + 1;
+            expiryCount < expiriesStandard.length;
             expiryCount++
         ) {
             for (
                 uint256 strikeCount = 0;
-                strikeCount < strikesStandard.length + 1;
+                strikeCount < strikesStandard.length;
                 strikeCount++
             ) {
                 uint256 optionCounter;
                 if (expiryCount == 0) {
                     optionCounter = strikeCount;
                 } else if (expiryCount > 0) {
-                    optionCounter = (expiryCount * strikeCount) + strikeCount;
+                    optionCounter =
+                        strikeCount +
+                        expiryCount.mul(strikesStandard.length);
                 }
 
                 optionStandardList[optionCounter] = DataTypes.Option(
