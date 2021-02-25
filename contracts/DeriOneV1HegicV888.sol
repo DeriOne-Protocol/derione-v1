@@ -15,7 +15,7 @@ contract DeriOneV1HegicV888 is Ownable {
     IETHOptionHegicV888 private ETHOptionHegicV888;
     IETHPoolHegicV888 private ETHPoolHegicV888;
 
-    uint256[] public expiriesStandard = [
+    uint256[] public expiriesSecondsFromNowStandard = [
         1 days,
         1 weeks,
         2 weeks,
@@ -128,12 +128,12 @@ contract DeriOneV1HegicV888 is Ownable {
     {
         DataTypes.Option[] memory optionStandardList =
             new DataTypes.Option[](
-                expiriesStandard.length.mul(strikesStandard.length)
+                expiriesSecondsFromNowStandard.length.mul(strikesStandard.length)
             );
 
         for (
             uint256 expiryCount = 0;
-            expiryCount < expiriesStandard.length;
+            expiryCount < expiriesSecondsFromNowStandard.length;
             expiryCount++
         ) {
             for (
