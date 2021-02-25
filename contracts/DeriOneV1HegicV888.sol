@@ -51,6 +51,7 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     function updateStrikesStandard(uint256 _strikesRange) public onlyOwner {
+        delete strikesStandard;
         for (uint256 i = 0; i < _strikesRange; i++) {
             strikesStandard[i] = i.mul(25);
         }
