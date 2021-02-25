@@ -178,16 +178,16 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _strikeUSD,
         uint256 _sizeWEI
     ) internal view returns (uint256) {
-        DataTypes.Option[] memory ETHCallOptionList =
+        DataTypes.Option[] memory ETHOptionList =
             _getETHOptionList(_optionType, _sizeWEI);
 
         uint256 matchedCount;
 
-        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+        for (uint256 i = 0; i < ETHOptionList.length; i++) {
             if (
-                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
-                _strikeUSD == ETHCallOptionList[i].strikeUSD
+                block.timestamp < ETHOptionList[i].expiryTimestamp &&
+                ETHOptionList[i].expiryTimestamp < _expiryTimestamp &&
+                _strikeUSD == ETHOptionList[i].strikeUSD
             ) {
                 matchedCount = matchedCount.add(1);
             }
@@ -266,7 +266,7 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _maxStrikeUSD,
         uint256 _sizeWEI
     ) internal view returns (DataTypes.Option[] memory) {
-        DataTypes.Option[] memory ETHCallOptionList =
+        DataTypes.Option[] memory ETHOptionList =
             _getETHOptionList(_optionType, _sizeWEI);
 
         uint256 matchedCount =
@@ -278,22 +278,22 @@ contract DeriOneV1CharmV02 is Ownable {
                 _sizeWEI
             );
 
-        DataTypes.Option[] memory matchedETHCallOptionList =
+        DataTypes.Option[] memory matchedETHOptionList =
             new DataTypes.Option[](matchedCount);
 
-        for (uint256 i = 0; i < ETHCallOptionList.length; i++) {
+        for (uint256 i = 0; i < ETHOptionList.length; i++) {
             if (
-                block.timestamp < ETHCallOptionList[i].expiryTimestamp &&
-                ETHCallOptionList[i].expiryTimestamp < _expiryTimestamp &&
-                _minStrikeUSD < ETHCallOptionList[i].strikeUSD &&
-                ETHCallOptionList[i].strikeUSD < _maxStrikeUSD
+                block.timestamp < ETHOptionList[i].expiryTimestamp &&
+                ETHOptionList[i].expiryTimestamp < _expiryTimestamp &&
+                _minStrikeUSD < ETHOptionList[i].strikeUSD &&
+                ETHOptionList[i].strikeUSD < _maxStrikeUSD
             ) {
                 for (uint256 count = 0; count < matchedCount; count++) {
-                    matchedETHCallOptionList[count] = ETHCallOptionList[i];
+                    matchedETHOptionList[count] = ETHOptionList[i];
                 }
             }
         }
 
-        return matchedETHCallOptionList;
+        return matchedETHOptionList;
     }
 }
