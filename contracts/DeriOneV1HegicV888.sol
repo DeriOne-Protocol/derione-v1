@@ -154,7 +154,7 @@ contract DeriOneV1HegicV888 is Ownable {
                     DataTypes.Protocol.HegicV888,
                     DataTypes.UnderlyingAsset.ETH,
                     DataTypes.OptionType.Invalid,
-                    expiriesStandard[expiryCount],
+                    expiriesSecondsFromNowStandard[expiryCount].add(block.timestamp),
                     strikesStandard[strikeCount],
                     0,
                     0
