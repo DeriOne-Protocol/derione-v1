@@ -70,7 +70,7 @@ interface IETHPoolHegicV888 {
 
     function shareOf(address account) external view returns (uint256 share);
 
-    function symbol() external view returns (string mmeory);
+    function symbol() external view returns (string memory);
 
     function totalBalance() external view returns (uint256 balance);
 

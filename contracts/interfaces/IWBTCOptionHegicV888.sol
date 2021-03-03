@@ -76,7 +76,7 @@ interface IWBTCOptionHegicV888 {
 
     function unlock(uint256 optionID) external;
 
-    function unlockAll(uint256[] optionIDs) external;
+    function unlockAll(uint256[] calldata optionIDs) external;
 
     function wbtc() external view returns (address);
 }

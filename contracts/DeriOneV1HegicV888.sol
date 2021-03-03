@@ -15,7 +15,9 @@ contract DeriOneV1HegicV888 is Ownable {
     using SafeMath for uint256;
 
     IETHOptionHegicV888 private ETHOptionHegicV888;
+    IWBTCOptionHegicV888 private WBTCOptionHegicV888;
     IETHPoolHegicV888 private ETHPoolHegicV888;
+    IWBTCPoolHegicV888 private WBTCPoolHegicV888;
 
     uint256[] public expiriesSecondsFromNowStandard = [
         1 days,
