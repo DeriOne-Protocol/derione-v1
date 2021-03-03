@@ -17,6 +17,8 @@ interface IETHPoolHegicV888 {
 
     function approve(address spender, uint256 amount) external returns (bool);
 
+    function availableBalance() external view returns (uint256 balance);
+
     function balanceOf(address account) external view returns (uint256);
 
     function decimals() external view returns (uint8);
@@ -30,6 +32,8 @@ interface IETHPoolHegicV888 {
         returns (bool);
 
     function lastProvideTimestamp(address) external view returns (uint256);
+
+    function lock(uint256 id, uint256 amount) external;
 
     function lockedAmount() external view returns (uint256);
 
@@ -50,9 +54,25 @@ interface IETHPoolHegicV888 {
 
     function owner() external view returns (address);
 
+    function provide(uint256 minMint) external returns (uint256 mint);
+
     function renounceOwnership() external;
 
-    function symbol() external view returns (string memory);
+    function revertTransfersInLockUpPeriod(bool value) external;
+
+    function send(
+        uint256 id,
+        address to,
+        uint256 amount
+    ) external;
+
+    function setLockupPeriod(uint256 value) external;
+
+    function shareOf(address account) external view returns (uint256 share);
+
+    function symbol() external view returns (string mmeory);
+
+    function totalBalance() external view returns (uint256 balance);
 
     function totalSupply() external view returns (uint256);
 
@@ -68,29 +88,9 @@ interface IETHPoolHegicV888 {
 
     function transferOwnership(address newOwner) external;
 
-    function setLockupPeriod(uint256 value) external;
-
-    function revertTransfersInLockUpPeriod(bool value) external;
-
-    function provide(uint256 minMint) external returns (uint256 mint);
+    function unlock(uint256 id) external;
 
     function withdraw(uint256 amount, uint256 maxBurn)
         external
         returns (uint256 burn);
-
-    function lock(uint256 id, uint256 amount) external;
-
-    function unlock(uint256 id) external;
-
-    function send(
-        uint256 id,
-        address to,
-        uint256 amount
-    ) external;
-
-    function shareOf(address account) external view returns (uint256 share);
-
-    function availableBalance() external view returns (uint256 balance);
-
-    function totalBalance() external view returns (uint256 balance);
 }
