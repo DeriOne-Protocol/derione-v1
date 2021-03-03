@@ -35,18 +35,18 @@ contract DeriOneV1HegicV888 is Ownable {
         address _WBTCPoolAddressHegicV888,
         uint256 _strikesRange
     ) public {
-        instantiateOptionContract(
+        instantiateOptionContracts(
             _ETHOptionAddressHegicV888,
             _WBTCOptionAddressHegicV888
         );
-        instantiatePoolContract(
+        instantiatePoolContracts(
             _ETHPoolAddressHegicV888,
             _WBTCPoolAddressHegicV888
         );
         updateStrikesStandard(_strikesRange);
     }
 
-    function instantiateOptionContract(
+    function instantiateOptionContracts(
         address _ETHOptionAddressHegicV888,
         address _WBTCOptionAddressHegicV888
     ) public onlyOwner {
@@ -54,7 +54,7 @@ contract DeriOneV1HegicV888 is Ownable {
         WBTCOptionHegicV888 = IWBTCOptionHegicV888(_WBTCOptionAddressHegicV888);
     }
 
-    function instantiatePoolContract(
+    function instantiatePoolContracts(
         address _ETHPoolAddressHegicV888,
         address _WBTCPoolAddressHegicV888
     ) public onlyOwner {
