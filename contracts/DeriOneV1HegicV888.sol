@@ -6,7 +6,9 @@ pragma solidity ^0.6.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./interfaces/IETHOptionHegicV888.sol";
+import "./interfaces/IWBTCOptionHegicV888.sol";
 import "./interfaces/IETHPoolHegicV888.sol";
+import "./interfaces/IWBTCPoolHegicV888.sol";
 import "./libraries/DataTypes.sol";
 
 contract DeriOneV1HegicV888 is Ownable {
@@ -26,28 +28,30 @@ contract DeriOneV1HegicV888 is Ownable {
 
     constructor(
         address _hegicETHOptionV888Address,
+        address _hegicWBTCOptionV888Address,
         address _hegicV888ETHPoolAddress,
+        address _hegicV888WBTCPoolAddress,
         uint256 _strikesRange
     ) public {
-        instantiateETHOptionHegicV888(_hegicETHOptionV888Address);
-        instantiateETHPoolHegicV888(_hegicV888ETHPoolAddress);
+        instantiateOptionContract(_hegicETHOptionV888Address, _hegicWBTCOptionV888Address);
+        instantiatePoolContract(_hegicV888ETHPoolAddress, _hegicV888WBTCPoolAddress);
         updateStrikesStandard(_strikesRange);
     }
 
-    /// @param _hegicETHOptionV888Address HegicETHOptionV888Address
-    function instantiateETHOptionHegicV888(address _hegicETHOptionV888Address)
+    function instantiateOptionContract(address _hegicETHOptionV888Address, address _hegicWBTCOptionV888Address)
         public
         onlyOwner
     {
         ETHOptionHegicV888 = IETHOptionHegicV888(_hegicETHOptionV888Address);
+        WBTCOptionHegicV888 = IWBTCOptionHegicV888(_hegicWBTCOptionV888Address);
     }
 
-    /// @param _hegicV888ETHPoolAddress HegicETHPoolV888Address
-    function instantiateETHPoolHegicV888(address _hegicV888ETHPoolAddress)
+    function instantiatePoolContract(address _hegicV888ETHPoolAddress, address _hegicV888WBTCPoolAddress)
         public
         onlyOwner
     {
         ETHPoolHegicV888 = IETHPoolHegicV888(_hegicV888ETHPoolAddress);
+        WBTCPoolHegicV888 = IWBTCPoolHegicV888(_hegicV888WBTCPoolAddress);
     }
 
     function updateStrikesStandard(uint256 _strikesRange) public onlyOwner {
