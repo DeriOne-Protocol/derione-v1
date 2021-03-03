@@ -293,13 +293,28 @@ describe("DeriOneV1 contract", function () {
       });
     });
 
-    describe("hasEnoughETHLiquidityHegicV888", function () {
-      it("should check liquidity in Hegic V888", async function () {
-        const hasEnoughLiquidity = await deriOneV1Main.hasEnoughETHLiquidityHegicV888(
+    describe("hasEnoughLiquidityHegicV888", function () {
+      it("should check ETH liquidity in Hegic V888", async function () {
+        const hasEnoughETHLiquidity = await deriOneV1Main.hasEnoughLiquidityHegicV888(
+          0,
           "5000000000000000000"
         );
 
-        console.log(" hasEnoughLiquidity ==>", hasEnoughLiquidity);
+        console.log("hasEnoughETHLiquidity ==>", hasEnoughETHLiquidity);
+
+        chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+          .properAddress;
+      });
+    });
+
+    describe("hasEnoughLiquidityHegicV888", function () {
+      it("should check WBTC liquidity in Hegic V888", async function () {
+        const hasEnoughWBTCLiquidity = await deriOneV1Main.hasEnoughLiquidityHegicV888(
+          1,
+          "500000000"
+        );
+
+        console.log("hasEnoughWBTCLiquidity ==>", hasEnoughWBTCLiquidity);
 
         chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
           .properAddress;

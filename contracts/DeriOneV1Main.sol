@@ -60,7 +60,10 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
                 _sizeWEI
             );
         require(
-            hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
+            hasEnoughLiquidityHegicV888(
+                DataTypes.UnderlyingAsset.ETH,
+                _sizeWEI
+            ) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
 
@@ -122,7 +125,10 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
                 _sizeWEI
             );
         require(
-            hasEnoughETHLiquidityHegicV888(_sizeWEI) == true,
+            hasEnoughLiquidityHegicV888(
+                DataTypes.UnderlyingAsset.ETH,
+                _sizeWEI
+            ) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
 
