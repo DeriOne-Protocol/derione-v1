@@ -27,31 +27,31 @@ contract DeriOneV1HegicV888 is Ownable {
     uint256[] public strikesStandard;
 
     constructor(
-        address _hegicETHOptionV888Address,
-        address _hegicWBTCOptionV888Address,
-        address _hegicV888ETHPoolAddress,
-        address _hegicV888WBTCPoolAddress,
+        address _ETHOptionAddressHegicV888,
+        address _WBTCOptionAddressHegicV888,
+        address _ETHPoolAddressHegicV888,
+        address _WBTCPoolAddressHegicV888,
         uint256 _strikesRange
     ) public {
-        instantiateOptionContract(_hegicETHOptionV888Address, _hegicWBTCOptionV888Address);
-        instantiatePoolContract(_hegicV888ETHPoolAddress, _hegicV888WBTCPoolAddress);
+        instantiateOptionContract(_ETHOptionAddressHegicV888, _WBTCOptionAddressHegicV888);
+        instantiatePoolContract(_ETHPoolAddressHegicV888, _WBTCPoolAddressHegicV888);
         updateStrikesStandard(_strikesRange);
     }
 
-    function instantiateOptionContract(address _hegicETHOptionV888Address, address _hegicWBTCOptionV888Address)
+    function instantiateOptionContract(address _ETHOptionAddressHegicV888, address _WBTCOptionAddressHegicV888)
         public
         onlyOwner
     {
-        ETHOptionHegicV888 = IETHOptionHegicV888(_hegicETHOptionV888Address);
-        WBTCOptionHegicV888 = IWBTCOptionHegicV888(_hegicWBTCOptionV888Address);
+        ETHOptionHegicV888 = IETHOptionHegicV888(_ETHOptionAddressHegicV888);
+        WBTCOptionHegicV888 = IWBTCOptionHegicV888(_WBTCOptionAddressHegicV888);
     }
 
-    function instantiatePoolContract(address _hegicV888ETHPoolAddress, address _hegicV888WBTCPoolAddress)
+    function instantiatePoolContract(address _ETHPoolAddressHegicV888, address _WBTCPoolAddressHegicV888)
         public
         onlyOwner
     {
-        ETHPoolHegicV888 = IETHPoolHegicV888(_hegicV888ETHPoolAddress);
-        WBTCPoolHegicV888 = IWBTCPoolHegicV888(_hegicV888WBTCPoolAddress);
+        ETHPoolHegicV888 = IETHPoolHegicV888(_ETHPoolAddressHegicV888);
+        WBTCPoolHegicV888 = IWBTCPoolHegicV888(_WBTCPoolAddressHegicV888);
     }
 
     function updateStrikesStandard(uint256 _strikesRange) public onlyOwner {
