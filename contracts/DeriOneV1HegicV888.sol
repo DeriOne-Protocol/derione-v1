@@ -33,23 +33,29 @@ contract DeriOneV1HegicV888 is Ownable {
         address _WBTCPoolAddressHegicV888,
         uint256 _strikesRange
     ) public {
-        instantiateOptionContract(_ETHOptionAddressHegicV888, _WBTCOptionAddressHegicV888);
-        instantiatePoolContract(_ETHPoolAddressHegicV888, _WBTCPoolAddressHegicV888);
+        instantiateOptionContract(
+            _ETHOptionAddressHegicV888,
+            _WBTCOptionAddressHegicV888
+        );
+        instantiatePoolContract(
+            _ETHPoolAddressHegicV888,
+            _WBTCPoolAddressHegicV888
+        );
         updateStrikesStandard(_strikesRange);
     }
 
-    function instantiateOptionContract(address _ETHOptionAddressHegicV888, address _WBTCOptionAddressHegicV888)
-        public
-        onlyOwner
-    {
+    function instantiateOptionContract(
+        address _ETHOptionAddressHegicV888,
+        address _WBTCOptionAddressHegicV888
+    ) public onlyOwner {
         ETHOptionHegicV888 = IETHOptionHegicV888(_ETHOptionAddressHegicV888);
         WBTCOptionHegicV888 = IWBTCOptionHegicV888(_WBTCOptionAddressHegicV888);
     }
 
-    function instantiatePoolContract(address _ETHPoolAddressHegicV888, address _WBTCPoolAddressHegicV888)
-        public
-        onlyOwner
-    {
+    function instantiatePoolContract(
+        address _ETHPoolAddressHegicV888,
+        address _WBTCPoolAddressHegicV888
+    ) public onlyOwner {
         ETHPoolHegicV888 = IETHPoolHegicV888(_ETHPoolAddressHegicV888);
         WBTCPoolHegicV888 = IWBTCPoolHegicV888(_WBTCPoolAddressHegicV888);
     }
@@ -132,7 +138,9 @@ contract DeriOneV1HegicV888 is Ownable {
     {
         DataTypes.Option[] memory optionStandardList =
             new DataTypes.Option[](
-                expiriesSecondsFromNowStandard.length.mul(strikesStandard.length)
+                expiriesSecondsFromNowStandard.length.mul(
+                    strikesStandard.length
+                )
             );
 
         for (
@@ -158,7 +166,9 @@ contract DeriOneV1HegicV888 is Ownable {
                     DataTypes.Protocol.HegicV888,
                     DataTypes.UnderlyingAsset.ETH,
                     DataTypes.OptionType.Invalid,
-                    expiriesSecondsFromNowStandard[expiryCount].add(block.timestamp),
+                    expiriesSecondsFromNowStandard[expiryCount].add(
+                        block.timestamp
+                    ),
                     strikesStandard[strikeCount],
                     0,
                     0
