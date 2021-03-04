@@ -183,11 +183,9 @@ contract DeriOneV1HegicV888 is Ownable {
         }
     }
 
-    function _constructOptionStandardList()
-        private
-        view
-        returns (DataTypes.Option[] memory)
-    {
+    function _constructOptionStandardList(
+        DataTypes.UnderlyingAsset _underlyingAsset
+    ) private view returns (DataTypes.Option[] memory) {
         DataTypes.Option[] memory optionStandardList =
             new DataTypes.Option[](
                 expiriesSecondsFromNowStandard.length.mul(
@@ -214,17 +212,31 @@ contract DeriOneV1HegicV888 is Ownable {
                         expiryCount.mul(strikesStandard.length);
                 }
 
-                optionStandardList[optionCounter] = DataTypes.Option(
-                    DataTypes.Protocol.HegicV888,
-                    DataTypes.UnderlyingAsset.ETH,
-                    DataTypes.OptionType.Invalid,
-                    expiriesSecondsFromNowStandard[expiryCount].add(
-                        block.timestamp
-                    ),
-                    strikesStandard[strikeCount],
-                    0,
-                    0
-                );
+                if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+                    optionStandardList[optionCounter] = DataTypes.Option(
+                        DataTypes.Protocol.HegicV888,
+                        DataTypes.UnderlyingAsset.ETH,
+                        DataTypes.OptionType.Invalid,
+                        expiriesSecondsFromNowStandard[expiryCount].add(
+                            block.timestamp
+                        ),
+                        strikesStandard[strikeCount],
+                        0,
+                        0
+                    );
+                } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+                    optionStandardList[optionCounter] = DataTypes.Option(
+                        DataTypes.Protocol.HegicV888,
+                        DataTypes.UnderlyingAsset.WBTC,
+                        DataTypes.OptionType.Invalid,
+                        expiriesSecondsFromNowStandard[expiryCount].add(
+                            block.timestamp
+                        ),
+                        strikesStandard[strikeCount],
+                        0,
+                        0
+                    );
+                }
             }
         }
         return optionStandardList;
@@ -278,12 +290,14 @@ contract DeriOneV1HegicV888 is Ownable {
         return matchedOptionList;
     }
 
+    /// @param _underlyingAsset underlying asset
     /// @param _optionType option type
     /// @param _expirySecondsFromNow maximum expiration date in seconds from now
     /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
     /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
     /// @param _sizeWEI option size in WEI
     function getETHOptionListFromRangeValuesHegicV888(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _minStrikeUSD,
@@ -291,7 +305,7 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _sizeWEI
     ) internal view returns (DataTypes.Option[] memory) {
         DataTypes.Option[] memory optionStandardList =
-            _constructOptionStandardList();
+            _constructOptionStandardList(_underlyingAsset);
         DataTypes.Option[] memory matchedOptionList =
             _getMatchedOptionList(
                 _optionType,

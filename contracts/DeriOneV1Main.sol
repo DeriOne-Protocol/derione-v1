@@ -103,6 +103,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         return ETHOptionList;
     }
 
+    /// @param _underlyingAsset underlying asset
     /// @param _optionType option type
     /// @param _expiryTimestamp maximum expiration date in seconds from now
     /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
@@ -110,6 +111,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _sizeWEI option size in WEI
     /// @dev expiration range is from now to expiry
     function getETHOptionListFromRangeValues(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,
@@ -119,6 +121,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
         DataTypes.Option[] memory ETHHegicV888OptionList =
             getETHOptionListFromRangeValuesHegicV888(
+                _underlyingAsset,
                 _optionType,
                 expirySecondsFromNow,
                 _minStrikeUSD,
