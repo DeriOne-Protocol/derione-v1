@@ -13,7 +13,7 @@ library DataTypes {
         DataTypes.OptionType optionType;
         uint256 expiryTimestamp;
         uint256 strikeUSD; // 8 decimals
-        uint256 sizeWEI;
-        uint256 premiumWEI;
+        uint256 size; // WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
+        uint256 premium; // WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     }
 }
