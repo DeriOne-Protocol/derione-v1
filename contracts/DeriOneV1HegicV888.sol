@@ -76,6 +76,7 @@ contract DeriOneV1HegicV888 is Ownable {
         uint256 _size
     ) internal view returns (bool) {
         if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+            uint256 sizeWEI = _size;
             // `(Total ETH in contract) * 0.8 - the amount utilized for options`
             // we might or might not need the *0.8 part
             uint256 availableBalance =
@@ -89,36 +90,38 @@ contract DeriOneV1HegicV888 is Ownable {
                 availableBalance > amountUtilized,
                 "there is not enough available balance"
             );
-            uint256 maxSize = availableBalance.sub(amountUtilized);
+            uint256 maxSizeWEI = availableBalance.sub(amountUtilized);
 
             // what happens when the value of a uint256 is negative?
             // is this equation right?
-            if (maxSize > _size) {
+            if (maxSizeWEI > sizeWEI) {
                 return true;
-            } else if (maxSize <= _size) {
+            } else if (maxSizeWEI <= sizeWEI) {
                 return false;
             }
-        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {}
-        // `(Total WBTC in contract) * 0.8 - the amount utilized for options`
-        // we might or might not need the *0.8 part
-        uint256 availableBalance =
-            WBTCPoolHegicV888.totalBalance().mul(8).div(10);
-        uint256 amountUtilized =
-            WBTCPoolHegicV888.totalBalance().sub(
-                WBTCPoolHegicV888.availableBalance()
-            );
+        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+            uint256 sizeWBTC = _size; // 8 decimals
+            // `(Total WBTC in contract) * 0.8 - the amount utilized for options`
+            // we might or might not need the *0.8 part
+            uint256 availableBalance =
+                WBTCPoolHegicV888.totalBalance().mul(8).div(10);
+            uint256 amountUtilized =
+                WBTCPoolHegicV888.totalBalance().sub(
+                    WBTCPoolHegicV888.availableBalance()
+                );
 
-        require(
-            availableBalance > amountUtilized,
-            "there is not enough available balance"
-        );
-        uint256 maxSize = availableBalance.sub(amountUtilized);
-        // what happens when the value of a uint256 is negative?
-        // is this equation right?
-        if (maxSize > _size) {
-            return true;
-        } else if (maxSize <= _size) {
-            return false;
+            require(
+                availableBalance > amountUtilized,
+                "there is not enough available balance"
+            );
+            uint256 maxSizeWBTC = availableBalance.sub(amountUtilized);
+            // what happens when the value of a uint256 is negative?
+            // is this equation right?
+            if (maxSizeWBTC > sizeWBTC) {
+                return true;
+            } else if (maxSizeWBTC <= sizeWBTC) {
+                return false;
+            }
         }
     }
 
