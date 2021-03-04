@@ -306,7 +306,7 @@ contract DeriOneV1HegicV888 is Ownable {
             uint256 expirySecondsFromNow =
                 matchedOptionList[i].expiryTimestamp.sub(block.timestamp);
 
-            (uint256 minimumPremiumToPayWEI, , , ) =
+            (uint256 minimumPremiumWEI, , , ) =
                 ETHOptionHegicV888.fees(
                     expirySecondsFromNow,
                     _sizeWEI,
@@ -321,7 +321,7 @@ contract DeriOneV1HegicV888 is Ownable {
                 matchedOptionList[i].expiryTimestamp,
                 matchedOptionList[i].strikeUSD,
                 _sizeWEI,
-                minimumPremiumToPayWEI
+                minimumPremiumWEI
             );
         }
 
