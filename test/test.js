@@ -57,13 +57,16 @@ describe("DeriOneV1 contract", function () {
     });
   });
 
-  describe("DeriOneV1Main contract", function () {
+  describe("DeriOneV1Main contract", async function () {
+    const block = await provider.getBlock();
+    const timestamp = block.timestamp;
+
     // CALLS
     describe("getBestETHOptionFromExactValues", function () {
       it("should get the best ETH option from exact values", async function () {
         const ETHOptionList = await deriOneV1Main.getBestETHOptionFromExactValues(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           90000000000, // USD price decimals are 8 in hegic
           "5000000000000000000"
         );
@@ -81,7 +84,7 @@ describe("DeriOneV1 contract", function () {
       it("should get the best ETH option from range values", async function () {
         const ETHOptionList = await deriOneV1Main.getBestETHOptionFromRangeValues(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           70000000000, // USD price decimals are 8 in hegic
           140000000000, // USD price decimals are 8 in hegic
           "5000000000000000000"
@@ -100,7 +103,7 @@ describe("DeriOneV1 contract", function () {
       it("should get ETH options list from exact values", async function () {
         const ETHOptionList = await deriOneV1Main.getETHOptionListFromExactValues(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           90000000000, // USD price decimals are 8 in hegic
           "5000000000000000000"
         );
@@ -118,7 +121,7 @@ describe("DeriOneV1 contract", function () {
       it("should get ETH options list from range values", async function () {
         const ETHOptionList = await deriOneV1Main.getETHOptionListFromRangeValues(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           70000000000, // USD price decimals are 8 in hegic
           140000000000, // USD price decimals are 8 in hegic
           "5000000000000000000"
@@ -215,7 +218,7 @@ describe("DeriOneV1 contract", function () {
       it("should get matched count from exact values in charm", async function () {
         const matchedCount = await deriOneV1Main.getMatchedCountFromExactValues(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           "1000000000000000000000",
           "5000000000000000000"
         );
@@ -231,7 +234,7 @@ describe("DeriOneV1 contract", function () {
       it("should get the matched ETH option in charm", async function () {
         const matchedETHOption = await deriOneV1Main.getETHOptionFromExactValuesCharmV02(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           "1000000000000000000000",
           "5000000000000000000"
         );
@@ -247,7 +250,7 @@ describe("DeriOneV1 contract", function () {
       it("should get matched count from range values in charm", async function () {
         const matchedCount = await deriOneV1Main.getMatchedCountFromRangeValues(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           "800000000000000000000", // what are decimals here?
           "1200000000000000000000",
           "5000000000000000000"
@@ -264,7 +267,7 @@ describe("DeriOneV1 contract", function () {
       it("should get ETH Call matched option list in charm", async function () {
         const charmV02MatchedETHCallOptionList = await deriOneV1Main.getETHOptionListFromRangeValuesCharmV02(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           "800000000000000000000", // what are decimals here?
           "1200000000000000000000",
           "5000000000000000000"
@@ -353,7 +356,7 @@ describe("DeriOneV1 contract", function () {
         const optionStandardList = await deriOneV1Main._constructOptionStandardList();
         const matchedOptionList = await deriOneV1Main._getMatchedOptionList(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           80000000000,
           120000000000,
           "5000000000000000000",
@@ -371,7 +374,7 @@ describe("DeriOneV1 contract", function () {
       it("should get the matched option list", async function () {
         const matchedOptionList = await deriOneV1Main.getETHOptionListFromRangeValuesHegicV888(
           2,
-          1616155977, // 2021-03-19 12:12:57
+          timestamp + 86400 * 14,
           80000000000,
           120000000000,
           "5000000000000000000"
