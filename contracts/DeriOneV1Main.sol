@@ -53,7 +53,8 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
 
         DataTypes.Option memory ETHOptionHegicV888 =
-            getETHOptionFromExactValuesHegicV888(
+            getOptionFromExactValuesHegicV888(
+                DataTypes.UnderlyingAsset.ETH,
                 _optionType,
                 expirySecondsFromNow,
                 _strikeUSD,
