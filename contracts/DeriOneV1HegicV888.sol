@@ -275,15 +275,14 @@ contract DeriOneV1HegicV888 is Ownable {
                 _minStrikeUSD < _optionStandardList[i].strikeUSD &&
                 _optionStandardList[i].strikeUSD < _maxStrikeUSD
             ) {
-                matchedOptionList[matchedCount] = DataTypes.Option(
-                    DataTypes.Protocol.HegicV888,
-                    DataTypes.UnderlyingAsset.ETH,
-                    _optionType,
-                    _optionStandardList[i].expiryTimestamp,
-                    _optionStandardList[i].strikeUSD,
-                    _sizeWEI,
-                    0
-                );
+                matchedOptionList[matchedCount].optionType = _optionType;
+                matchedOptionList[matchedCount]
+                    .expiryTimestamp = _optionStandardList[i].expiryTimestamp;
+                matchedOptionList[matchedCount].strikeUSD = _optionStandardList[
+                    i
+                ]
+                    .strikeUSD;
+                matchedOptionList[matchedCount].size = _sizeWEI;
                 matchedCount = matchedCount.add(1);
             }
         }
@@ -327,16 +326,10 @@ contract DeriOneV1HegicV888 is Ownable {
                     matchedOptionList[i].strikeUSD,
                     uint8(_optionType)
                 );
-
-            matchedOptionList[i] = DataTypes.Option(
-                DataTypes.Protocol.HegicV888,
-                DataTypes.UnderlyingAsset.ETH,
-                _optionType,
-                matchedOptionList[i].expiryTimestamp,
-                matchedOptionList[i].strikeUSD,
-                _sizeWEI,
-                minimumPremiumWEI
-            );
+            matchedOptionList[i].expiryTimestamp = matchedOptionList[i]
+                .expiryTimestamp;
+            matchedOptionList[i].strikeUSD = matchedOptionList[i].strikeUSD;
+            matchedOptionList[i].premium = minimumPremiumWEI;
         }
 
         return matchedOptionList;
