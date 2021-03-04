@@ -314,7 +314,7 @@ describe("DeriOneV1 contract", function () {
       it("should check WBTC liquidity in Hegic V888", async function () {
         const hasEnoughWBTCLiquidity = await deriOneV1Main.hasEnoughLiquidityHegicV888(
           1,
-          "500000000"
+          "50000000"
         );
 
         console.log("hasEnoughWBTCLiquidity ==>", hasEnoughWBTCLiquidity);
@@ -324,16 +324,52 @@ describe("DeriOneV1 contract", function () {
       });
     });
 
-    describe("getETHOptionFromExactValuesHegicV888", function () {
-      it("should get the best ETH option from exact values", async function () {
-        const ETHOption = await deriOneV1Main.getETHOptionFromExactValuesHegicV888(
+    describe("getOptionFromExactValuesHegicV888", function () {
+      it("should get an ETH option from exact values", async function () {
+        const ETHOption = await deriOneV1Main.getOptionFromExactValuesHegicV888(
+          0,
           2,
-          1616155977, // 2021-03-19 12:12:57
-          90000000000,
+          86400 * 14, // two weeks from now
+          180000000000,
           "5000000000000000000"
         );
 
-        console.log("ETHOption ==>", ETHOption);
+        console.log("protocol ==>", ETHOption.protocol);
+        console.log("underlyingAsset ==>", ETHOption.underlyingAsset);
+        console.log("optionType ==>", ETHOption.optionType);
+        console.log(
+          "expiryTimestamp ==>",
+          ETHOption.expiryTimestamp.toString()
+        );
+        console.log("strikeUSD ==>", ETHOption.strikeUSD.toString());
+        console.log("size ==>", ETHOption.size.toString());
+        console.log("premium ==>", ETHOption.premium.toString());
+
+        chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+          .properAddress;
+      });
+    });
+
+    describe("getOptionFromExactValuesHegicV888", function () {
+      it("should get a WBTC option from exact values", async function () {
+        const WBTCOption = await deriOneV1Main.getOptionFromExactValuesHegicV888(
+          1,
+          2,
+          86400 * 14, // two weeks from now
+          5200000000000,
+          "500000000"
+        );
+
+        console.log("protocol ==>", WBTCOption.protocol);
+        console.log("underlyingAsset ==>", WBTCOption.underlyingAsset);
+        console.log("optionType ==>", WBTCOption.optionType);
+        console.log(
+          "expiryTimestamp ==>",
+          WBTCOption.expiryTimestamp.toString()
+        );
+        console.log("strikeUSD ==>", WBTCOption.strikeUSD.toString());
+        console.log("size ==>", WBTCOption.size.toString());
+        console.log("premium ==>", WBTCOption.premium.toString());
 
         chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
           .properAddress;
