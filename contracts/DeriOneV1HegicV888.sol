@@ -125,38 +125,62 @@ contract DeriOneV1HegicV888 is Ownable {
         }
     }
 
-    /// @notice return the ETH option in Hegic v888
+    /// @param _underlyingAsset underlying asset
     /// @param _optionType option type
     /// @param _expirySecondsFromNow expiration date in seconds from now
     /// @param _strikeUSD strike price in USD with 8 decimals
-    /// @param _sizeWEI option size in WEI
-    function getETHOptionFromExactValuesHegicV888(
+    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
+    function getOptionFromExactValuesHegicV888(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _strikeUSD,
-        uint256 _sizeWEI
+        uint256 _size
     ) internal view returns (DataTypes.Option memory) {
-        (uint256 minimumPremiumToPayWEI, , , ) =
-            ETHOptionHegicV888.fees(
-                _expirySecondsFromNow,
-                _sizeWEI,
-                _strikeUSD,
-                uint8(_optionType)
-            );
-
         uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
+        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+            uint256 sizeWEI = _size;
+            (uint256 minimumPremiumWEI, , , ) =
+                ETHOptionHegicV888.fees(
+                    _expirySecondsFromNow,
+                    sizeWEI,
+                    _strikeUSD,
+                    uint8(_optionType)
+                );
 
-        DataTypes.Option memory ETHOption =
-            DataTypes.Option(
-                DataTypes.Protocol.HegicV888,
-                DataTypes.UnderlyingAsset.ETH,
-                _optionType,
-                expiryTimestamp,
-                _strikeUSD,
-                _sizeWEI,
-                minimumPremiumToPayWEI
-            );
-        return ETHOption;
+            DataTypes.Option memory ETHOption =
+                DataTypes.Option(
+                    DataTypes.Protocol.HegicV888,
+                    DataTypes.UnderlyingAsset.ETH,
+                    _optionType,
+                    expiryTimestamp,
+                    _strikeUSD,
+                    sizeWEI,
+                    minimumPremiumWEI
+                );
+            return ETHOption;
+        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+            uint256 sizeWBTC = _size; // 8 decimals
+            (uint256 minimumPremiumWBTC, , , , ) =
+                WBTCOptionHegicV888.fees(
+                    _expirySecondsFromNow,
+                    sizeWBTC,
+                    _strikeUSD,
+                    uint8(_optionType)
+                );
+
+            DataTypes.Option memory WBTCOption =
+                DataTypes.Option(
+                    DataTypes.Protocol.HegicV888,
+                    DataTypes.UnderlyingAsset.WBTC,
+                    _optionType,
+                    expiryTimestamp,
+                    _strikeUSD,
+                    sizeWBTC,
+                    minimumPremiumWBTC
+                );
+            return WBTCOption;
+        }
     }
 
     function _constructOptionStandardList()
