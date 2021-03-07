@@ -243,11 +243,12 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     function _getMatchedOptionList(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
-        uint256 _sizeWEI,
+        uint256 _size,
         DataTypes.Option[] memory _optionStandardList
     ) private view returns (DataTypes.Option[] memory) {
         uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
@@ -295,42 +296,50 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @param _expirySecondsFromNow maximum expiration date in seconds from now
     /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
     /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
-    /// @param _sizeWEI option size in WEI
     function getETHOptionListFromRangeValuesHegicV888(
+    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
-        uint256 _sizeWEI
+        uint256 _size
     ) internal view returns (DataTypes.Option[] memory) {
         DataTypes.Option[] memory optionStandardList =
             _constructOptionStandardList(_underlyingAsset);
         DataTypes.Option[] memory matchedOptionList =
             _getMatchedOptionList(
+                _underlyingAsset,
                 _optionType,
                 _expirySecondsFromNow,
                 _minStrikeUSD,
                 _maxStrikeUSD,
-                _sizeWEI,
+                _size,
                 optionStandardList
             );
 
         for (uint256 i = 0; i < matchedOptionList.length; i++) {
             uint256 expirySecondsFromNow =
-                matchedOptionList[i].expiryTimestamp.sub(block.timestamp);
-
-            (uint256 minimumPremiumWEI, , , ) =
-                ETHOptionHegicV888.fees(
-                    expirySecondsFromNow,
-                    _sizeWEI,
-                    matchedOptionList[i].strikeUSD,
-                    uint8(_optionType)
-                );
-            matchedOptionList[i].expiryTimestamp = matchedOptionList[i]
-                .expiryTimestamp;
-            matchedOptionList[i].strikeUSD = matchedOptionList[i].strikeUSD;
-            matchedOptionList[i].premium = minimumPremiumWEI;
+                optionList[i].expiryTimestamp.sub(block.timestamp);
+            if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+                (uint256 minimumPremiumWEI, , , ) =
+                    ETHOptionHegicV888.fees(
+                        expirySecondsFromNow,
+                        _size,
+                        optionList[i].strikeUSD,
+                        uint8(_optionType)
+                    );
+                optionList[i].premium = minimumPremiumWEI;
+            } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+                (uint256 minimumPremiumWBTC, , , , ) =
+                    WBTCOptionHegicV888.fees(
+                        _expirySecondsFromNow,
+                        _size,
+                        optionList[i].strikeUSD,
+                        uint8(_optionType)
+                    );
+                optionList[i].premium = minimumPremiumWBTC;
+            }
         }
 
         return matchedOptionList;
