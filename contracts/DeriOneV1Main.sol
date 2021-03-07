@@ -9,7 +9,6 @@ import "./DeriOneV1HegicV888.sol";
 import "./libraries/DataTypes.sol";
 
 /// @author tai
-/// @notice For now, this contract gets the cheapest ETH/WETH put options price from Opyn V1 and Hegic V888
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
 /// @dev adjust visibility of variables. they should be all private by default i guess
 contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {

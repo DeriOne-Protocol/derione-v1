@@ -78,7 +78,6 @@ contract DeriOneV1HegicV888 is Ownable {
         if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
             uint256 sizeWEI = _size;
             // `(Total ETH in contract) * 0.8 - the amount utilized for options`
-            // we might or might not need the *0.8 part
             uint256 availableBalance =
                 ETHPoolHegicV888.totalBalance().mul(8).div(10);
             uint256 amountUtilized =
@@ -102,7 +101,6 @@ contract DeriOneV1HegicV888 is Ownable {
         } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
             uint256 sizeWBTC = _size; // 8 decimals
             // `(Total WBTC in contract) * 0.8 - the amount utilized for options`
-            // we might or might not need the *0.8 part
             uint256 availableBalance =
                 WBTCPoolHegicV888.totalBalance().mul(8).div(10);
             uint256 amountUtilized =

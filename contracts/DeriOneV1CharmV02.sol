@@ -18,7 +18,6 @@ contract DeriOneV1CharmV02 is Ownable {
         instantiateOptionFactoryCharmV02(_optionFactoryAddressCharmV02);
     }
 
-    /// @param _optionFactoryAddressCharmV02 CharmV02 OptionFactoryAddress
     function instantiateOptionFactoryCharmV02(
         address _optionFactoryAddressCharmV02
     ) public onlyOwner {
@@ -40,7 +39,6 @@ contract DeriOneV1CharmV02 is Ownable {
         return optionMarketAddressList;
     }
 
-    /// @param _charmV02OptionMarketAddressList CharmV02 OptionMarketAddressList
     function _getOptionMarketList(
         address[] memory _charmV02OptionMarketAddressList
     ) private pure returns (IOptionMarketCharmV02[] memory) {
@@ -115,7 +113,6 @@ contract DeriOneV1CharmV02 is Ownable {
     }
         private
         view
-    /// @dev seek for a way to reduce the nested for loop complexity
     function _getETHOptionList(
         DataTypes.OptionType _optionType,
         uint256 _sizeWEI
