@@ -120,7 +120,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     ) public view returns (DataTypes.Option[] memory) {
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
         DataTypes.Option[] memory ETHHegicV888OptionList =
-            getETHOptionListFromRangeValuesHegicV888(
+            getOptionListFromRangeValuesHegicV888(
                 _underlyingAsset,
                 _optionType,
                 expirySecondsFromNow,

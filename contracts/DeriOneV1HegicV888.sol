@@ -296,8 +296,8 @@ contract DeriOneV1HegicV888 is Ownable {
     /// @param _expirySecondsFromNow maximum expiration date in seconds from now
     /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
     /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
-    function getETHOptionListFromRangeValuesHegicV888(
     /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
+    function getOptionListFromRangeValuesHegicV888(
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
@@ -307,7 +307,7 @@ contract DeriOneV1HegicV888 is Ownable {
     ) internal view returns (DataTypes.Option[] memory) {
         DataTypes.Option[] memory optionStandardList =
             _constructOptionStandardList(_underlyingAsset);
-        DataTypes.Option[] memory matchedOptionList =
+        DataTypes.Option[] memory optionList =
             _getMatchedOptionList(
                 _underlyingAsset,
                 _optionType,
@@ -318,7 +318,7 @@ contract DeriOneV1HegicV888 is Ownable {
                 optionStandardList
             );
 
-        for (uint256 i = 0; i < matchedOptionList.length; i++) {
+        for (uint256 i = 0; i < optionList.length; i++) {
             uint256 expirySecondsFromNow =
                 optionList[i].expiryTimestamp.sub(block.timestamp);
             if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
@@ -342,7 +342,7 @@ contract DeriOneV1HegicV888 is Ownable {
             }
         }
 
-        return matchedOptionList;
+        return optionList;
     }
 }
 
