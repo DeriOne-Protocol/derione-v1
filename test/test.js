@@ -475,8 +475,8 @@ describe("DeriOneV1 contract", function () {
     });
 
     describe("getOptionListFromRangeValuesHegicV888", function () {
-      it("should get the matched option list", async function () {
-        const optionList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
+      it("should get the matched ETH option list", async function () {
+        const optionETHList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
           0,
           2,
           timestamp + 86400 * 14,
@@ -484,6 +484,26 @@ describe("DeriOneV1 contract", function () {
           120000000000,
           "5000000000000000000"
         );
+
+        console.log('optionETHList ==>', optionETHList);
+
+        chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
+          .properAddress;
+      });
+    });
+
+    describe("getOptionListFromRangeValuesHegicV888", function () {
+      it("should get the matched WBTC option list", async function () {
+        const optionWBTCList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
+          1,
+          2,
+          timestamp + 86400 * 14,
+          80000000000,
+          120000000000,
+          "500000000"
+        );
+
+        console.log('optionWBTCList ==>', optionWBTCList);
 
         chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
           .properAddress;
