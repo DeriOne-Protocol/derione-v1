@@ -275,14 +275,15 @@ contract DeriOneV1HegicV888 is Ownable {
                 _minStrikeUSD < _optionStandardList[i].strikeUSD &&
                 _optionStandardList[i].strikeUSD < _maxStrikeUSD
             ) {
-                matchedOptionList[matchedCount].optionType = _optionType;
-                matchedOptionList[matchedCount]
-                    .expiryTimestamp = _optionStandardList[i].expiryTimestamp;
-                matchedOptionList[matchedCount].strikeUSD = _optionStandardList[
-                    i
-                ]
-                    .strikeUSD;
-                matchedOptionList[matchedCount].size = _sizeWEI;
+                matchedOptionList[matchedCount] = DataTypes.Option(
+                    DataTypes.Protocol.HegicV888,
+                    _underlyingAsset,
+                    _optionType,
+                    _optionStandardList[i].expiryTimestamp,
+                    _optionStandardList[i].strikeUSD,
+                    _size,
+                    0
+                );
                 matchedCount = matchedCount.add(1);
             }
         }
