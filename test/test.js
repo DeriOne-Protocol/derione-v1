@@ -409,7 +409,6 @@ describe("DeriOneV1 contract", function () {
           0
         );
         const matchedETHOptionList = await deriOneV1Main._getMatchedOptionList(
-          0,
           2,
           timestamp + 86400 * 14,
           80000000000,
@@ -441,7 +440,6 @@ describe("DeriOneV1 contract", function () {
           1
         );
         const matchedWBTCOptionList = await deriOneV1Main._getMatchedOptionList(
-          1,
           2,
           timestamp + 86400 * 14,
           80000000000,

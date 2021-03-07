@@ -241,7 +241,6 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     function _getMatchedOptionList(
-        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _minStrikeUSD,
@@ -276,7 +275,7 @@ contract DeriOneV1HegicV888 is Ownable {
             ) {
                 matchedOptionList[matchedCount] = DataTypes.Option(
                     DataTypes.Protocol.HegicV888,
-                    _underlyingAsset,
+                    _optionStandardList[i].underlyingAsset,
                     _optionType,
                     _optionStandardList[i].expiryTimestamp,
                     _optionStandardList[i].strikeUSD,
@@ -307,7 +306,6 @@ contract DeriOneV1HegicV888 is Ownable {
             _constructOptionStandardList(_underlyingAsset);
         DataTypes.Option[] memory optionList =
             _getMatchedOptionList(
-                _underlyingAsset,
                 _optionType,
                 _expirySecondsFromNow,
                 _minStrikeUSD,
