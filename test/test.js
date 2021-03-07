@@ -403,12 +403,13 @@ describe("DeriOneV1 contract", function () {
       });
     });
 
-    describe("_getMatchedOptionList", function () {
-      it("should get the matched option list", async function () {
+    describe("_getMatchedOptionList ETH", function () {
+      it("should get the matched ETH option list", async function () {
         const optionStandardList = await deriOneV1Main._constructOptionStandardList(
           0
         );
-        const matchedOptionList = await deriOneV1Main._getMatchedOptionList(
+        const matchedETHOptionList = await deriOneV1Main._getMatchedOptionList(
+          0,
           2,
           timestamp + 86400 * 14,
           80000000000,
@@ -417,16 +418,65 @@ describe("DeriOneV1 contract", function () {
           optionStandardList
         );
 
-        console.log("matchedOptionList ==>", matchedOptionList);
+        console.log("matchedETHOptionList ==>", matchedETHOptionList);
+        // console.log("protocol ==>", matchedETHOptionList.protocol);
+        // console.log("underlyingAsset ==>", matchedETHOptionList.underlyingAsset);
+        // console.log("optionType ==>", matchedETHOptionList.optionType);
+        // console.log(
+        //   "expiryTimestamp ==>",
+        //   matchedETHOptionList.expiryTimestamp.toString()
+        // );
+        // console.log("strikeUSD ==>", matchedETHOptionList.strikeUSD.toString());
+        // console.log("size ==>", matchedETHOptionList.size.toString());
+        // console.log("premium ==>", matchedETHOptionList.premium.toString());
 
         chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
           .properAddress;
       });
     });
 
-    describe("getETHOptionListFromRangeValuesHegicV888", function () {
+    describe("_getMatchedOptionList WBTC", function () {
+      it("should get the matched WBTC option list", async function () {
+        const optionStandardList = await deriOneV1Main._constructOptionStandardList(
+          1
+        );
+        const matchedWBTCOptionList = await deriOneV1Main._getMatchedOptionList(
+          1,
+          2,
+          timestamp + 86400 * 14,
+          80000000000,
+          120000000000,
+          "5000000000000000000",
+          optionStandardList
+        );
+
+        console.log("matchedWBTCOptionList ==>", matchedWBTCOptionList);
+
+        // console.log("protocol ==>", matchedWBTCOptionList.protocol);
+        // console.log(
+        //   "underlyingAsset ==>",
+        //   matchedWBTCOptionList.underlyingAsset
+        // );
+        // console.log("optionType ==>", matchedWBTCOptionList.optionType);
+        // console.log(
+        //   "expiryTimestamp ==>",
+        //   matchedWBTCOptionList.expiryTimestamp.toString()
+        // );
+        // console.log(
+        //   "strikeUSD ==>",
+        //   matchedWBTCOptionList.strikeUSD.toString()
+        // );
+        // console.log("size ==>", matchedWBTCOptionList.size.toString());
+        // console.log("premium ==>", matchedWBTCOptionList.premium.toString());
+
+        chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8418").to.be
+          .properAddress;
+      });
+    });
+
+    describe("getOptionListFromRangeValuesHegicV888", function () {
       it("should get the matched option list", async function () {
-        const matchedOptionList = await deriOneV1Main.getETHOptionListFromRangeValuesHegicV888(
+        const optionList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
           0,
           2,
           timestamp + 86400 * 14,
@@ -434,8 +484,6 @@ describe("DeriOneV1 contract", function () {
           120000000000,
           "5000000000000000000"
         );
-
-        console.log("matchedOptionList ==>", matchedOptionList);
 
         chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
           .properAddress;
