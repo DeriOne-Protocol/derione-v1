@@ -4,7 +4,7 @@ The first version is deployed to [`0x1604AC39a9e19Fb8c1D8ccF3EC42e80D69f4d400`](
 
 Last December, I found that the put option in Opyn was much cheaper than the one in Hegic. In Opyn, it cost about **$2.5** to buy a 1 ETH put option with the strike price of $360(expiry is about 24days.) Whereas, in Hegic, it cost about **$57** to buy a 1 ETH put option with the strike price of $360(expiry is 21 days.)
 
-There are more than ten options protocols as of today. Since each protocol could have different liquidity, a unique pricing formula, and a source of volatility, it'd be useful to get the best option(s) across options protocols both for traders and developers. On top of these protocols, we will aggregate options from the secondary market like H2M as well.
+There are more than ten options protocols as of today. Since each protocol could have different liquidity, a unique pricing formula, and a source of volatility, it'd be useful to get the best option(s) across options protocols both for traders and developers. On top of these protocols, we will aggregate options from the secondary market as well(e.g. Hegic, Siren. etc...).
 
 # What This Contract Does
 
