@@ -34,15 +34,17 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     {}
 
 
+    /// @param _underlyingAsset underlying asset
+    /// @param _optionType option type
     /// @param _expiryTimestamp expiration date in unix timestamp
     /// @param _strikeUSD strike price in USD with 8 decimals
-    /// @param _optionType option type
-    /// @param _sizeWEI option size in WEI
+    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     function getETHOptionListFromExactValues(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
-        uint256 _sizeWEI
+        uint256 _size
     ) public view returns (DataTypes.Option[] memory) {
         require(
             (_expiryTimestamp > block.timestamp),
@@ -51,55 +53,54 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
 
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
 
-        DataTypes.Option memory ETHOptionHegicV888 =
+        DataTypes.Option memory optionHegicV888 =
             getOptionFromExactValuesHegicV888(
-                DataTypes.UnderlyingAsset.ETH,
+                _underlyingAsset,
                 _optionType,
                 expirySecondsFromNow,
                 _strikeUSD,
-                _sizeWEI
+                _size
             );
         require(
-            hasEnoughLiquidityHegicV888(
-                DataTypes.UnderlyingAsset.ETH,
-                _sizeWEI
-            ) == true,
+            hasEnoughLiquidityHegicV888(_underlyingAsset, _size) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
 
         uint256 matchedOptionCountCharmV02 =
             getMatchedCountFromExactValues(
+                _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,
                 _strikeUSD,
-                _sizeWEI
+                _size
             );
 
-        DataTypes.Option memory ETHOptionCharmV02;
+        DataTypes.Option memory optionCharmV02;
         if (matchedOptionCountCharmV02 > 0) {
-            ETHOptionCharmV02 = getETHOptionFromExactValuesCharmV02(
+            optionCharmV02 = getOptionFromExactValuesCharmV02(
+                _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,
                 _strikeUSD,
-                _sizeWEI
+                _size
             );
         }
-        require(
-            hasEnoughETHLiquidityCharmV02(_sizeWEI) == true,
-            "your size is too big for liquidity in the Charm V02"
-        );
+        // require(
+        //     hasEnoughETHLiquidityCharmV02(_size) == true,
+        //     "your size is too big for liquidity in the Charm V02"
+        // );
 
-        DataTypes.Option[] memory ETHOptionList;
+        DataTypes.Option[] memory optionList;
         if (matchedOptionCountCharmV02 == 0) {
-            ETHOptionList = new DataTypes.Option[](1);
-            ETHOptionList[0] = ETHOptionHegicV888;
+            optionList = new DataTypes.Option[](1);
+            optionList[0] = optionHegicV888;
         } else {
-            ETHOptionList = new DataTypes.Option[](2);
-            ETHOptionList[0] = ETHOptionHegicV888;
-            ETHOptionList[1] = ETHOptionCharmV02;
+            optionList = new DataTypes.Option[](2);
+            optionList[0] = optionHegicV888;
+            optionList[1] = optionCharmV02;
         }
 
-        return ETHOptionList;
+        return optionList;
     }
 
     /// @param _underlyingAsset underlying asset
