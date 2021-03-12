@@ -251,7 +251,6 @@ contract DeriOneV1CharmV02 is Ownable {
         return optionList;
     }
 
-    function getETHOptionFromExactValuesCharmV02(
     function getMatchedCountFromExactValues(
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
