@@ -116,38 +116,40 @@ contract DeriOneV1CharmV02 is Ownable {
     }
         private
         view
-    function _getETHOptionList(
+    function _getOptionList(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
-        uint256 _sizeWEI
+        uint256 _size
     ) private view returns (DataTypes.Option[] memory) {
-        address[] memory optionMarketAddressList =
-            _getOptionMarketAddressList();
+        address[] memory allOptionMarketAddresses =
+            _getAllOptionMarketAddresses();
+        IOptionMarketCharmV02[] memory allOptionMarkets =
+            _getAllOptionMarkets(allOptionMarketAddresses);
         IOptionMarketCharmV02[] memory optionMarketList =
-            _getOptionMarketList(optionMarketAddressList);
-        IOptionMarketCharmV02[] memory optionMarketETHCallList =
-            _getETHMarketList(_optionType, optionMarketList);
+            _filterMarketWithAssetAndType(
+                _underlyingAsset,
+                _optionType,
+                allOptionMarkets
+            );
 
         uint256 optionCount;
 
-        for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
-            uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
+        for (uint256 i = 0; i < optionMarketList.length; i++) {
+            uint256 strikeCount = optionMarketList[i].numStrikes();
             for (uint256 count = 0; count < strikeCount; count++) {
                 optionCount = optionCount.add(1);
             }
         }
 
-        DataTypes.Option[] memory ETHCallOptionList =
+        DataTypes.Option[] memory optionList =
             new DataTypes.Option[](optionCount);
 
-        for (uint256 i = 0; i < optionMarketETHCallList.length; i++) {
-            uint256 strikeCount = optionMarketETHCallList[i].numStrikes();
+        for (uint256 i = 0; i < optionMarketList.length; i++) {
+            uint256 strikeCount = optionMarketList[i].numStrikes();
             for (uint256 count = 0; count < strikeCount; count++) {
-                uint256 expiryTimestamp =
-                    optionMarketETHCallList[i].expiryTime();
-                uint256 strikeUSD =
-                    optionMarketETHCallList[i].strikePrices(count);
-                strikeUSD = strikeUSD.div(10**10); //convert 18 decimals to 8 decimals
-                // uint256 premiumWEI = calculatePremium(_sizeWEI);
+                uint256 strikeUSD = optionMarketList[i].strikePrices(count);
+                strikeUSD = strikeUSD.div(10**10); //convert 18 decimals to 8 decimals.
+                // uint256 premiumWEI = calculatePremium(_size);
 
                 uint256 optionCounter;
                 if (i == 0) {
@@ -156,19 +158,19 @@ contract DeriOneV1CharmV02 is Ownable {
                     optionCounter = (i * strikeCount) + count;
                 }
 
-                ETHCallOptionList[optionCounter] = DataTypes.Option(
+                optionList[optionCounter] = DataTypes.Option(
                     DataTypes.Protocol.CharmV02,
-                    DataTypes.UnderlyingAsset.ETH,
-                    DataTypes.OptionType.Call,
-                    expiryTimestamp,
+                    _underlyingAsset,
+                    _optionType,
+                    optionMarketList[i].expiryTime(),
                     strikeUSD,
-                    _sizeWEI,
+                    _size,
                     0
                 );
             }
         }
 
-        return ETHCallOptionList;
+        return optionList;
     }
 
     function getETHOptionFromExactValuesCharmV02(
