@@ -14,6 +14,9 @@ contract DeriOneV1CharmV02 is Ownable {
 
     IOptionFactoryCharmV02 private OptionFactoryCharmV02;
 
+    address public constant WBTC_TOKEN =
+        0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599;
+
     constructor(address _optionFactoryAddressCharmV02) public {
         instantiateOptionFactoryCharmV02(_optionFactoryAddressCharmV02);
     }
