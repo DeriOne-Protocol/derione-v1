@@ -110,24 +110,86 @@ contract DeriOneV1CharmV02 is Ownable {
         }
     }
 
+    function _filterMarketWithAssetAndType(
+        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.OptionType _optionType,
+        IOptionMarketCharmV02[] memory _optionMarketList
+    ) private view returns (IOptionMarketCharmV02[] memory) {
+        uint256 marketCounter =
+            _getMarketCountWithAssetAndType(
+                _underlyingAsset,
+                _optionType,
+                _optionMarketList
+            );
+
+        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+            if (_optionType == DataTypes.OptionType.Call) {
+                IOptionMarketCharmV02[] memory optionMarketETHCallList =
+                    new IOptionMarketCharmV02[](marketCounter);
+
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == address(0) &&
+                        _optionMarketList[i].isPut() == false
+                    ) {
+                        optionMarketETHCallList[i] = IOptionMarketCharmV02(
+                            OptionFactoryCharmV02.markets(i)
+                        );
+                    }
                 }
-            }
 
-            IOptionMarketCharmV02[] memory optionMarketETHPutList =
-                new IOptionMarketCharmV02[](marketCounter);
+                return optionMarketETHCallList;
+            } else if (_optionType == DataTypes.OptionType.Put) {
+                IOptionMarketCharmV02[] memory optionMarketETHPutList =
+                    new IOptionMarketCharmV02[](marketCounter);
 
-            for (uint256 i = 0; i < optionMarketList.length; i++) {
-                if (
-                    optionMarketList[i].baseToken() == address(0) &&
-                    optionMarketList[i].isPut() == true
-                ) {
-                    optionMarketETHPutList[i] = IOptionMarketCharmV02(
-                        OptionFactoryCharmV02.markets(i)
-                    );
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == address(0) &&
+                        _optionMarketList[i].isPut() == true
+                    ) {
+                        optionMarketETHPutList[i] = IOptionMarketCharmV02(
+                            OptionFactoryCharmV02.markets(i)
+                        );
+                    }
                 }
-            }
 
-            return optionMarketETHPutList;
+                return optionMarketETHPutList;
+            }
+        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+            if (_optionType == DataTypes.OptionType.Call) {
+                IOptionMarketCharmV02[] memory optionMarketWBTCCallList =
+                    new IOptionMarketCharmV02[](marketCounter);
+
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
+                        _optionMarketList[i].isPut() == false
+                    ) {
+                        optionMarketWBTCCallList[i] = IOptionMarketCharmV02(
+                            OptionFactoryCharmV02.markets(i)
+                        );
+                    }
+                }
+
+                return optionMarketWBTCCallList;
+            } else if (_optionType == DataTypes.OptionType.Put) {
+                IOptionMarketCharmV02[] memory optionMarketWBTCPutList =
+                    new IOptionMarketCharmV02[](marketCounter);
+
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
+                        _optionMarketList[i].isPut() == true
+                    ) {
+                        optionMarketWBTCPutList[i] = IOptionMarketCharmV02(
+                            OptionFactoryCharmV02.markets(i)
+                        );
+                    }
+                }
+
+                return optionMarketWBTCPutList;
+            }
         }
     }
         private
