@@ -105,10 +105,10 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
 
     /// @param _underlyingAsset underlying asset
     /// @param _optionType option type
-    /// @param _expiryTimestamp maximum expiration date in seconds from now
+    /// @param _expiryTimestamp expiration date in unix timestamp
     /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
     /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
-    /// @param _sizeWEI option size in WEI
+    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     /// @dev expiration range is from now to expiry
     function getETHOptionListFromRangeValues(
         DataTypes.UnderlyingAsset _underlyingAsset,
@@ -116,52 +116,48 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
-        uint256 _sizeWEI
+        uint256 _size
     ) public view returns (DataTypes.Option[] memory) {
         uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
-        DataTypes.Option[] memory ETHHegicV888OptionList =
+        DataTypes.Option[] memory optionListHegicV888 =
             getOptionListFromRangeValuesHegicV888(
                 _underlyingAsset,
                 _optionType,
                 expirySecondsFromNow,
                 _minStrikeUSD,
                 _maxStrikeUSD,
-                _sizeWEI
+                _size
             );
         require(
-            hasEnoughLiquidityHegicV888(
-                DataTypes.UnderlyingAsset.ETH,
-                _sizeWEI
-            ) == true,
+            hasEnoughLiquidityHegicV888(_underlyingAsset, _size) == true,
             "your size is too big for liquidity in the Hegic V888"
         );
 
-        DataTypes.Option[] memory ETHCharmV02OptionList =
-            getETHOptionListFromRangeValuesCharmV02(
+        DataTypes.Option[] memory optionListCharmV02 =
+            getOptionListFromRangeValuesCharmV02(
+                _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,
                 _minStrikeUSD,
                 _maxStrikeUSD,
-                _sizeWEI
+                _size
             );
 
-        DataTypes.Option[] memory ETHOptionList =
+        DataTypes.Option[] memory optionList =
             new DataTypes.Option[](
-                ETHHegicV888OptionList.length + ETHCharmV02OptionList.length
+                optionListHegicV888.length + optionListCharmV02.length
             );
 
-        for (uint256 i = 0; i < ETHHegicV888OptionList.length; i++) {
-            ETHOptionList[i] = ETHHegicV888OptionList[i];
+        for (uint256 i = 0; i < optionListHegicV888.length; i++) {
+            optionList[i] = optionListHegicV888[i];
         }
         for (
-            uint256 i = ETHHegicV888OptionList.length;
-            i < ETHOptionList.length;
+            uint256 i = optionListHegicV888.length;
+            i < optionList.length;
             i++
         ) {
-            ETHOptionList[i] = ETHCharmV02OptionList[
-                i - ETHHegicV888OptionList.length
-            ];
+            optionList[i] = optionListCharmV02[i - optionListHegicV888.length];
         }
-        return ETHOptionList;
+        return optionList;
     }
 }
