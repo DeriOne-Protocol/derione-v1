@@ -175,21 +175,22 @@ contract DeriOneV1CharmV02 is Ownable {
 
     function getETHOptionFromExactValuesCharmV02(
     function getMatchedCountFromExactValues(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
-        uint256 _sizeWEI
+        uint256 _size
     ) internal view returns (uint256) {
-        DataTypes.Option[] memory ETHOptionList =
-            _getETHOptionList(_optionType, _sizeWEI);
+        DataTypes.Option[] memory optionList =
+            _getOptionList(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount;
 
-        for (uint256 i = 0; i < ETHOptionList.length; i++) {
+        for (uint256 i = 0; i < optionList.length; i++) {
             if (
-                block.timestamp < ETHOptionList[i].expiryTimestamp &&
-                ETHOptionList[i].expiryTimestamp < _expiryTimestamp &&
-                _strikeUSD == ETHOptionList[i].strikeUSD
+                block.timestamp < optionList[i].expiryTimestamp &&
+                optionList[i].expiryTimestamp < _expiryTimestamp &&
+                _strikeUSD == optionList[i].strikeUSD
             ) {
                 matchedCount = matchedCount.add(1);
             }
