@@ -265,41 +265,43 @@ contract DeriOneV1CharmV02 is Ownable {
         return matchedCount;
     }
 
-    function getETHOptionListFromRangeValuesCharmV02(
+    function getOptionListFromRangeValuesCharmV02(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,
         uint256 _maxStrikeUSD,
-        uint256 _sizeWEI
+        uint256 _size
     ) internal view returns (DataTypes.Option[] memory) {
-        DataTypes.Option[] memory ETHOptionList =
-            _getETHOptionList(_optionType, _sizeWEI);
+        DataTypes.Option[] memory optionList =
+            _getOptionList(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount =
             getMatchedCountFromRangeValues(
+                _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,
                 _minStrikeUSD,
                 _maxStrikeUSD,
-                _sizeWEI
+                _size
             );
 
-        DataTypes.Option[] memory matchedETHOptionList =
+        DataTypes.Option[] memory matchedOptionList =
             new DataTypes.Option[](matchedCount);
 
-        for (uint256 i = 0; i < ETHOptionList.length; i++) {
+        for (uint256 i = 0; i < optionList.length; i++) {
             if (
-                block.timestamp < ETHOptionList[i].expiryTimestamp &&
-                ETHOptionList[i].expiryTimestamp < _expiryTimestamp &&
-                _minStrikeUSD < ETHOptionList[i].strikeUSD &&
-                ETHOptionList[i].strikeUSD < _maxStrikeUSD
+                block.timestamp < optionList[i].expiryTimestamp &&
+                optionList[i].expiryTimestamp < _expiryTimestamp &&
+                _minStrikeUSD < optionList[i].strikeUSD &&
+                optionList[i].strikeUSD < _maxStrikeUSD
             ) {
                 for (uint256 count = 0; count < matchedCount; count++) {
-                    matchedETHOptionList[count] = ETHOptionList[i];
+                    matchedOptionList[count] = optionList[i];
                 }
             }
         }
 
-        return matchedETHOptionList;
+        return matchedOptionList;
     }
 }
