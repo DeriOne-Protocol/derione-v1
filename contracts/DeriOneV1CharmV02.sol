@@ -57,43 +57,59 @@ contract DeriOneV1CharmV02 is Ownable {
         return allOptionMarkets;
     }
 
-    function _getETHMarketList(
+    function _getMarketCountWithAssetAndType(
+        DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
-        IOptionMarketCharmV02[] memory optionMarketList
-    ) private view returns (IOptionMarketCharmV02[] memory) {
+        IOptionMarketCharmV02[] memory _optionMarketList
+    ) private view returns (uint256) {
         uint256 marketCounter;
-        if (_optionType == DataTypes.OptionType.Call) {
-            for (uint256 i = 0; i < optionMarketList.length; i++) {
-                if (
-                    optionMarketList[i].baseToken() == address(0) &&
-                    optionMarketList[i].isPut() == false
-                ) {
-                    marketCounter = marketCounter.add(1);
+        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+            if (_optionType == DataTypes.OptionType.Call) {
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == address(0) &&
+                        _optionMarketList[i].isPut() == false
+                    ) {
+                        marketCounter = marketCounter.add(1);
+                    }
                 }
-            }
-
-            IOptionMarketCharmV02[] memory optionMarketETHCallList =
-                new IOptionMarketCharmV02[](marketCounter);
-
-            for (uint256 i = 0; i < optionMarketList.length; i++) {
-                if (
-                    optionMarketList[i].baseToken() == address(0) &&
-                    optionMarketList[i].isPut() == false
-                ) {
-                    optionMarketETHCallList[i] = IOptionMarketCharmV02(
-                        OptionFactoryCharmV02.markets(i)
-                    );
+                return marketCounter;
+            } else if (_optionType == DataTypes.OptionType.Put) {
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == address(0) &&
+                        _optionMarketList[i].isPut() == true
+                    ) {
+                        marketCounter = marketCounter.add(1);
+                    }
                 }
+                return marketCounter;
             }
+        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+            if (_optionType == DataTypes.OptionType.Call) {
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
+                        _optionMarketList[i].isPut() == false
+                    ) {
+                        marketCounter = marketCounter.add(1);
+                    }
+                }
+                return marketCounter;
+            } else if (_optionType == DataTypes.OptionType.Put) {
+                for (uint256 i = 0; i < _optionMarketList.length; i++) {
+                    if (
+                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
+                        _optionMarketList[i].isPut() == true
+                    ) {
+                        marketCounter = marketCounter.add(1);
+                    }
+                }
+                return marketCounter;
+            }
+        }
+    }
 
-            return optionMarketETHCallList;
-        } else if (_optionType == DataTypes.OptionType.Put) {
-            for (uint256 i = 0; i < optionMarketList.length; i++) {
-                if (
-                    optionMarketList[i].baseToken() == address(0) &&
-                    optionMarketList[i].isPut() == true
-                ) {
-                    marketCounter = marketCounter.add(1);
                 }
             }
 
