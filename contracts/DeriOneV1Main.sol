@@ -39,7 +39,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _expiryTimestamp expiration date in unix timestamp
     /// @param _strikeUSD strike price in USD with 8 decimals
     /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
-    function getETHOptionListFromExactValues(
+    function getOptionListFromExactValues(
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
@@ -110,7 +110,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
     /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     /// @dev expiration range is from now to expiry
-    function getETHOptionListFromRangeValues(
+    function getOptionListFromRangeValues(
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
