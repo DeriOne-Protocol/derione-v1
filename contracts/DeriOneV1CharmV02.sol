@@ -26,32 +26,32 @@ contract DeriOneV1CharmV02 is Ownable {
         );
     }
 
-    function _getOptionMarketAddressList()
+    function _getAllOptionMarketAddresses()
         private
         view
         returns (address[] memory)
     {
         uint256 marketsCount = OptionFactoryCharmV02.numMarkets();
-        address[] memory optionMarketAddressList = new address[](marketsCount);
+        address[] memory allOptionMarketAddresses = new address[](marketsCount);
         for (uint256 i = 0; i < marketsCount; i++) {
-            optionMarketAddressList[i] = OptionFactoryCharmV02.markets(i);
+            allOptionMarketAddresses[i] = OptionFactoryCharmV02.markets(i);
         }
-        return optionMarketAddressList;
+        return allOptionMarketAddresses;
     }
 
-    function _getOptionMarketList(
+    function _getAllOptionMarkets(
         address[] memory _charmV02OptionMarketAddressList
     ) private pure returns (IOptionMarketCharmV02[] memory) {
-        IOptionMarketCharmV02[] memory optionMarketList =
+        IOptionMarketCharmV02[] memory allOptionMarkets =
             new IOptionMarketCharmV02[](
                 _charmV02OptionMarketAddressList.length
             );
         for (uint256 i = 0; i < _charmV02OptionMarketAddressList.length; i++) {
-            optionMarketList[i] = IOptionMarketCharmV02(
+            allOptionMarkets[i] = IOptionMarketCharmV02(
                 _charmV02OptionMarketAddressList[i]
             );
         }
-        return optionMarketList;
+        return allOptionMarkets;
     }
 
     function _getETHMarketList(
