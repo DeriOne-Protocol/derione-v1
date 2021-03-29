@@ -69,8 +69,6 @@ contract DeriOneV1HegicV888 is Ownable {
         }
     }
 
-    /// @param _underlyingAsset underlying asset
-    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     function hasEnoughLiquidityHegicV888(
         DataTypes.UnderlyingAsset _underlyingAsset,
         uint256 _size
@@ -123,11 +121,6 @@ contract DeriOneV1HegicV888 is Ownable {
         }
     }
 
-    /// @param _underlyingAsset underlying asset
-    /// @param _optionType option type
-    /// @param _expirySecondsFromNow expiration date in seconds from now
-    /// @param _strikeUSD strike price in USD with 8 decimals
-    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     function getOptionFromExactValuesHegicV888(
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
@@ -288,12 +281,6 @@ contract DeriOneV1HegicV888 is Ownable {
         return matchedOptionList;
     }
 
-    /// @param _underlyingAsset underlying asset
-    /// @param _optionType option type
-    /// @param _expirySecondsFromNow maximum expiration date in seconds from now
-    /// @param _minStrikeUSD minimum strike price in USD with 8 decimals
-    /// @param _maxStrikeUSD maximum strike price in USD with 8 decimals
-    /// @param _size option size either in WEI or WBTC. WEI has 18 decimals and WBTC has 8 decimals
     function getOptionListFromRangeValuesHegicV888(
         DataTypes.UnderlyingAsset _underlyingAsset,
         DataTypes.OptionType _optionType,
