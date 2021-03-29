@@ -99,75 +99,34 @@ contract DeriOneV1CharmV02 is Ownable {
                 _optionMarketList
             );
 
+        IOptionMarketCharmV02[] memory optionMarketList =
+            new IOptionMarketCharmV02[](marketCounter);
+
+        address baseToken;
         if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
-            if (_optionType == DataTypes.OptionType.Call) {
-                IOptionMarketCharmV02[] memory optionMarketETHCallList =
-                    new IOptionMarketCharmV02[](marketCounter);
-
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == address(0) &&
-                        _optionMarketList[i].isPut() == false
-                    ) {
-                        optionMarketETHCallList[i] = IOptionMarketCharmV02(
-                            OptionFactoryCharmV02.markets(i)
-                        );
-                    }
-                }
-
-                return optionMarketETHCallList;
-            } else if (_optionType == DataTypes.OptionType.Put) {
-                IOptionMarketCharmV02[] memory optionMarketETHPutList =
-                    new IOptionMarketCharmV02[](marketCounter);
-
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == address(0) &&
-                        _optionMarketList[i].isPut() == true
-                    ) {
-                        optionMarketETHPutList[i] = IOptionMarketCharmV02(
-                            OptionFactoryCharmV02.markets(i)
-                        );
-                    }
-                }
-
-                return optionMarketETHPutList;
-            }
+            baseToken = address(0);
         } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
-            if (_optionType == DataTypes.OptionType.Call) {
-                IOptionMarketCharmV02[] memory optionMarketWBTCCallList =
-                    new IOptionMarketCharmV02[](marketCounter);
+            baseToken = WBTC_TOKEN;
+        }
+        bool isPut;
+        if (_optionType == DataTypes.OptionType.Call) {
+            isPut = false;
+        } else if (_optionType == DataTypes.OptionType.Put) {
+            isPut = true;
+        }
 
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
-                        _optionMarketList[i].isPut() == false
-                    ) {
-                        optionMarketWBTCCallList[i] = IOptionMarketCharmV02(
-                            OptionFactoryCharmV02.markets(i)
-                        );
-                    }
-                }
-
-                return optionMarketWBTCCallList;
-            } else if (_optionType == DataTypes.OptionType.Put) {
-                IOptionMarketCharmV02[] memory optionMarketWBTCPutList =
-                    new IOptionMarketCharmV02[](marketCounter);
-
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
-                        _optionMarketList[i].isPut() == true
-                    ) {
-                        optionMarketWBTCPutList[i] = IOptionMarketCharmV02(
-                            OptionFactoryCharmV02.markets(i)
-                        );
-                    }
-                }
-
-                return optionMarketWBTCPutList;
+        for (uint256 i = 0; i < _optionMarketList.length; i++) {
+            if (
+                _optionMarketList[i].baseToken() == baseToken &&
+                _optionMarketList[i].isPut() == isPut
+            ) {
+                optionMarketList[i] = IOptionMarketCharmV02(
+                    OptionFactoryCharmV02.markets(i)
+                );
             }
         }
+
+        return optionMarketList;
     }
         private
         view
