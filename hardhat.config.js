@@ -10,7 +10,6 @@ module.exports = {
         url:
           "https://eth-mainnet.alchemyapi.io/v2/" + process.env.ALCHEMY_API_KEY,
         // url: "https://mainnet.infura.io/v3/" + process.env.INFURA_API_KEY,
-        blockNumber: 12016678 // use the same block number to make subsequent runs faster with cache.
         blockNumber: 12093319 // use the same block number to make subsequent runs faster with cache.
       },
       gas: "auto" // gasLimit
