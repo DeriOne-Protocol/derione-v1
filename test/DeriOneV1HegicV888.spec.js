@@ -49,7 +49,7 @@
 
 //   describe("updateStrikesStandard", function () {
 //     it("should update the strikes standard in a storage", async function () {
-//       await deriOneV1Main.updateStrikesStandard(200);
+//       await deriOneV1Main.updateStrikesStandard(1000);
 
 //       console.log(" ==>");
 
