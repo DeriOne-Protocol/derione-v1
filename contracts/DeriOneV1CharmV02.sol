@@ -63,51 +63,28 @@ contract DeriOneV1CharmV02 is Ownable {
         IOptionMarketCharmV02[] memory _optionMarketList
     ) private view returns (uint256) {
         uint256 marketCounter;
+        address baseToken;
         if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
-            if (_optionType == DataTypes.OptionType.Call) {
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == address(0) &&
-                        _optionMarketList[i].isPut() == false
-                    ) {
-                        marketCounter = marketCounter.add(1);
-                    }
-                }
-                return marketCounter;
-            } else if (_optionType == DataTypes.OptionType.Put) {
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == address(0) &&
-                        _optionMarketList[i].isPut() == true
-                    ) {
-                        marketCounter = marketCounter.add(1);
-                    }
-                }
-                return marketCounter;
-            }
+            baseToken = address(0);
         } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
-            if (_optionType == DataTypes.OptionType.Call) {
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
-                        _optionMarketList[i].isPut() == false
-                    ) {
-                        marketCounter = marketCounter.add(1);
-                    }
-                }
-                return marketCounter;
-            } else if (_optionType == DataTypes.OptionType.Put) {
-                for (uint256 i = 0; i < _optionMarketList.length; i++) {
-                    if (
-                        _optionMarketList[i].baseToken() == WBTC_TOKEN &&
-                        _optionMarketList[i].isPut() == true
-                    ) {
-                        marketCounter = marketCounter.add(1);
-                    }
-                }
-                return marketCounter;
+            baseToken = WBTC_TOKEN;
+        }
+        bool isPut;
+        if (_optionType == DataTypes.OptionType.Call) {
+            isPut = false;
+        } else if (_optionType == DataTypes.OptionType.Put) {
+            isPut = true;
+        }
+
+        for (uint256 i = 0; i < _optionMarketList.length; i++) {
+            if (
+                _optionMarketList[i].baseToken() == baseToken &&
+                _optionMarketList[i].isPut() == isPut
+            ) {
+                marketCounter = marketCounter.add(1);
             }
         }
+        return marketCounter;
     }
 
     function _filterMarketWithAssetAndType(
