@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.6.0;
 pragma experimental ABIEncoderV2;
+pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./DeriOneV1CharmV02.sol";
@@ -10,7 +10,6 @@ import "./libraries/DataTypes.sol";
 
 /// @author tai
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
-/// @dev adjust visibility of variables. they should be all private by default i guess
 contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
     using SafeMath for uint256;
 

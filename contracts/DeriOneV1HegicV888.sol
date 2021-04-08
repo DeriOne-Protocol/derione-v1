@@ -177,9 +177,11 @@ contract DeriOneV1HegicV888 is Ownable {
         }
     }
 
-    function _constructOptionStandardList(
-        DataTypes.UnderlyingAsset _underlyingAsset
-    ) private view returns (DataTypes.Option[] memory) {
+    function _constructOptionStandardList(DataTypes.Asset _underlyingAsset)
+        private
+        view
+        returns (DataTypes.Option[] memory)
+    {
         DataTypes.Option[] memory optionStandardList =
             new DataTypes.Option[](
                 expiriesSecondsFromNowStandard.length.mul(
