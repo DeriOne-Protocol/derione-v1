@@ -35,7 +35,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
 
 
     function getOptionListFromExactValues(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
@@ -100,7 +100,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
 
     /// @dev expiration range is from now to expiry
     function getOptionListFromRangeValues(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,

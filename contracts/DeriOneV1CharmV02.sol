@@ -58,15 +58,15 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function _getMarketCountWithAssetAndType(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         IOptionMarketCharmV02[] memory _optionMarketList
     ) private view returns (uint256) {
         uint256 marketCounter;
         address baseToken;
-        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+        if (_underlyingAsset == DataTypes.Asset.ETH) {
             baseToken = address(0);
-        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+        } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
             baseToken = WBTC_TOKEN;
         }
         bool isPut;
@@ -88,7 +88,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function _filterMarketWithAssetAndType(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         IOptionMarketCharmV02[] memory _optionMarketList
     ) private view returns (IOptionMarketCharmV02[] memory) {
@@ -103,9 +103,9 @@ contract DeriOneV1CharmV02 is Ownable {
             new IOptionMarketCharmV02[](marketCounter);
 
         address baseToken;
-        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+        if (_underlyingAsset == DataTypes.Asset.ETH) {
             baseToken = address(0);
-        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+        } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
             baseToken = WBTC_TOKEN;
         }
         bool isPut;
@@ -131,7 +131,7 @@ contract DeriOneV1CharmV02 is Ownable {
         private
         view
     function _getOptionList(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _size
     ) private view returns (DataTypes.Option[] memory) {
@@ -188,7 +188,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function getMatchedCountFromExactValues(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
@@ -213,7 +213,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function getOptionFromExactValuesCharmV02(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
@@ -252,7 +252,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function getMatchedCountFromRangeValues(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,
@@ -279,7 +279,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
 
     function getOptionListFromRangeValuesCharmV02(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _minStrikeUSD,

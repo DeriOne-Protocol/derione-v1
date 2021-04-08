@@ -70,10 +70,10 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     function hasEnoughLiquidityHegicV888(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         uint256 _size
     ) internal view returns (bool) {
-        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+        if (_underlyingAsset == DataTypes.Asset.ETH) {
             uint256 sizeWEI = _size;
             // `(Total ETH in contract) * 0.8 - the amount utilized for options`
             uint256 availableBalance =
@@ -96,7 +96,7 @@ contract DeriOneV1HegicV888 is Ownable {
             } else if (maxSizeWEI <= sizeWEI) {
                 return false;
             }
-        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+        } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
             uint256 sizeWBTC = _size; // 8 decimals
             // `(Total WBTC in contract) * 0.8 - the amount utilized for options`
             uint256 availableBalance =
@@ -122,14 +122,14 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     function getOptionFromExactValuesHegicV888(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _strikeUSD,
         uint256 _size
     ) internal view returns (DataTypes.Option memory) {
         uint256 expiryTimestamp = block.timestamp + _expirySecondsFromNow;
-        if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+        if (_underlyingAsset == DataTypes.Asset.ETH) {
             uint256 sizeWEI = _size;
             (uint256 minimumPremiumWEI, , , ) =
                 ETHOptionHegicV888.fees(
@@ -150,7 +150,7 @@ contract DeriOneV1HegicV888 is Ownable {
                     minimumPremiumWEI
                 );
             return ETHOption;
-        } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+        } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
             uint256 sizeWBTC = _size; // 8 decimals
             (uint256 minimumPremiumWBTC, , , , ) =
                 WBTCOptionHegicV888.fees(
@@ -203,7 +203,7 @@ contract DeriOneV1HegicV888 is Ownable {
                         expiryCount.mul(strikesStandard.length);
                 }
 
-                if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+                if (_underlyingAsset == DataTypes.Asset.ETH) {
                     optionStandardList[optionCounter] = DataTypes.Option(
                         DataTypes.Protocol.HegicV888,
                         DataTypes.UnderlyingAsset.ETH,
@@ -215,7 +215,7 @@ contract DeriOneV1HegicV888 is Ownable {
                         0,
                         0
                     );
-                } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+                } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
                     optionStandardList[optionCounter] = DataTypes.Option(
                         DataTypes.Protocol.HegicV888,
                         DataTypes.UnderlyingAsset.WBTC,
@@ -282,7 +282,7 @@ contract DeriOneV1HegicV888 is Ownable {
     }
 
     function getOptionListFromRangeValuesHegicV888(
-        DataTypes.UnderlyingAsset _underlyingAsset,
+        DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expirySecondsFromNow,
         uint256 _minStrikeUSD,
@@ -304,7 +304,7 @@ contract DeriOneV1HegicV888 is Ownable {
         for (uint256 i = 0; i < optionList.length; i++) {
             uint256 expirySecondsFromNow =
                 optionList[i].expiryTimestamp.sub(block.timestamp);
-            if (_underlyingAsset == DataTypes.UnderlyingAsset.ETH) {
+            if (_underlyingAsset == DataTypes.Asset.ETH) {
                 (uint256 minimumPremiumWEI, , , ) =
                     ETHOptionHegicV888.fees(
                         expirySecondsFromNow,
@@ -313,7 +313,7 @@ contract DeriOneV1HegicV888 is Ownable {
                         uint8(_optionType)
                     );
                 optionList[i].premium = minimumPremiumWEI;
-            } else if (_underlyingAsset == DataTypes.UnderlyingAsset.WBTC) {
+            } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
                 (uint256 minimumPremiumWBTC, , , , ) =
                     WBTCOptionHegicV888.fees(
                         _expirySecondsFromNow,
