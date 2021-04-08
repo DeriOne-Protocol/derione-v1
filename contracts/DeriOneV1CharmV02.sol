@@ -172,15 +172,30 @@ contract DeriOneV1CharmV02 is Ownable {
                     optionCounter = (i * strikeCount) + count;
                 }
 
-                optionList[optionCounter] = DataTypes.Option(
-                    DataTypes.Protocol.CharmV02,
-                    _underlyingAsset,
-                    _optionType,
-                    optionMarketList[i].expiryTime(),
-                    strikeUSD,
-                    _size,
-                    0
-                );
+                // call options are paid with underlyng asset and put options are paid with USDC
+                if (_optionType == DataTypes.OptionType.Call) {
+                    optionList[optionCounter] = DataTypes.Option(
+                        DataTypes.Protocol.CharmV02,
+                        _underlyingAsset,
+                        _underlyingAsset,
+                        _optionType,
+                        optionMarketList[i].expiryTime(),
+                        strikeUSD,
+                        _size,
+                        0
+                    );
+                } else if (_optionType == DataTypes.OptionType.Put) {
+                    optionList[optionCounter] = DataTypes.Option(
+                        DataTypes.Protocol.CharmV02,
+                        _underlyingAsset,
+                        DataTypes.Asset.USDC,
+                        _optionType,
+                        optionMarketList[i].expiryTime(),
+                        strikeUSD,
+                        _size,
+                        0
+                    );
+                }
             }
         }
 

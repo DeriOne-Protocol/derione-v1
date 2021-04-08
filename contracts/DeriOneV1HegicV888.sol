@@ -139,10 +139,12 @@ contract DeriOneV1HegicV888 is Ownable {
                     uint8(_optionType)
                 );
 
+            // the only payment method is ETH now
             DataTypes.Option memory ETHOption =
                 DataTypes.Option(
                     DataTypes.Protocol.HegicV888,
-                    DataTypes.UnderlyingAsset.ETH,
+                    DataTypes.Asset.ETH,
+                    DataTypes.Asset.ETH,
                     _optionType,
                     expiryTimestamp,
                     _strikeUSD,
@@ -163,7 +165,8 @@ contract DeriOneV1HegicV888 is Ownable {
             DataTypes.Option memory WBTCOption =
                 DataTypes.Option(
                     DataTypes.Protocol.HegicV888,
-                    DataTypes.UnderlyingAsset.WBTC,
+                    DataTypes.Asset.WBTC,
+                    DataTypes.Asset.ETH,
                     _optionType,
                     expiryTimestamp,
                     _strikeUSD,
@@ -206,7 +209,8 @@ contract DeriOneV1HegicV888 is Ownable {
                 if (_underlyingAsset == DataTypes.Asset.ETH) {
                     optionStandardList[optionCounter] = DataTypes.Option(
                         DataTypes.Protocol.HegicV888,
-                        DataTypes.UnderlyingAsset.ETH,
+                        DataTypes.Asset.ETH,
+                        DataTypes.Asset.ETH,
                         DataTypes.OptionType.Invalid,
                         expiriesSecondsFromNowStandard[expiryCount].add(
                             block.timestamp
@@ -218,7 +222,8 @@ contract DeriOneV1HegicV888 is Ownable {
                 } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
                     optionStandardList[optionCounter] = DataTypes.Option(
                         DataTypes.Protocol.HegicV888,
-                        DataTypes.UnderlyingAsset.WBTC,
+                        DataTypes.Asset.WBTC,
+                        DataTypes.Asset.ETH,
                         DataTypes.OptionType.Invalid,
                         expiriesSecondsFromNowStandard[expiryCount].add(
                             block.timestamp
@@ -269,6 +274,7 @@ contract DeriOneV1HegicV888 is Ownable {
                 matchedOptionList[matchedCount] = DataTypes.Option(
                     DataTypes.Protocol.HegicV888,
                     _optionStandardList[i].underlyingAsset,
+                    DataTypes.Asset.ETH,
                     _optionType,
                     _optionStandardList[i].expiryTimestamp,
                     _optionStandardList[i].strikeUSD,
