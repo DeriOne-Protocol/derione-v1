@@ -12,6 +12,19 @@ contract DeriOneV1SirenV1 is Ownable {
     IMinterAmmSirenV1[] private minterAmmInstanceList;
     IMarketSirenV1[] private marketInstanceList;
 
+    constructor(address[] memory _minterAmmAddressList) public {
+        init(_minterAmmAddressList);
+    }
+
+    function init(address[] memory _minterAmmAddressList) public onlyOwner {
+        delete marketAddressList;
+        delete minterAmmInstanceList;
+        delete marketInstanceList;
+        _instantiateMinterAmm(_minterAmmAddressList);
+        _getMarketAddressList(minterAmmInstanceList);
+        _instantiateMarket(marketAddressList);
+    }
+
     function _instantiateMinterAmm(address[] memory _minterAmmAddressList)
         private
     {
