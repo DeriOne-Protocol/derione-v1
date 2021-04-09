@@ -3,7 +3,7 @@
 pragma solidity ^0.6.0;
 
 library DataTypes {
-    enum Protocol {Invalid, CharmV02, HegicV888}
+    enum Protocol {Invalid, CharmV02, HegicV888, SirenV1}
     enum Asset {DAI, ETH, USDC, WBTC}
     enum OptionType {Invalid, Put, Call}
 
