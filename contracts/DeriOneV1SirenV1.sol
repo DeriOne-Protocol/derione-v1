@@ -10,6 +10,7 @@ contract DeriOneV1SirenV1 is Ownable {
 
     address[] private marketAddressList;
     IMinterAmmSirenV1[] private minterAmmInstanceList;
+    IMarketSirenV1[] private marketInstanceList;
 
     function _instantiateMinterAmm(address[] memory _minterAmmAddressList)
         private
@@ -29,6 +30,12 @@ contract DeriOneV1SirenV1 is Ownable {
             for (uint256 i = 0; i < markets.length; i++) {
                 marketAddressList.push();
             }
+        }
+    }
+
+    function _instantiateMarket(address[] memory _marketAddressList) private {
+        for (uint256 i = 0; i < _marketAddressList.length; i++) {
+            marketInstanceList.push(IMarketSirenV1(_marketAddressList[i]));
         }
     }
 }
