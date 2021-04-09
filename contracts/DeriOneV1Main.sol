@@ -6,11 +6,12 @@ pragma solidity ^0.6.0;
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./DeriOneV1CharmV02.sol";
 import "./DeriOneV1HegicV888.sol";
+import "./DeriOneV1SirenV1.sol";
 import "./libraries/DataTypes.sol";
 
 /// @author tai
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
-contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888 {
+contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888, DeriOneV1SirenV1 {
     using SafeMath for uint256;
 
     constructor(
