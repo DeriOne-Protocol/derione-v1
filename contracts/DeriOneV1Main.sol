@@ -20,7 +20,8 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888, DeriOneV1SirenV
         address _WBTCOptionAddressHegicV888,
         address _ETHPoolAddressHegicV888,
         address _WBTCPoolAddressHegicV888,
-        uint256 _strikesRange
+        uint256 _strikesRange,
+        address[] memory _minterAmmAddressList
     )
         public
         DeriOneV1CharmV02(_charmV02OptionFactoryAddress)
@@ -31,6 +32,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888, DeriOneV1SirenV
             _WBTCPoolAddressHegicV888,
             _strikesRange
         )
+        DeriOneV1SirenV1(_minterAmmAddressList)
     {}
 
 
