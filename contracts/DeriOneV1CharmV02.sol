@@ -7,15 +7,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./interfaces/IOptionFactoryCharmV02.sol";
 import "./interfaces/IOptionMarketCharmV02.sol";
+import "./libraries/Constants.sol";
 import "./libraries/DataTypes.sol";
 
 contract DeriOneV1CharmV02 is Ownable {
     using SafeMath for uint256;
 
     IOptionFactoryCharmV02 private OptionFactoryCharmV02;
-
-    address public constant WBTC_TOKEN =
-        0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599;
 
     constructor(address _optionFactoryAddressCharmV02) public {
         instantiateOptionFactoryCharmV02(_optionFactoryAddressCharmV02);
@@ -67,7 +65,7 @@ contract DeriOneV1CharmV02 is Ownable {
         if (_underlyingAsset == DataTypes.Asset.ETH) {
             baseToken = address(0);
         } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
-            baseToken = WBTC_TOKEN;
+            baseToken = Constants.getWBTCTokenAddress();
         }
         bool isPut;
         if (_optionType == DataTypes.OptionType.Call) {
@@ -106,7 +104,7 @@ contract DeriOneV1CharmV02 is Ownable {
         if (_underlyingAsset == DataTypes.Asset.ETH) {
             baseToken = address(0);
         } else if (_underlyingAsset == DataTypes.Asset.WBTC) {
-            baseToken = WBTC_TOKEN;
+            baseToken = Constants.getWBTCTokenAddress();
         }
         bool isPut;
         if (_optionType == DataTypes.OptionType.Call) {
