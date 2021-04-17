@@ -137,7 +137,7 @@ describe("DeriOneV1Main", async function () {
   // describe("getOptionListFromExactValues", function () {
   //   it("should get ETH options list from exact values", async function () {
   //     const ETHOptionList = await deriOneV1Main.getOptionListFromExactValues(
-  //       2,
+  //       3,
   //       timestamp + 86400 * 14,
   //       90000000000, // USD price decimals are 8 in hegic
   //       "5000000000000000000"
@@ -155,7 +155,7 @@ describe("DeriOneV1Main", async function () {
   // describe("getOptionListFromRangeValues", function () {
   //   it("should get ETH options list from range values", async function () {
   //     const ETHOptionList = await deriOneV1Main.getOptionListFromRangeValues(
-  //       0,
+  //       1,
   //       2,
   //       timestamp + 86400 * 14,
   //       70000000000, // USD price decimals are 8 in hegic

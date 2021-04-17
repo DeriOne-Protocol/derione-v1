@@ -80,7 +80,7 @@
 //         charmV02OptionMarketAddressList
 //       );
 //       const charmV02OptionMarketETHCallList = await deriOneV1Main._filterMarketWithAssetAndType(
-//         0,
+//         1,
 //         2,
 //         charmV02OptionMarketList
 //       );
@@ -95,7 +95,7 @@
 //         charmV02OptionMarketAddressList
 //       );
 //       const charmV02OptionMarketETHPutList = await deriOneV1Main._filterMarketWithAssetAndType(
-//         0,
+//         1,
 //         1,
 //         charmV02OptionMarketList
 //       );
@@ -111,7 +111,7 @@
 //         charmV02OptionMarketAddressList
 //       );
 //       const charmV02OptionMarketWBTCCallList = await deriOneV1Main._filterMarketWithAssetAndType(
-//         1,
+//         2,
 //         2,
 //         charmV02OptionMarketList
 //       );
@@ -127,7 +127,7 @@
 //         charmV02OptionMarketAddressList
 //       );
 //       const charmV02OptionMarketWBTCPutList = await deriOneV1Main._filterMarketWithAssetAndType(
-//         1,
+//         2,
 //         1,
 //         charmV02OptionMarketList
 //       );
@@ -192,7 +192,7 @@
 //   describe("getOptionFromExactValuesCharmV02", function () {
 //     it("should get the matched ETH option in charm", async function () {
 //       const matchedETHOption = await deriOneV1Main.getOptionFromExactValuesCharmV02(
-//         0,
+//         1,
 //         2,
 //         timestamp + 86400 * 14,
 //         "1000000000000000000000",
@@ -209,7 +209,7 @@
 //   describe("getMatchedCountFromRangeValues", function () {
 //     it("should get matched count from range values in charm", async function () {
 //       const matchedCount = await deriOneV1Main.getMatchedCountFromRangeValues(
-//         0,
+//         1,
 //         2,
 //         timestamp + 86400 * 14,
 //         "800000000000000000000", // what are decimals here?
@@ -227,7 +227,7 @@
 //   describe("getOptionListFromRangeValuesCharmV02", function () {
 //     it("should get ETH Call matched option list in charm", async function () {
 //       const charmV02MatchedETHCallOptionList = await deriOneV1Main.getOptionListFromRangeValuesCharmV02(
-//         0,
+//         1,
 //         2,
 //         timestamp + 86400 * 14,
 //         "800000000000000000000", // what are decimals here?

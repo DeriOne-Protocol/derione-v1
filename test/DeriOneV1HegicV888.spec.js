@@ -61,7 +61,7 @@
 //   describe("hasEnoughLiquidityHegicV888", function () {
 //     it("should check ETH liquidity in Hegic V888", async function () {
 //       const hasEnoughETHLiquidity = await deriOneV1Main.hasEnoughLiquidityHegicV888(
-//         0,
+//         1,
 //         "5000000000000000000"
 //       );
 
@@ -75,7 +75,7 @@
 //   describe("hasEnoughLiquidityHegicV888", function () {
 //     it("should check WBTC liquidity in Hegic V888", async function () {
 //       const hasEnoughWBTCLiquidity = await deriOneV1Main.hasEnoughLiquidityHegicV888(
-//         1,
+//         2,
 //         "50000000"
 //       );
 
@@ -89,7 +89,7 @@
 //   describe("getOptionFromExactValuesHegicV888", function () {
 //     it("should get an ETH option from exact values", async function () {
 //       const ETHOption = await deriOneV1Main.getOptionFromExactValuesHegicV888(
-//         0,
+//         1,
 //         2,
 //         86400 * 14, // two weeks from now
 //         180000000000,
@@ -112,7 +112,7 @@
 //   describe("getOptionFromExactValuesHegicV888", function () {
 //     it("should get a WBTC option from exact values", async function () {
 //       const WBTCOption = await deriOneV1Main.getOptionFromExactValuesHegicV888(
-//         1,
+//         2,
 //         2,
 //         86400 * 14, // two weeks from now
 //         5200000000000,
@@ -135,7 +135,7 @@
 //   describe("_constructOptionStandardList", function () {
 //     it("should get ETH option standard list", async function () {
 //       const ETHOptionStandardList = await deriOneV1Main._constructOptionStandardList(
-//         0
+//         1
 //       );
 
 //       console.log(" ETHOptionStandardList ==>", ETHOptionStandardList);
@@ -148,7 +148,7 @@
 //   describe("_constructOptionStandardList", function () {
 //     it("should get WBTC option standard list", async function () {
 //       const WBTCOptionStandardList = await deriOneV1Main._constructOptionStandardList(
-//         1
+//         2
 //       );
 
 //       console.log(" WBTCOptionStandardList ==>", WBTCOptionStandardList);
@@ -161,7 +161,7 @@
 //   describe("_getMatchedOptionList ETH", function () {
 //     it("should get the matched ETH option list", async function () {
 //       const optionStandardList = await deriOneV1Main._constructOptionStandardList(
-//         0
+//         1
 //       );
 //       const matchedETHOptionList = await deriOneV1Main._getMatchedOptionList(
 //         2,
@@ -230,7 +230,7 @@
 //   describe("getOptionListFromRangeValuesHegicV888", function () {
 //     it("should get the matched ETH option list", async function () {
 //       const optionETHList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
-//         0,
+//         1,
 //         2,
 //         timestamp + 86400 * 14,
 //         80000000000,
@@ -248,7 +248,7 @@
 //   describe("getOptionListFromRangeValuesHegicV888", function () {
 //     it("should get the matched WBTC option list", async function () {
 //       const optionWBTCList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
-//         1,
+//         2,
 //         2,
 //         timestamp + 86400 * 14,
 //         80000000000,
