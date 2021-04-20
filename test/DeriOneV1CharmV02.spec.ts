@@ -1,4 +1,4 @@
-import chai from "chai";
+import chai, { expect } from "chai";
 import { solidity } from "ethereum-waffle";
 import { ethers, waffle } from "hardhat";
 import {
