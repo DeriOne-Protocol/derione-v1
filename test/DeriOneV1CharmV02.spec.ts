@@ -148,6 +148,10 @@ describe("DeriOneV1CharmV02", async function () {
     });
 
     it("should fail to get a market list for a non-existent option type", async function () {
+      const optionMarketAddressListCharmV02 = await deriOneV1Main._getAllOptionMarketAddresses();
+      const charmV02OptionMarketList = await deriOneV1Main._getAllOptionMarkets(
+        optionMarketAddressListCharmV02
+      );
       await expect(
         deriOneV1Main._filterMarketWithAssetAndType(
           ASSETS.Invalid,
