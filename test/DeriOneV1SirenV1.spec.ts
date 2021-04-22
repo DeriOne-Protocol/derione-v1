@@ -57,14 +57,14 @@ describe("DeriOneV1SirenV1", async function () {
     console.log("estimatedGasAmount ==>", estimatedGasAmount.toString());
   });
 
-  describe("_calculatePremiumSirenV1", function () {
+  describe("_calculatePremium", function () {
     it("should calculate premium", async function () {
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
     });
   });
 
-  describe("_getOptionListSirenV1", function () {
+  describe("_getOptionList", function () {
     it("should get list of all options", async function () {
       const optionList = await deriOneV1Main._getOptionListSirenV1();
       console.log("optionList ==>", optionList);
@@ -75,7 +75,7 @@ describe("DeriOneV1SirenV1", async function () {
   });
 
   describe("_getMatchedCountFromExactValues", function () {
-    it("should get matched count from exact values in siren", async function () {
+    it("should get matched count from exact values", async function () {
       const matchedCount = await deriOneV1Main._getMatchedCountFromExactValues(
         ASSETS.SUSHI,
         OPTION_TYPES.Call,
@@ -108,8 +108,8 @@ describe("DeriOneV1SirenV1", async function () {
     });
   });
 
-  describe("_getMatchedCountFromRangeValuesSirenV1", function () {
-    it("should get matched count from range values in siren", async function () {
+  describe("_getMatchedCountFromRangeValues", function () {
+    it("should get matched count from range values", async function () {
       const matchedCount = await deriOneV1Main._getMatchedCountFromRangeValuesSirenV1(
         ASSETS.UNI,
         OPTION_TYPES.Call,

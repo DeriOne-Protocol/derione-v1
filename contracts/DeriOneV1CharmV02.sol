@@ -128,7 +128,7 @@ contract DeriOneV1CharmV02 is Ownable {
     }
         private
         view
-    function _getOptionList(
+    function _getOptionListCharmV02(
         DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _size
@@ -208,7 +208,7 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _size
     ) private view returns (uint256) {
         DataTypes.Option[] memory optionList =
-            _getOptionList(_underlyingAsset, _optionType, _size);
+            _getOptionListCharmV02(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount;
 
@@ -233,7 +233,7 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _size
     ) internal view returns (DataTypes.Option memory) {
         DataTypes.Option[] memory optionList =
-            _getOptionList(_underlyingAsset, _optionType, _size);
+            _getOptionListCharmV02(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount =
             _getMatchedCountFromExactValues(
@@ -264,7 +264,7 @@ contract DeriOneV1CharmV02 is Ownable {
         return matchedOption;
     }
 
-    function _getMatchedCountFromRangeValues(
+    function _getMatchedCountFromRangeValuesCharmV02(
         DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
@@ -273,7 +273,7 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _size
     ) private view returns (uint256) {
         DataTypes.Option[] memory optionList =
-            _getOptionList(_underlyingAsset, _optionType, _size);
+            _getOptionListCharmV02(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount;
 
@@ -300,10 +300,10 @@ contract DeriOneV1CharmV02 is Ownable {
         uint256 _size
     ) internal view returns (DataTypes.Option[] memory) {
         DataTypes.Option[] memory optionList =
-            _getOptionList(_underlyingAsset, _optionType, _size);
+            _getOptionListCharmV02(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount =
-            _getMatchedCountFromRangeValues(
+            _getMatchedCountFromRangeValuesCharmV02(
                 _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,

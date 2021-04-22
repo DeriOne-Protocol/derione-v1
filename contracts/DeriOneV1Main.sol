@@ -11,7 +11,11 @@ import "./libraries/DataTypes.sol";
 
 /// @author tai
 /// @dev explicitly state the data location for all variables of struct, array or mapping types (including function parameters)
-contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888, DeriOneV1SirenV1 {
+contract DeriOneV1Main is
+    DeriOneV1CharmV02,
+    DeriOneV1HegicV888,
+    DeriOneV1SirenV1
+{
     using SafeMath for uint256;
 
     constructor(
@@ -64,7 +68,7 @@ contract DeriOneV1Main is DeriOneV1CharmV02, DeriOneV1HegicV888, DeriOneV1SirenV
         );
 
         uint256 matchedOptionCountCharmV02 =
-            getMatchedCountFromExactValues(
+            getMatchedCountFromExactValuesCharmV02(
                 _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,
