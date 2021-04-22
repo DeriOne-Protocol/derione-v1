@@ -1,5 +1,5 @@
 import { ethers } from "hardhat";
-import { CONSTRUCTOR_VALUES } from "../utils/constants";
+import { CONSTRUCTOR_VALUES } from "../constants/constants";
 
 async function deploy() {
   const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");

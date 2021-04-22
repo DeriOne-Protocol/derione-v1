@@ -8,7 +8,7 @@ import {
   OPTION_TYPES,
   STRIKE_PRICE,
   TIMESTAMP
-} from "../utils/constants";
+} from "../constants/constants";
 
 const provider = waffle.provider;
 chai.use(solidity);
