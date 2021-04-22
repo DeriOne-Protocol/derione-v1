@@ -1,4 +1,4 @@
-import { BigNumber } from "ethers";
+import { BigNumber } from "@ethersproject/bignumber";
 
 export const CONSTRUCTOR_VALUES = {
   optionFactoryAddressCharmV02: "0xcdfe169df3d64e2e43d88794a21048a52c742f2b",
