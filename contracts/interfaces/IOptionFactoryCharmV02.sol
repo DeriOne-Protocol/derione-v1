@@ -4,16 +4,14 @@ pragma solidity ^0.6.0;
 
 interface IOptionFactoryCharmV02 {
     function createMarket(
-        address _baseToken,
-        address _quoteToken,
-        address _oracle,
-        uint256[] calldata _strikePrices,
-        uint256 _expiryTime,
-        bool _isPut,
-        uint256 _tradingFee,
-        uint256 _balanceCap,
-        uint256 _disputePeriod
-    ) external returns (address);
+        address baseAsset,
+        address quoteAsset,
+        address oracle,
+        uint256[] calldata strikePrices,
+        uint256 expiryTime,
+        bool isPut,
+        uint256 tradingFee
+    ) external returns (address marketAddress);
 
     function getMarketSymbol(
         string calldata underlying,
@@ -35,5 +33,5 @@ interface IOptionFactoryCharmV02 {
 
     function optionMarketLibrary() external view returns (address);
 
-    function optionTokenLibary() external view returns (address);
+    function optionTokenLibrary() external view returns (address);
 }

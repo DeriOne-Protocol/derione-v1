@@ -41,6 +41,8 @@ interface IOptionMarketCharmV02 {
 
     function disputePeriod() external view returns (uint256);
 
+    function emergencyWithdraw() external;
+
     function expiryPrice() external view returns (uint256);
 
     function expiryTime() external view returns (uint256);
@@ -67,8 +69,6 @@ interface IOptionMarketCharmV02 {
         uint256 _expiryTime,
         bool _isPut,
         uint256 _tradingFee,
-        uint256 _balanceCap,
-        uint256 _disputePeriod,
         string calldata _symbol
     ) external;
 
@@ -117,6 +117,8 @@ interface IOptionMarketCharmV02 {
 
     function setOracle(address _oracle) external;
 
+    function setTotalSupplyCap(uint256 _totalSupplyCap) external;
+
     function settle() external;
 
     function shortTokens(uint256) external view returns (address);
@@ -126,6 +128,8 @@ interface IOptionMarketCharmV02 {
     function symbol() external view returns (string memory);
 
     function totalSupply() external view returns (uint256);
+
+    function totalSupplyCap() external view returns (uint256);
 
     function tradingFee() external view returns (uint256);
 
