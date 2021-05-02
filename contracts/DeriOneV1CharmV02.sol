@@ -163,19 +163,13 @@ contract DeriOneV1CharmV02 is Ownable {
         DataTypes.Option[] memory optionList =
             new DataTypes.Option[](optionCount);
 
+        uint256 optionCounter = 0;
         for (uint256 i = 0; i < optionMarketList.length; i++) {
             uint256 strikeCount = optionMarketList[i].numStrikes();
             for (uint256 count = 0; count < strikeCount; count++) {
                 uint256 strikeUSD = optionMarketList[i].strikePrices(count);
                 strikeUSD = strikeUSD.div(10**10); //convert 18 decimals to 8 decimals.
                 // uint256 premiumWEI = calculatePremium(_size);
-
-                uint256 optionCounter;
-                if (i == 0) {
-                    optionCounter = count;
-                } else if (i > 0) {
-                    optionCounter = (i * strikeCount) + count;
-                }
 
                 // call options are paid with underlyng asset and put options are paid with USDC
                 if (_optionType == DataTypes.OptionType.Call) {
@@ -189,6 +183,7 @@ contract DeriOneV1CharmV02 is Ownable {
                         _size,
                         0
                     );
+                    optionCounter = optionCounter.add(1);
                 } else if (_optionType == DataTypes.OptionType.Put) {
                     optionList[optionCounter] = DataTypes.Option(
                         DataTypes.Protocol.CharmV02,
@@ -200,6 +195,7 @@ contract DeriOneV1CharmV02 is Ownable {
                         _size,
                         0
                     );
+                    optionCounter = optionCounter.add(1);
                 }
             }
         }
