@@ -2,10 +2,10 @@ import chai from "chai";
 import { solidity } from "ethereum-waffle";
 import { ethers, waffle } from "hardhat";
 import {
-  ASSETS,
+  ASSET_NAMES,
   CONSTRUCTOR_VALUES,
   OPTION_SIZE,
-  OPTION_TYPES,
+  OPTION_TYPE_NAMES,
   STRIKE_PRICE,
   TIMESTAMP
 } from "../constants/constants";
@@ -199,12 +199,12 @@ describe("DeriOneV1HegicV888", async function () {
   describe("getOptionListFromRangeValuesHegicV888", function () {
     it("should get the matched ETH Call option list", async function () {
       const optionETHCallList = await deriOneV1Main.getOptionListFromRangeValuesHegicV888(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
-        TIMESTAMP.fourMonth,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
+        86400 * 35, // five weeks from now
         STRIKE_PRICE[400],
-        STRIKE_PRICE[5000],
-        OPTION_SIZE[5]
+        STRIKE_PRICE[3000],
+        OPTION_SIZE[1]
       );
 
       console.log("optionETHCallList ==>", optionETHCallList);

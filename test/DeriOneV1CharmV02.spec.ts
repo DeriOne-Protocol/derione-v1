@@ -2,10 +2,10 @@ import chai, { expect } from "chai";
 import { solidity } from "ethereum-waffle";
 import { ethers, waffle } from "hardhat";
 import {
-  ASSETS,
+  ASSET_NAMES,
   CONSTRUCTOR_VALUES,
   OPTION_SIZE,
-  OPTION_TYPES,
+  OPTION_TYPE_NAMES,
   STRIKE_PRICE,
   TIMESTAMP
 } from "../constants/constants";
@@ -90,8 +90,8 @@ describe("DeriOneV1CharmV02", async function () {
         optionMarketAddressListCharmV02
       );
       const charmV02OptionMarketETHCallList = await deriOneV1Main._filterMarketWithAssetAndType(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         charmV02OptionMarketList
       );
       await expect(charmV02OptionMarketETHCallList.baseToken()).to.be.equal(
@@ -105,8 +105,8 @@ describe("DeriOneV1CharmV02", async function () {
         optionMarketAddressListCharmV02
       );
       const charmV02OptionMarketETHPutList = await deriOneV1Main._filterMarketWithAssetAndType(
-        ASSETS.ETH,
-        OPTION_TYPES.Put,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Put,
         charmV02OptionMarketList
       );
       await expect(charmV02OptionMarketETHPutList.baseToken()).to.be.equal(
@@ -121,8 +121,8 @@ describe("DeriOneV1CharmV02", async function () {
         optionMarketAddressListCharmV02
       );
       const charmV02OptionMarketWBTCCallList = await deriOneV1Main._filterMarketWithAssetAndType(
-        ASSETS.WBTC,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.WBTC,
+        OPTION_TYPE_NAMES.Call,
         charmV02OptionMarketList
       );
       await expect(charmV02OptionMarketWBTCCallList.baseToken()).to.be.equal(
@@ -137,8 +137,8 @@ describe("DeriOneV1CharmV02", async function () {
         optionMarketAddressListCharmV02
       );
       const charmV02OptionMarketWBTCPutList = await deriOneV1Main._filterMarketWithAssetAndType(
-        ASSETS.WBTC,
-        OPTION_TYPES.Put,
+        ASSET_NAMES.WBTC,
+        OPTION_TYPE_NAMES.Put,
         charmV02OptionMarketList
       );
       await expect(charmV02OptionMarketWBTCPutList.baseToken()).to.be.equal(
@@ -154,8 +154,8 @@ describe("DeriOneV1CharmV02", async function () {
       );
       await expect(
         deriOneV1Main._filterMarketWithAssetAndType(
-          ASSETS.Invalid,
-          OPTION_TYPES.Invalid,
+          ASSET_NAMES.Invalid,
+          OPTION_TYPE_NAMES.Invalid,
           charmV02OptionMarketList
         )
       ).to.be.revertedWith("wrong arguments value");
@@ -178,8 +178,8 @@ describe("DeriOneV1CharmV02", async function () {
   describe("_getOptionListCharmV02", function () {
     it("should get ETH Call option list in charm", async function () {
       const ETHCallOptionListCharmV02 = await deriOneV1Main._getOptionListCharmV02(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         OPTION_SIZE[5]
       );
 
@@ -193,8 +193,8 @@ describe("DeriOneV1CharmV02", async function () {
   describe("getMatchedCountFromExactValuesCharmV02", function () {
     it("should get matched count from exact values in charm", async function () {
       const matchedCount = await deriOneV1Main.getMatchedCountFromExactValuesCharmV02(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[3000],
         OPTION_SIZE[5]
@@ -210,8 +210,8 @@ describe("DeriOneV1CharmV02", async function () {
   describe("getOptionFromExactValuesCharmV02", function () {
     it("should get the matched ETH Call option in charm", async function () {
       const matchedETHCallOption = await deriOneV1Main.getOptionFromExactValuesCharmV02(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[3000],
         OPTION_SIZE[5]
@@ -227,8 +227,8 @@ describe("DeriOneV1CharmV02", async function () {
   describe("_getMatchedCountFromRangeValuesCharmV02", function () {
     it("should get matched count from range values in charm v02", async function () {
       const matchedCount = await deriOneV1Main.getMatchedCountFromRangeValues(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[400],
         STRIKE_PRICE[5000],
@@ -245,8 +245,8 @@ describe("DeriOneV1CharmV02", async function () {
   describe("getOptionListFromRangeValuesCharmV02", function () {
     it("should get ETH Call matched option list in charm v02", async function () {
       const matchedETHCallOptionListCharmV02 = await deriOneV1Main.getOptionListFromRangeValuesCharmV02(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[400], // what are decimals here?
         STRIKE_PRICE[5000],

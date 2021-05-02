@@ -8,7 +8,7 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
+        url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
         // url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
         blockNumber: 12274463 // use the same block number to make subsequent runs faster with cache.
       },
@@ -22,10 +22,10 @@ module.exports = {
     mainnet: {
       url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       // url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts: [`0x${process.env.DEPLOYMENT_ACCOUNT_PRIVATE_KEY}`],
       gas: "auto", // gasLimit
-      gasPrice: 41000000000 // check the latest gas price market in https://www.ethgasstation.info/
+      gasPrice: 41000000000, // check the latest gas price market in https://www.ethgasstation.info/
       // inject: false, // optional. If true, it will EXPOSE your mnemonic in your frontend code. Then it would be available as an "in-page browser wallet" / signer which can sign without confirmation.
+      accounts: [`0x${process.env.DEPLOYMENT_ACCOUNT_PRIVATE_KEY}`]
     }
   },
   solidity: {

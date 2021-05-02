@@ -2,10 +2,10 @@ import chai from "chai";
 import { solidity } from "ethereum-waffle";
 import { ethers, waffle } from "hardhat";
 import {
-  ASSETS,
+  ASSET_NAMES,
   CONSTRUCTOR_VALUES,
   OPTION_SIZE,
-  OPTION_TYPES,
+  OPTION_TYPE_NAMES,
   STRIKE_PRICE,
   TIMESTAMP
 } from "../constants/constants";
@@ -69,8 +69,8 @@ describe("DeriOneV1Main", async function () {
   describe("getBestOptionFromExactValues", function () {
     it("should get the best ETH Put option from exact values", async function () {
       const bestETHPutOption = await deriOneV1Main.getBestOptionFromExactValues(
-        ASSETS.ETH,
-        OPTION_TYPES.Put,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Put,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[3000],
         OPTION_SIZE[5]
@@ -88,8 +88,8 @@ describe("DeriOneV1Main", async function () {
   describe("getBestOptionFromRangeValues", function () {
     it("should get the best WBTC Put option from range values", async function () {
       const bestWBTCPutOption = await deriOneV1Main.getBestOptionFromRangeValues(
-        ASSETS.WBTC,
-        OPTION_TYPES.Put,
+        ASSET_NAMES.WBTC,
+        OPTION_TYPE_NAMES.Put,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[400],
         STRIKE_PRICE[5000],
@@ -108,8 +108,8 @@ describe("DeriOneV1Main", async function () {
   describe("getOptionListFromExactValues", function () {
     it("should get WBTC Call options list from exact values", async function () {
       const WBTCCallOptionList = await deriOneV1Main.getOptionListFromExactValues(
-        ASSETS.WBTC,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.WBTC,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[3000],
         OPTION_SIZE[5]
@@ -127,8 +127,8 @@ describe("DeriOneV1Main", async function () {
   describe("getOptionListFromRangeValues", function () {
     it("should get ETH call options list from range values", async function () {
       const ETHCallOptionList = await deriOneV1Main.getOptionListFromRangeValues(
-        ASSETS.ETH,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.ETH,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[400],
         STRIKE_PRICE[5000],

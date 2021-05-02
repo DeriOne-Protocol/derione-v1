@@ -20,7 +20,7 @@ export const CONSTRUCTOR_VALUES = {
   ]
 };
 
-export const ASSETS = {
+export const ASSET_NAMES = {
   Invalid: BigNumber.from(0),
   DAI: BigNumber.from(1),
   ETH: BigNumber.from(2),
@@ -34,10 +34,10 @@ export const ASSETS = {
 
 export const OPTION_SIZE = {
   1: BigNumber.from(1).mul(BigNumber.from(10).pow(18)),
-  5: BigNumber.from(5).mul(BigNumber.from(10).pow(18)),
+  5: BigNumber.from(5).mul(BigNumber.from(10).pow(18))
 };
 
-export const OPTION_TYPES = {
+export const OPTION_TYPE_NAMES = {
   Invalid: BigNumber.from(0),
   Put: BigNumber.from(1),
   Call: BigNumber.from(2)

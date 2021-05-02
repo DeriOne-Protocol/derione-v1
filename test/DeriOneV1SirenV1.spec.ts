@@ -2,10 +2,10 @@ import chai from "chai";
 import { solidity } from "ethereum-waffle";
 import { ethers, waffle } from "hardhat";
 import {
-  ASSETS,
+  ASSET_NAMES,
   CONSTRUCTOR_VALUES,
   OPTION_SIZE,
-  OPTION_TYPES,
+  OPTION_TYPE_NAMES,
   STRIKE_PRICE,
   TIMESTAMP
 } from "../constants/constants";
@@ -77,10 +77,10 @@ describe("DeriOneV1SirenV1", async function () {
   describe("_getMatchedCountFromExactValues", function () {
     it("should get matched count from exact values", async function () {
       const matchedCount = await deriOneV1Main._getMatchedCountFromExactValues(
-        ASSETS.SUSHI,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.SUSHI,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
-        STRIKE_PRICE[50],
+        STRIKE_PRICE[400],
         "1"
       );
 
@@ -97,7 +97,7 @@ describe("DeriOneV1SirenV1", async function () {
         ASSETS.SUSHI,
         OPTION_TYPES.Call,
         TIMESTAMP.fourMonth,
-        STRIKE_PRICE[50],
+        STRIKE_PRICE[400],
         "1"
       );
 
@@ -111,11 +111,11 @@ describe("DeriOneV1SirenV1", async function () {
   describe("_getMatchedCountFromRangeValues", function () {
     it("should get matched count from range values", async function () {
       const matchedCount = await deriOneV1Main._getMatchedCountFromRangeValuesSirenV1(
-        ASSETS.UNI,
-        OPTION_TYPES.Call,
+        ASSET_NAMES.UNI,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[0],
-        STRIKE_PRICE[50],
+        STRIKE_PRICE[400],
         "1"
       );
 
