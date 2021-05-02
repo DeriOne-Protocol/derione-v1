@@ -10,7 +10,7 @@ module.exports = {
       forking: {
         url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
         // url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-        blockNumber: 12274463 // use the same block number to make subsequent runs faster with cache.
+        // blockNumber: 12274463 // use the same block number to make subsequent runs faster with cache.
       },
       gas: "auto", // gasLimit
       gasPrice: 229000000000, // check the latest gas price market in https://www.ethgasstation.info/
