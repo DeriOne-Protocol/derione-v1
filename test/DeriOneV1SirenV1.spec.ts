@@ -1,6 +1,7 @@
 import chai from "chai";
 import { solidity } from "ethereum-waffle";
 import { ethers, waffle } from "hardhat";
+import { convertOptionList } from "./utils";
 import {
   ASSET_NAMES,
   CONSTRUCTOR_VALUES,
@@ -66,9 +67,14 @@ describe("DeriOneV1SirenV1", async function () {
 
   describe("_getOptionList", function () {
     it("should get list of all options", async function () {
-      const optionList = await deriOneV1Main._getOptionListSirenV1();
-      console.log("optionList ==>", optionList);
-
+      let optionList;
+      try {
+        optionList = await deriOneV1Main._getOptionListSirenV1();
+        optionList = convertOptionList(optionList);
+        console.log("optionList ==>", optionList);
+      } catch (error) {
+        console.error(error);
+      }
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
     });
@@ -83,25 +89,40 @@ describe("DeriOneV1SirenV1", async function () {
         STRIKE_PRICE[400],
         "1"
       );
-
-      console.log("matchedCount ==>", matchedCount);
+      console.log("matchedCount ==>", matchedCount.toString());
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
     });
   });
 
-  describe("getOptionFromExactValuesSirenV1", function () {
-    it("should get the matched option in siren", async function () {
-      const matchedOption = await deriOneV1Main.getOptionFromExactValuesSirenV1(
-        ASSETS.SUSHI,
-        OPTION_TYPES.Call,
+  describe("getOptionFromExactValues", function () {
+    it("should get the matched option", async function () {
+      const matchedCount = await deriOneV1Main._getMatchedCountFromExactValues(
+        ASSET_NAMES.SUSHI,
+        OPTION_TYPE_NAMES.Call,
         TIMESTAMP.fourMonth,
         STRIKE_PRICE[400],
         "1"
       );
-
-      console.log("matchedOption ==>", matchedOption);
+      if (matchedCount > 0) {
+        let matchedOption;
+        try {
+          matchedOption = await deriOneV1Main.getOptionFromExactValuesSirenV1(
+            ASSET_NAMES.SUSHI,
+            OPTION_TYPE_NAMES.Call,
+            TIMESTAMP.fourMonth,
+            STRIKE_PRICE[400],
+            "1"
+          );
+          matchedOption = convertOptionList(matchedOption);
+          console.log("matchedOption ==>", matchedOption);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        console.log("no matches");
+      }
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
@@ -119,25 +140,30 @@ describe("DeriOneV1SirenV1", async function () {
         "1"
       );
 
-      console.log("matchedCount ==>", matchedCount);
+      console.log("matchedCount ==>", matchedCount.toString());
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
     });
   });
 
-  describe("getOptionListFromRangeValuesSirenV1", function () {
-    it("should get matched option list in siren", async function () {
-      const matchedOptionList = await deriOneV1Main.getOptionListFromRangeValuesSirenV1(
-        ASSETS.UNI,
-        OPTION_TYPES.Call,
-        TIMESTAMP.fourMonth,
-        STRIKE_PRICE[0],
-        STRIKE_PRICE[50],
-        "1"
-      );
-
-      console.log("matchedOptionList ==>", matchedOptionList);
+  describe("getOptionListFromRangeValues", function () {
+    it("should get matched option list", async function () {
+      let matchedOptionList;
+      try {
+        matchedOptionList = await deriOneV1Main.getOptionListFromRangeValuesSirenV1(
+          ASSET_NAMES.UNI,
+          OPTION_TYPE_NAMES.Call,
+          TIMESTAMP.fourMonth,
+          STRIKE_PRICE[0],
+          STRIKE_PRICE[400],
+          "1"
+        );
+        matchedOptionList = convertOptionList(matchedOptionList);
+        console.log("matchedOptionList ==>", matchedOptionList);
+      } catch (error) {
+        console.error(error);
+      }
 
       chai.expect("0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419").to.be
         .properAddress;
