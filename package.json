@@ -25,5 +25,6 @@
     "dotenv": "^8.2.0",
     "ethereum-waffle": "^3.3.0",
     "hardhat": "^2.1.1",
+    "typescript": "^4.2.4"
   }
 }
