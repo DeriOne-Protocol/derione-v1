@@ -113,14 +113,16 @@ contract DeriOneV1CharmV02 is Ownable {
             isPut = true;
         }
 
+        uint256 matchedCount = 0;
         for (uint256 i = 0; i < _optionMarketList.length; i++) {
             if (
                 _optionMarketList[i].baseToken() == baseToken &&
                 _optionMarketList[i].isPut() == isPut
             ) {
-                optionMarketList[i] = IOptionMarketCharmV02(
+                optionMarketList[matchedCount] = IOptionMarketCharmV02(
                     OptionFactoryCharmV02.markets(i)
                 );
+                matchedCount = matchedCount.add(1);
             }
         }
 
