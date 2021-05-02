@@ -56,3 +56,28 @@ export const TIMESTAMP = {
   oneMonth: BigNumber.from(timestamp).add(BigNumber.from(86400).mul(30)),
   fourMonth: BigNumber.from(timestamp).add(BigNumber.from(86400).mul(120))
 };
+
+export const ASSET_NUMBERS = {
+  0: "Invalid",
+  1: "DAI",
+  2: "ETH",
+  3: "SUSHI",
+  4: "UNI",
+  5: "USDC",
+  6: "WBTC",
+  7: "WETH",
+  8: "YFI"
+};
+
+export const OPTION_TYPE_NUMBERS = {
+  0: "Invalid",
+  1: "Put",
+  2: "Call"
+};
+
+export const PROTOCOL_NUMBERS = {
+  0: "Invalid",
+  1: "CharmV02",
+  2: "HegicV888",
+  3: "SirenV1"
+};
