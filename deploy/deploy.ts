@@ -1,8 +1,11 @@
 import { ethers } from "hardhat";
 import { CONSTRUCTOR_VALUES } from "../constants/constants";
 
+let DeriOneV1Main;
+let deriOneV1Main;
+
 async function deploy() {
-  const DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
+  DeriOneV1Main = await ethers.getContractFactory("DeriOneV1Main");
 
   const {
     optionFactoryAddressCharmV02,
@@ -15,7 +18,7 @@ async function deploy() {
   } = CONSTRUCTOR_VALUES;
 
   // deploy the DeriOneV1Main contract with constructor arguments
-  const deriOneV1Main = await DeriOneV1Main.deploy(
+  deriOneV1Main = await DeriOneV1Main.deploy(
     optionFactoryAddressCharmV02,
     ETHOptionAddressHegicV888,
     WBTCOptionAddressHegicV888,
@@ -28,9 +31,10 @@ async function deploy() {
   console.log("DeriOneV1Main deployed to:", deriOneV1Main.address);
 }
 
-deploy()
-  .then(() => process.exit(0))
-  .catch((error) => {
+(async () => {
+  try {
+    await deploy();
+  } catch (error) {
     console.error(error);
-    process.exit(1);
-  });
+  }
+})();
