@@ -113,7 +113,12 @@ contract DeriOneV1Main is
         uint256 _maxStrikeUSD,
         uint256 _size
     ) public view returns (DataTypes.Option[] memory) {
-        uint256 expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
+        uint256 expirySecondsFromNow;
+        if (_expiryTimestamp > block.timestamp) {
+            expirySecondsFromNow = _expiryTimestamp.sub(block.timestamp);
+        } else {
+            expirySecondsFromNow = 0;
+        }
         DataTypes.Option[] memory optionListHegicV888 =
             getOptionListFromRangeValuesHegicV888(
                 _underlyingAsset,
