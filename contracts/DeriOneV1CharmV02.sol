@@ -130,6 +130,19 @@ contract DeriOneV1CharmV02 is Ownable {
     }
         private
         view
+    function _getOptionListCount(
+        IOptionMarketCharmV02[] memory _optionMarketList
+    ) private view returns (uint256) {
+        uint256 optionCount;
+        for (uint256 i = 0; i < _optionMarketList.length; i++) {
+            uint256 strikeCount = _optionMarketList[i].numStrikes();
+            for (uint256 count = 0; count < strikeCount; count++) {
+                optionCount = optionCount.add(1);
+            }
+        }
+        return optionCount;
+    }
+
     function _getOptionListCharmV02(
         DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
@@ -146,15 +159,7 @@ contract DeriOneV1CharmV02 is Ownable {
                 allOptionMarkets
             );
 
-        uint256 optionCount;
-
-        for (uint256 i = 0; i < optionMarketList.length; i++) {
-            uint256 strikeCount = optionMarketList[i].numStrikes();
-            for (uint256 count = 0; count < strikeCount; count++) {
-                optionCount = optionCount.add(1);
-            }
-        }
-
+        uint256 optionCount = _getOptionListCount(optionMarketList);
         DataTypes.Option[] memory optionList =
             new DataTypes.Option[](optionCount);
 
