@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 
 export const CONSTRUCTOR_VALUES = {
-  optionFactoryAddressCharmV02: "0xcdfe169df3d64e2e43d88794a21048a52c742f2b",
+  optionFactoryAddressCharmV02: "0xCDFE169dF3D64E2e43D88794A21048A52C742F2B",
   // make it possible to updated this address with a transaction
   ETHOptionAddressHegicV888: "0xEfC0eEAdC1132A12c9487d800112693bf49EcfA2",
   WBTCOptionAddressHegicV888: "0x3961245DB602eD7c03eECcda33eA3846bD8723BD",
