@@ -203,13 +203,13 @@ contract DeriOneV1CharmV02 is Ownable {
         return optionList;
     }
 
-    function _getMatchedCountFromExactValues(
+    function getMatchedCountFromExactValuesCharmV02(
         DataTypes.Asset _underlyingAsset,
         DataTypes.OptionType _optionType,
         uint256 _expiryTimestamp,
         uint256 _strikeUSD,
         uint256 _size
-    ) private view returns (uint256) {
+    ) internal view returns (uint256) {
         DataTypes.Option[] memory optionList =
             _getOptionListCharmV02(_underlyingAsset, _optionType, _size);
 
@@ -239,7 +239,7 @@ contract DeriOneV1CharmV02 is Ownable {
             _getOptionListCharmV02(_underlyingAsset, _optionType, _size);
 
         uint256 matchedCount =
-            _getMatchedCountFromExactValues(
+            getMatchedCountFromExactValuesCharmV02(
                 _underlyingAsset,
                 _optionType,
                 _expiryTimestamp,
